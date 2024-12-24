@@ -12,7 +12,7 @@ int main() {
 	std::string imagePath = "testImage.png";
 	cv::Mat image = cv::imread(imagePath, cv::IMREAD_GRAYSCALE);
 
-	// vérifier le chargement de l'image
+	// verifier le chargement de l'image
 	if (image.empty()) {
 		std::cerr << "Erreur: chargement de l'image impossible " << imagePath << std::endl;
 		return -1;  

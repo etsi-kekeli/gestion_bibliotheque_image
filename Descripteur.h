@@ -5,11 +5,34 @@
 #ifndef _DESCRIPTEUR_H
 #define _DESCRIPTEUR_H
 
-using namespace std;
+#include <string>
+
 
 class Descripteur
 {
 public:
+    // Constructeurs
+    Descripteur();
+    Descripteur(int id, const std::string& titre, const std::string& source, double cout, const std::string& auteur);
+    // Destructeur
+    ~Descripteur();
+
+    // Getters and Setters
+    int getIdDescripteur() const;
+    void setIdDescripteur(int id);
+
+    const std::string& getTitre() const;
+    void setTitre(const std::string& titre);
+
+    const std::string& getSource() const;
+
+    double getCout() const;
+    void setCout(double cout);
+
+    const std::string& getAuteur() const;
+    void setAuteur(const std::string& auteur);
+
+
     void TrierImage();
 
     /**
@@ -35,10 +58,10 @@ public:
 
 private:
     int IdDescripteur;
-    string Titre;
-    const string source;
+    std::string Titre;
+    const std::string source;
     double cout;
-    string Auteur;
+     std::string Auteur;
 };
 
 #endif //_DESCRIPTEUR_H
