@@ -11,10 +11,20 @@ class Image
 public:
     // Constructeur et Destructeur
     Image();
-    Image(const Mat& data, const std::string& format, bool couleur, float tauxCompression);
+    Image(const int idImage, const Mat& data, const std::string& format, 
+     bool couleur, float tauxCompression); 
+    Image(Mat& data);
     ~Image();
 
         // Getters and Setters
+     int getIdImage() const;
+    void setIdImage(int id);
+    const std::string& getTitreImage() const;
+    void setTitreImage(const std::string& titre);
+    int getLargeur() const;
+    void setLargeur(int largeur);
+    int getHauteur() const;
+    void setHauteur(int hauteur);
     const Mat& getData() const;
     const std::string& getFormat() const;
     bool isCouleur() const;
@@ -23,7 +33,7 @@ public:
     void setAcces(int acces);
 
     // les méthodes
-    void afficherImage();
+    void afficherImage () const  ;
 
     /**
      * @param Image
@@ -46,9 +56,15 @@ public:
 
     void seuillage();
 
-    void transforméeHough();
+    void transformeeHough();
+
+    Mat segmentationContour();
 
 private:
+    int idImage;
+    std::string titreImage;
+    int Largeur;
+    int Hauteur;
     const Mat data;
     const String Format;
     const bool Couleur;
