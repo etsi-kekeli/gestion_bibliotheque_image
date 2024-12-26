@@ -41,7 +41,7 @@ void Bibliotheque::setUtilisateurs(const std::vector<Utilisateur>& utilisateurs)
     this->utilisateurs = utilisateurs;
 }
 
-
+// les méthodes
 void Bibliotheque::creerBibliotheque()
 {
 }

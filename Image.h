@@ -53,8 +53,6 @@ public:
 
     void rehaussementContour();
 
-    void segmentation();
-
     void seuillage();
 
     void transformeeHough();

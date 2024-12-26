@@ -1,9 +1,5 @@
-/**
- * Project Untitled
- */
-
-#ifndef _BIBLIOTHÈQUE_H
-#define _BIBLIOTHÈQUE_H
+#ifndef _BIBLIOTHEQUE_H
+#define _BIBLIOTHEQUE_H
 
 #include <string>
 #include <vector>
@@ -28,7 +24,7 @@ public:
     const std::vector<Utilisateur>& getUtilisateurs() const;
     void setUtilisateurs(const std::vector<Utilisateur>& utilisateurs);
 
-
+	// les méthodes
     void creerBibliotheque();
 
     void modifierBibliotheque();
@@ -59,10 +55,10 @@ public:
     void chercherImage(double cout);
 
 private:
-    // void ID; rapelez moi pourquoi ID pour la bibliotheque ? 
+    // void ID; rappelez moi pourquoi ID pour la bibliotheque ? 
     std::string nom;
     std::vector<Descripteur> descripteurs;
     std::vector<Utilisateur> utilisateurs;
 };
 
-#endif //_BIBLIOTHÈQUE_H
+#endif //_BIBLIOTHEQUE_H

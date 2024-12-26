@@ -1,4 +1,3 @@
-
 #include "Image.h"
 #include <iostream>
 /**
@@ -29,7 +28,7 @@ Image::Image(const Mat& data)
    
 // Destructeur
 Image::~Image() {
-    std::cout << "Destructeur de Image appelé" << std::endl;
+    std::cout << "Destructeur de Image appele" << std::endl;
     // Pas besoin de libérer 'data', cv::Mat gère cela automatiquement
 }
 
@@ -109,10 +108,6 @@ void Image::detectionContours()
 }
 
 void Image::rehaussementContour()
-{
-}
-
-void Image::segmentation()
 {
 }
 

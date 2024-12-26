@@ -48,14 +48,30 @@ int main() {
     }
 
     // Créez une instance de Descripteur et associez-la à l'image
-    Descripteur monDescripteur;
+    Descripteur* monDescripteur = new Descripteur();
     try {
-        monDescripteur.creerDescripteur(myImage);
+        monDescripteur->creerDescripteur(myImage);
     }
     catch (const std::exception& e) {
-        std::cerr << "Exception capturée : " << e.what() << std::endl;
+        std::cerr << "Exception capturee lors de la creation: " << e.what() << std::endl;
     }
+    /*
+    // Modification d'un descripteur
+    try {
+        monDescripteur->modifierDescripteur();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Exception capturee lors de la modification : " << e.what() << std::endl;
+    }
+    */
 
+    // suppression d'un descripteur
+    try {
+        monDescripteur->supprimerDescripteur();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Exception capturee lors de la suppression : " << e.what() << std::endl;
+    }
 
 	return 0;
 }

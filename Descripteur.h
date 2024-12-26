@@ -29,16 +29,7 @@ public:
     const std::string& getAuteur() const;
     void setAuteur(const std::string& auteur);
 
-
-    void TrierImage();
-
-    /**
-     * @param cout
-     */
-    void ChercherImage(double cout);
-
-    void FilterImage();
-
+	// Méthodes
     void modifierDescripteur();
 
     void supprimerDescripteur();
