@@ -84,7 +84,7 @@ void Image::afficherImage () const
         std::cout << "Affichage de l'image" << std::endl;
         waitKey(0);
     } else {
-        std::cerr << "Erreur: aucune image à afficher" << std::endl;
+        std::cerr << "Erreur: aucune image a afficher" << std::endl;
     }
 }
 
@@ -125,29 +125,56 @@ void Image::transformeeHough()
 {
 }
 
-Mat Image::segmentationContour() {
-    cv::Mat grayImage, edges, closed;
-    
-    // Conversion en niveaux de gris si l'image est en couleur
-    if (data.channels() > 1) {
-        cv::cvtColor(data, grayImage, cv::COLOR_BGR2GRAY);
-    } else {
-        grayImage = data.clone();
+
+// segmentation couleur ou noir et blanc
+cv::Mat Image::segmentationCouleurOuNG(const cv::Mat& imageOriginale,
+    uchar seuilBasR, uchar seuilHautR,
+    uchar seuilBasG, uchar seuilHautG,
+    uchar seuilBasB, uchar seuilHautB) {
+
+    // Créer une image binaire pour le masque
+    cv::Mat masque = cv::Mat::zeros(imageOriginale.size(), CV_8U);
+
+    // Vérifier si l'image est en couleur (RGB) ou en niveaux de gris (NG)
+    if (imageOriginale.channels() == 3) { // Image RGB
+        for (int y = 0; y < imageOriginale.rows; y++) {
+            for (int x = 0; x < imageOriginale.cols; x++) {
+                // Obtenir les valeurs des canaux R, G et B pour l'image RGB
+                cv::Vec3b pixel = imageOriginale.at<cv::Vec3b>(y, x); // Le pixel est un vecteur avec 3 valeurs : R, G, B
+                uchar valeurR = pixel[2]; // Canal Rouge (index 2)
+                uchar valeurG = pixel[1]; // Canal Vert (index 1)
+                uchar valeurB = pixel[0]; // Canal Bleu (index 0)
+
+                // Vérifier si la couleur du pixel est dans les intervalles définis
+                if (valeurR >= seuilBasR && valeurR <= seuilHautR &&
+                    valeurG >= seuilBasG && valeurG <= seuilHautG &&
+                    valeurB >= seuilBasB && valeurB <= seuilHautB) {
+                    masque.at<uchar>(y, x) = 255; // Pixel dans l'intervalle
+                }
+            }
+        }
     }
-    
-    // Détection de contours avec Canny
-    cv::Canny(grayImage, edges, 100, 200);
-    
-    // Élément structurant pour la fermeture
-    cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5));
-    
-    // Opération de fermeture
-    cv::morphologyEx(edges, closed, cv::MORPH_CLOSE, kernel);
-    
-    // Affichage de l'image résultante
-    cv::imshow("Résultat de la segmentation", closed);
-    std::cout << "segmentation terminee"<<std::endl;
-    cv::waitKey(0);
-    
-    return closed;
+    else if (imageOriginale.channels() == 1) { // Image en niveaux de gris
+        for (int y = 0; y < imageOriginale.rows; y++) {
+            for (int x = 0; x < imageOriginale.cols; x++) {
+                uchar valeurNG = imageOriginale.at<uchar>(y, x); // Valeur du pixel en NG
+
+                // Utiliser uniquement le seuil rouge pour le seuillage
+                if (valeurNG >= seuilBasR && valeurNG <= seuilHautR) {
+                    masque.at<uchar>(y, x) = 255; // Pixel au-dessus du seuil rouge
+                }
+            }
+        }
+    }
+
+    // Appliquer le masque à l'image originale pour obtenir l'image segmentée
+    cv::Mat imageSegmentee;
+    imageOriginale.copyTo(imageSegmentee, masque);
+
+    // Afficher le résultat
+    cv::imshow("image segmentee", imageSegmentee);
+    cv::waitKey(0); // Attendre une touche pour fermer la fenêtre
+
+    return imageSegmentee;
 }
+

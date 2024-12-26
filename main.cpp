@@ -10,36 +10,37 @@ int main() {
 	// Afficher le repertoire actuel (for debugging)
 	std::cout << "Current Working Directory: " << std::filesystem::current_path() << std::endl;
 
-	std::string imagePath = "testImage.png";
+	std::string imagePath = "BDD_Image/medtest.png";
+    std::string imagePathLena = "BDD_Image/lena.tif";
+    std::string imagePathCarres = "BDD_Image/carres.tif";
+
 	cv::Mat image = cv::imread(imagePath, cv::IMREAD_GRAYSCALE);
-
+    cv::Mat lena = cv::imread(imagePathLena, cv::IMREAD_COLOR);
+    cv::Mat carres = cv::imread(imagePathCarres, cv::IMREAD_COLOR);
+    
 	// Créez une instance de la classe Image
-    std::cout << "Avant la création de l'objet Image" << std::endl;
+	std::cout << "Avant la creation de l'objet Image" << std::endl;
     Image myImage(image);
-    std::cout << "Après la création de l'objet Image" << std::endl;
-
+	Image lenaColor;  
+	Image carresColor;
+    std::cout << "Apres la creation de l'objet Image" << std::endl;
+    /*
     // Appel de la méthode afficherImage
     myImage.afficherImage();
-	// cv::imshow("Affichage", image);
-	//cv::waitKey(0);
-	/*
-	// Créez une instance de la classe Image
-	std::cout << "Avant la création de l'objet Image" << std::endl;
-    Image myImage(image);
-    std::cout << "Après la création de l'objet Image" << std::endl;
-
+    */
     try {
-        std::cout << "Avant l'appel à segmentationContour()" << std::endl;
-        cv::Mat result = myImage.segmentationContour();
-        std::cout << "Après l'appel à segmentationContour()" << std::endl;
+        std::cout << "Avant l'appel a segmentation" << std::endl;
         
-        // Affichage du résultat
-        cv::imshow("Résultat de la segmentation", result);
+        //myImage.segmentationCouleurOuNG(image,230, 255,50, 200,0, 150);
+        //lenaColor.segmentationCouleurOuNG(lena, 100, 255, 50, 200, 0, 150);
+        carresColor.segmentationCouleurOuNG(carres, 0, 255, 0, 1, 0, 1);
+        std::cout << "Apres l'appel a segmentation" << std::endl;
+        
         cv::waitKey(0);
     } catch (const std::exception& e) {
-        std::cerr << "Exception capturée : " << e.what() << std::endl;
+        std::cerr << "Exception capturee : " << e.what() << std::endl;
     }
-	*/
+	
 
 	return 0;
 }
