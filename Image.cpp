@@ -4,26 +4,29 @@
 /**
  * Image implementation
  */
-// Constructeur par défaut
-Image::Image() : idImage(0), data(), Format(""), Couleur(false), TauxCompression(0.0f), Largeur(0), Hauteur(0), acces(2), titreImage("") {
+ // Constructeur par défaut
+Image::Image() : data(), Format(""), Couleur(false), TauxCompression(0.0f), Largeur(0), Hauteur(0), acces(2), titreImage("") {
 }
-Image::Image(const int idImage, const Mat& data, const std::string& format, 
-bool couleur, float tauxCompression) : idImage(idImage), data(data), 
-Format(format), Couleur(couleur), TauxCompression(tauxCompression), Largeur(data.cols), Hauteur(data.rows), acces(2), titreImage("") {
+
+// Constructeur avec paramètres
+Image::Image(const Mat& data, const std::string& format,
+    bool couleur, float tauxCompression)
+    : data(data), Format(format), Couleur(couleur), TauxCompression(tauxCompression),
+    Largeur(data.cols), Hauteur(data.rows), acces(2), titreImage("") {
 }
-// constructeur avec un paramètre si couleur retourne false = NGR, true = RGB
-Image::Image(Mat& data) : data(data),  // Initialisation de 'data'
-      Format(""),  // Initialisation de 'Format'
-      Couleur(data.channels() > 1), // Initialisation de 'Couleur'
-      TauxCompression(1.0f), // Valeur par défaut pour 'TauxCompression'
-      Largeur(data.cols), // Initialisation de 'Largeur'
-      Hauteur(data.rows), // Initialisation de 'Hauteur'
-      acces(2), // Valeur par défaut pour 'acces'
-      titreImage("") {}
 
-
+// Constructeur avec un paramètre si couleur retourne false = NGR, true = RGB
+Image::Image(const Mat& data)
+    : data(data),  // Initialisation de 'data'
+    Format(""),  // Initialisation de 'Format'
+    Couleur(data.channels() > 1), // Initialisation de 'Couleur'
+    TauxCompression(1.0f), // Valeur par défaut pour 'TauxCompression'
+    Largeur(data.cols), // Initialisation de 'Largeur'
+    Hauteur(data.rows), // Initialisation de 'Hauteur'
+    acces(2), // Valeur par défaut pour 'acces'
+    titreImage("") {
+}
    
-
 // Destructeur
 Image::~Image() {
     std::cout << "Destructeur de Image appelé" << std::endl;
@@ -32,10 +35,6 @@ Image::~Image() {
 
 
 // Implémentation des getters et setters
-int Image::getIdImage() const 
-{ return idImage; }
-void Image::setIdImage(int id) 
-{ idImage = id; }
 
 const std::string& Image::getTitreImage() const 
 { return titreImage; }
@@ -178,3 +177,50 @@ cv::Mat Image::segmentationCouleurOuNG(const cv::Mat& imageOriginale,
     return imageSegmentee;
 }
 
+// affichage de l'image en mode teinte
+cv::Mat Image::afficherTeinte(const cv::Mat& image) {
+    // Convertir l'image de BGR à HSV
+    cv::Mat imageHSV;
+    cv::cvtColor(image, imageHSV, cv::COLOR_BGR2HSV);
+
+    // Extraire le canal de teinte
+    std::vector<cv::Mat> channels;
+    cv::split(imageHSV, channels);
+    cv::Mat hue = channels[0];
+
+    // Appliquer une colormap à l'image de teinte
+    cv::Mat hueColoree;
+    cv::applyColorMap(hue, hueColoree, cv::COLORMAP_HSV);
+
+    // Afficher l'image de teinte avec le codage en couleur
+    cv::imshow("Teinte (Hue)", hueColoree);
+    cv::waitKey(0);
+
+    return hue;
+}
+
+
+void Image::segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seuilBas, int seuilHaut,int taillekernel) {
+    cv::Mat masque = cv::Mat::zeros(hue.size(), CV_8U);
+
+    for (int y = 0; y < hue.rows; y++) {
+        for (int x = 0; x < hue.cols; x++) {
+            uchar valeurHue = hue.at<uchar>(y, x);
+            if (valeurHue >= seuilBas && valeurHue <= seuilHaut) {
+                masque.at<uchar>(y, x) = 255;
+            }
+        }
+    }
+    // Appliquer la morphologie mathématique
+    cv::Mat element = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(taillekernel, taillekernel));
+    cv::Mat masqueMorpho;
+    cv::morphologyEx(masque, masqueMorpho, cv::MORPH_OPEN, element);
+
+    // Appliquer le masque à l'image originale
+    cv::Mat imageSegmentee;
+    image.copyTo(imageSegmentee, masqueMorpho);
+
+    // Afficher l'image segmentée
+    cv::imshow("Image segmentee", imageSegmentee);
+    cv::waitKey(0);
+}

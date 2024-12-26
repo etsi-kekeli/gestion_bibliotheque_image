@@ -9,16 +9,17 @@ using namespace cv;
 class Image
 {
 public:
-    // Constructeur et Destructeur
+    // Constructeur par défaut
     Image();
-    Image(const int idImage, const Mat& data, const std::string& format, 
-     bool couleur, float tauxCompression); 
-    Image(Mat& data);
+
+    // Constructeur avec paramètres
+    Image(const Mat& data, const std::string& format, bool couleur, float tauxCompression);
+
+    // Constructeur avec un paramètre Mat
+    Image(const Mat& data);
     ~Image();
 
         // Getters and Setters
-     int getIdImage() const;
-    void setIdImage(int id);
     const std::string& getTitreImage() const;
     void setTitreImage(const std::string& titre);
     int getLargeur() const;
@@ -58,15 +59,19 @@ public:
 
     void transformeeHough();
 
-    Mat segmentationContour();
+    
 	// segmentation couleur ou noir et blanc
     Mat segmentationCouleurOuNG(const cv::Mat& imageOriginale,
         uchar seuilBasR, uchar seuilHautR,
         uchar seuilBasG, uchar seuilHautG,
         uchar seuilBasB, uchar seuilHautB);
 
+    // affichage de l'image en mode teinte
+    Mat afficherTeinte(const cv::Mat& image);
+    // segmenter l'image avec un masque de teinte seuillé
+    void segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seuilBas, int seuilHaut,int taillekernel);
+
 private:
-    int idImage;
     std::string titreImage;
     int Largeur;
     int Hauteur;

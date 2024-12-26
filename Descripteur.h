@@ -1,19 +1,16 @@
-/**
- * Project Untitled
- */
-
 #ifndef _DESCRIPTEUR_H
 #define _DESCRIPTEUR_H
 
 #include <string>
-
+#include <set>
+#include "Image.h"
 
 class Descripteur
 {
 public:
     // Constructeurs
     Descripteur();
-    Descripteur(int id, const std::string& titre, const std::string& source, double cout, const std::string& auteur);
+    Descripteur(int id, const std::string& titre, std::string& source, double cout, const std::string& auteur);
     // Destructeur
     ~Descripteur();
 
@@ -42,26 +39,19 @@ public:
 
     void FilterImage();
 
-    void CréerDescripteur();
-
-    void ModifierDescripteur();
-
-    void getters();
-
-    void setters();
-
     void modifierDescripteur();
 
     void supprimerDescripteur();
 
-    void creerDescripteur();
+    void creerDescripteur(const Image& image);
 
 private:
     int IdDescripteur;
     std::string Titre;
-    const std::string source;
+    std::string source;
     double cout;
-     std::string Auteur;
+    std::string Auteur;
+    static std::set<std::string> sourcesUtilisees; // Pour vérifier l'unicité de la source
 };
 
 #endif //_DESCRIPTEUR_H

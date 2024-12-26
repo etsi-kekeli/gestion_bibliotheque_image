@@ -2,6 +2,7 @@
 #include <iostream>
 #include <filesystem>
 #include "Image.h"
+#include "Descripteur.h"
 
 int main() {
 	// pour naviguer au repertoire ou se trouve le main
@@ -13,16 +14,19 @@ int main() {
 	std::string imagePath = "BDD_Image/medtest.png";
     std::string imagePathLena = "BDD_Image/lena.tif";
     std::string imagePathCarres = "BDD_Image/carres.tif";
+    std::string imagePathCultures = "BDD_Image/imageCultures.png";
 
 	cv::Mat image = cv::imread(imagePath, cv::IMREAD_GRAYSCALE);
     cv::Mat lena = cv::imread(imagePathLena, cv::IMREAD_COLOR);
     cv::Mat carres = cv::imread(imagePathCarres, cv::IMREAD_COLOR);
+    cv::Mat cultures = cv::imread(imagePathCultures, cv::IMREAD_COLOR);
     
 	// Créez une instance de la classe Image
 	std::cout << "Avant la creation de l'objet Image" << std::endl;
     Image myImage(image);
 	Image lenaColor;  
 	Image carresColor;
+    Image culturesColor;
     std::cout << "Apres la creation de l'objet Image" << std::endl;
     /*
     // Appel de la méthode afficherImage
@@ -33,14 +37,25 @@ int main() {
         
         //myImage.segmentationCouleurOuNG(image,230, 255,50, 200,0, 150);
         //lenaColor.segmentationCouleurOuNG(lena, 100, 255, 50, 200, 0, 150);
-        carresColor.segmentationCouleurOuNG(carres, 0, 255, 0, 1, 0, 1);
+        //carresColor.segmentationCouleurOuNG(carres, 0, 255, 0, 1, 0, 1);
+        cv::Mat hue = culturesColor.afficherTeinte(cultures);
+        culturesColor.segmenterParTeinte(cultures,hue,140,180,7);
         std::cout << "Apres l'appel a segmentation" << std::endl;
         
         cv::waitKey(0);
     } catch (const std::exception& e) {
         std::cerr << "Exception capturee : " << e.what() << std::endl;
     }
-	
+
+    // Créez une instance de Descripteur et associez-la à l'image
+    Descripteur monDescripteur;
+    try {
+        monDescripteur.creerDescripteur(myImage);
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Exception capturée : " << e.what() << std::endl;
+    }
+
 
 	return 0;
 }
