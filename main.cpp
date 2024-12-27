@@ -45,8 +45,6 @@ int main() {
         -1, 0, 1,
         -2, 0, 2,
         -1, 0, 1);
-
-
     
     // Appliquer le filtre de convolution
     myImage.appliquerFiltreConvolution(kernel);

@@ -57,7 +57,6 @@ public:
 
     void transformeeHough();
 
-    
 	// segmentation couleur ou noir et blanc
     Mat segmentationCouleurOuNG(const cv::Mat& imageOriginale,
         uchar seuilBasR, uchar seuilHautR,
