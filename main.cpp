@@ -4,74 +4,52 @@
 #include "Image.h"
 #include "Descripteur.h"
 
+
 int main() {
-	// pour naviguer au repertoire ou se trouve le main
-	std::filesystem::current_path(std::filesystem::path(__FILE__).parent_path());
 
-	// Afficher le repertoire actuel (for debugging)
-	std::cout << "Current Working Directory: " << std::filesystem::current_path() << std::endl;
+    // pour naviguer au repertoire ou se trouve le main
+    std::filesystem::current_path(std::filesystem::path(__FILE__).parent_path());
 
-	std::string imagePath = "BDD_Image/medtest.png";
-    std::string imagePathLena = "BDD_Image/lena.tif";
-    std::string imagePathCarres = "BDD_Image/carres.tif";
-    std::string imagePathCultures = "BDD_Image/imageCultures.png";
+    // Afficher le repertoire actuel (for debugging)
+    std::cout << "Current Working Directory: " << std::filesystem::current_path() << std::endl;
 
-	cv::Mat image = cv::imread(imagePath, cv::IMREAD_GRAYSCALE);
-    cv::Mat lena = cv::imread(imagePathLena, cv::IMREAD_COLOR);
-    cv::Mat carres = cv::imread(imagePathCarres, cv::IMREAD_COLOR);
-    cv::Mat cultures = cv::imread(imagePathCultures, cv::IMREAD_COLOR);
+    // Définir le chemin de l'image
+    std::string imagePath = "BDD_Image/lena.tif";
+
+    // Charger l'image
+    cv::Mat imageData = cv::imread(imagePath, cv::IMREAD_COLOR);
+
+    // Vérifier si l'image est correctement chargée
+    if (imageData.empty()) {
+        std::cerr << "Erreur : Impossible de charger l'image (main) " << imagePath << std::endl;
+        return -1;
+    }
     
-	// CrÃ©ez une instance de la classe Image
-	std::cout << "Avant la creation de l'objet Image" << std::endl;
-    Image myImage(image);
-	Image lenaColor;  
-	Image carresColor;
-    Image culturesColor;
-    std::cout << "Apres la creation de l'objet Image" << std::endl;
-    /*
-    // Appel de la mÃ©thode afficherImage
-    myImage.afficherImage();
+
+    // Créer un objet Image
+    Image myImage(imageData);
+
+   /* // Définir le noyau de convolution (filtre moyen 3x3)
+   cv::Mat kernel = (cv::Mat_<float>(3, 3) <<
+        1 / 9.0f, 1 / 9.0f, 1 / 9.0f,
+        1 / 9.0f, 1 / 9.0f, 1 / 9.0f,
+        1 / 9.0f, 1 / 9.0f, 1 / 9.0f);
     */
-    try {
-        std::cout << "Avant l'appel a segmentation" << std::endl;
-        
-        //myImage.segmentationCouleurOuNG(image,230, 255,50, 200,0, 150);
-        //lenaColor.segmentationCouleurOuNG(lena, 100, 255, 50, 200, 0, 150);
-        //carresColor.segmentationCouleurOuNG(carres, 0, 255, 0, 1, 0, 1);
-        cv::Mat hue = culturesColor.afficherTeinte(cultures);
-        culturesColor.segmenterParTeinte(cultures,hue,140,180,7);
-        std::cout << "Apres l'appel a segmentation" << std::endl;
-        
-        cv::waitKey(0);
-    } catch (const std::exception& e) {
-        std::cerr << "Exception capturee : " << e.what() << std::endl;
-    }
+   /* // Définir le noyau de convolution (filtre moyen 3x3)
+    cv::Mat kernel = cv::Mat::ones(3, 3, CV_32F) / 9.0f;
+   
+    // Définir un noyau de convolution pour un filtre gaussien 3x3 avec sigma = 1.0
+    cv::Mat kernel = cv::getGaussianKernel(3, 1.0, CV_32F) * cv::getGaussianKernel(3, 1.0, CV_32F).t();
+     */
+    cv::Mat kernel = (cv::Mat_<float>(3, 3) <<
+        -1, 0, 1,
+        -2, 0, 2,
+        -1, 0, 1);
 
-    // CrÃ©ez une instance de Descripteur et associez-la Ã  l'image
-    Descripteur* monDescripteur = new Descripteur();
-    try {
-        monDescripteur->creerDescripteur(myImage);
-    }
-    catch (const std::exception& e) {
-        std::cerr << "Exception capturee lors de la creation: " << e.what() << std::endl;
-    }
-    /*
-    // Modification d'un descripteur
-    try {
-        monDescripteur->modifierDescripteur();
-    }
-    catch (const std::exception& e) {
-        std::cerr << "Exception capturee lors de la modification : " << e.what() << std::endl;
-    }
-    */
 
-    // suppression d'un descripteur
-    try {
-        monDescripteur->supprimerDescripteur();
-    }
-    catch (const std::exception& e) {
-        std::cerr << "Exception capturee lors de la suppression : " << e.what() << std::endl;
-    }
+    
+    // Appliquer le filtre de convolution
+    myImage.appliquerFiltreConvolution(kernel);
 
-	return 0;
+    return 0;
 }

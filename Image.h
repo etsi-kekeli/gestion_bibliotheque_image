@@ -69,6 +69,8 @@ public:
     // segmenter l'image avec un masque de teinte seuillé
     void segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seuilBas, int seuilHaut,int taillekernel);
 
+    void appliquerFiltreConvolution(const cv::Mat& kernel);
+
 private:
     std::string titreImage;
     int Largeur;

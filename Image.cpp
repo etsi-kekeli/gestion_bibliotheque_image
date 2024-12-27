@@ -28,7 +28,7 @@ Image::Image(const Mat& data)
    
 // Destructeur
 Image::~Image() {
-    std::cout << "Destructeur de Image appele" << std::endl;
+    std::cout << "Destructeur de Image appel" << std::endl;
     // Pas besoin de libérer 'data', cv::Mat gère cela automatiquement
 }
 
@@ -219,3 +219,24 @@ void Image::segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seu
     cv::imshow("Image segmentee", imageSegmentee);
     cv::waitKey(0);
 }
+
+void Image::appliquerFiltreConvolution(const cv::Mat& kernel) {
+    if (data.empty()) {
+        std::cerr << "Erreur: aucune image a traiter" << std::endl;
+        return;
+    }
+
+    // Créer une image pour stocker le résultat
+    cv::Mat imageFiltree;
+
+    // Appliquer la convolution
+    cv::filter2D(data, imageFiltree, CV_32F, kernel);
+
+    // Convertir le résultat en type d'image approprié
+    imageFiltree.convertTo(imageFiltree, CV_8U);
+
+    // Afficher l'image filtrée
+    cv::imshow("Image Filtree", imageFiltree);
+    cv::waitKey(0);
+}
+
