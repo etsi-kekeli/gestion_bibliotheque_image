@@ -3,85 +3,109 @@
 /**
  * Image implementation
  */
- // Constructeur par défaut
-Image::Image() : data(), Format(""), Couleur(false), TauxCompression(0.0f), Largeur(0), Hauteur(0), acces(2), titreImage("") {
+// Constructeur par défaut
+Image::Image() : data(), Format(""), Couleur(false), TauxCompression(0.0f), Largeur(0), Hauteur(0), acces(2), titreImage("")
+{
 }
 
 // Constructeur avec paramètres
-Image::Image(const Mat& data, const std::string& format,
-    bool couleur, float tauxCompression)
+Image::Image(const Mat &data, const std::string &format,
+             bool couleur, float tauxCompression)
     : data(data), Format(format), Couleur(couleur), TauxCompression(tauxCompression),
-    Largeur(data.cols), Hauteur(data.rows), acces(2), titreImage("") {
+      Largeur(data.cols), Hauteur(data.rows), acces(2), titreImage("")
+{
 }
 
 // Constructeur avec un paramètre si couleur retourne false = NGR, true = RGB
-Image::Image(const Mat& data)
-    : data(data),  // Initialisation de 'data'
-    Format(""),  // Initialisation de 'Format'
-    Couleur(data.channels() > 1), // Initialisation de 'Couleur'
-    TauxCompression(1.0f), // Valeur par défaut pour 'TauxCompression'
-    Largeur(data.cols), // Initialisation de 'Largeur'
-    Hauteur(data.rows), // Initialisation de 'Hauteur'
-    acces(2), // Valeur par défaut pour 'acces'
-    titreImage("") {
+Image::Image(const Mat &data)
+    : data(data),                   // Initialisation de 'data'
+      Format(""),                   // Initialisation de 'Format'
+      Couleur(data.channels() > 1), // Initialisation de 'Couleur'
+      TauxCompression(1.0f),        // Valeur par défaut pour 'TauxCompression'
+      Largeur(data.cols),           // Initialisation de 'Largeur'
+      Hauteur(data.rows),           // Initialisation de 'Hauteur'
+      acces(2),                     // Valeur par défaut pour 'acces'
+      titreImage("")
+{
 }
-   
+
 // Destructeur
-Image::~Image() {
+Image::~Image()
+{
     std::cout << "Destructeur de Image appele" << std::endl;
     // Pas besoin de libérer 'data', cv::Mat gère cela automatiquement
 }
 
-
 // Implémentation des getters et setters
 
-const std::string& Image::getTitreImage() const 
-{ return titreImage; }
-void Image::setTitreImage(const std::string& titre) 
-{ titreImage = titre; }
+const std::string &Image::getTitreImage() const
+{
+    return titreImage;
+}
+void Image::setTitreImage(const std::string &titre)
+{
+    titreImage = titre;
+}
 
-int Image::getLargeur() const 
-{ return Largeur; }
-void Image::setLargeur(int largeur) 
-{ Largeur = largeur; }
+int Image::getLargeur() const
+{
+    return Largeur;
+}
+void Image::setLargeur(int largeur)
+{
+    Largeur = largeur;
+}
 
-int Image::getHauteur() const 
-{ return Hauteur; }
-void Image::setHauteur(int hauteur) 
-{ Hauteur = hauteur; }
+int Image::getHauteur() const
+{
+    return Hauteur;
+}
+void Image::setHauteur(int hauteur)
+{
+    Hauteur = hauteur;
+}
 
-const Mat& Image::getData() const {
+const Mat &Image::getData() const
+{
     return data;
 }
 
-const std::string& Image::getFormat() const {
+const std::string &Image::getFormat() const
+{
     return Format;
 }
 
-bool Image::isCouleur() const {
+bool Image::isCouleur() const
+{
     return Couleur;
 }
 
-float Image::getTauxCompression() const {
+float Image::getTauxCompression() const
+{
     return TauxCompression;
 }
 
-int Image::getAcces() const {
+int Image::getAcces() const
+{
     return acces;
 }
 
-void Image::setAcces(int acces) {
+void Image::setAcces(int acces)
+{
     this->acces = acces;
 }
 
 // les méthodes
-void Image::afficherImage () const
+void Image::afficherImage() const
 {
-    if (!data.empty()) {
+    if (!data.empty())
+    {
         imshow("Affichage Image", data);
         std::cout << "Affichage de l'image" << std::endl;
         waitKey(0);
-    } else {
+    }
+    else
+    {
         std::cerr << "Erreur: aucune image a afficher" << std::endl;
     }
 }
@@ -115,46 +139,80 @@ void Image::seuillage()
 {
 }
 
-void Image::transformeeHough()
+int mapRho(double rho, int n, double rhomax)
 {
+    return (int)round(n * (rho + rhomax) / (2 * rhomax));
 }
 
+Mat Image::transformeeHough(int nRho, int nTheta)
+{
+    Mat contours;
+    Canny(data, contours, 50, 200);
+    Mat tableDAccumulation = Mat::zeros(nRho, nTheta, CV_32F);
+    double angle_step = CV_PI / nTheta;
+    double rhomax = sqrt(pow(data.rows, 2) + pow(data.cols, 2));
+
+    for (int i = 1; i < data.rows - 1; i++)
+    {
+        for (int j = 1; j < data.cols - 1; j++)
+        {
+            if (contours.at<float>(i, j) > 50)
+                for (int k = 0; k < nTheta; k++)
+                {
+                    double angle = angle_step * k;
+                    double rho = i * cos(angle) + j * sin(angle);
+                    tableDAccumulation.at<float>(mapRho(rho, nRho, rhomax), k) += 1;
+                }
+        }
+    }
+
+    return tableDAccumulation;
+}
 
 // segmentation couleur ou noir et blanc
-cv::Mat Image::segmentationCouleurOuNG(const cv::Mat& imageOriginale,
-    uchar seuilBasR, uchar seuilHautR,
-    uchar seuilBasG, uchar seuilHautG,
-    uchar seuilBasB, uchar seuilHautB) {
+cv::Mat Image::segmentationCouleurOuNG(const cv::Mat &imageOriginale,
+                                       uchar seuilBasR, uchar seuilHautR,
+                                       uchar seuilBasG, uchar seuilHautG,
+                                       uchar seuilBasB, uchar seuilHautB)
+{
 
     // Créer une image binaire pour le masque
     cv::Mat masque = cv::Mat::zeros(imageOriginale.size(), CV_8U);
 
     // Vérifier si l'image est en couleur (RGB) ou en niveaux de gris (NG)
-    if (imageOriginale.channels() == 3) { // Image RGB
-        for (int y = 0; y < imageOriginale.rows; y++) {
-            for (int x = 0; x < imageOriginale.cols; x++) {
+    if (imageOriginale.channels() == 3)
+    { // Image RGB
+        for (int y = 0; y < imageOriginale.rows; y++)
+        {
+            for (int x = 0; x < imageOriginale.cols; x++)
+            {
                 // Obtenir les valeurs des canaux R, G et B pour l'image RGB
                 cv::Vec3b pixel = imageOriginale.at<cv::Vec3b>(y, x); // Le pixel est un vecteur avec 3 valeurs : R, G, B
-                uchar valeurR = pixel[2]; // Canal Rouge (index 2)
-                uchar valeurG = pixel[1]; // Canal Vert (index 1)
-                uchar valeurB = pixel[0]; // Canal Bleu (index 0)
+                uchar valeurR = pixel[2];                             // Canal Rouge (index 2)
+                uchar valeurG = pixel[1];                             // Canal Vert (index 1)
+                uchar valeurB = pixel[0];                             // Canal Bleu (index 0)
 
                 // Vérifier si la couleur du pixel est dans les intervalles définis
                 if (valeurR >= seuilBasR && valeurR <= seuilHautR &&
                     valeurG >= seuilBasG && valeurG <= seuilHautG &&
-                    valeurB >= seuilBasB && valeurB <= seuilHautB) {
+                    valeurB >= seuilBasB && valeurB <= seuilHautB)
+                {
                     masque.at<uchar>(y, x) = 255; // Pixel dans l'intervalle
                 }
             }
         }
     }
-    else if (imageOriginale.channels() == 1) { // Image en niveaux de gris
-        for (int y = 0; y < imageOriginale.rows; y++) {
-            for (int x = 0; x < imageOriginale.cols; x++) {
+    else if (imageOriginale.channels() == 1)
+    { // Image en niveaux de gris
+        for (int y = 0; y < imageOriginale.rows; y++)
+        {
+            for (int x = 0; x < imageOriginale.cols; x++)
+            {
                 uchar valeurNG = imageOriginale.at<uchar>(y, x); // Valeur du pixel en NG
 
                 // Utiliser uniquement le seuil rouge pour le seuillage
-                if (valeurNG >= seuilBasR && valeurNG <= seuilHautR) {
+                if (valeurNG >= seuilBasR && valeurNG <= seuilHautR)
+                {
                     masque.at<uchar>(y, x) = 255; // Pixel au-dessus du seuil rouge
                 }
             }
@@ -173,7 +231,8 @@ cv::Mat Image::segmentationCouleurOuNG(const cv::Mat& imageOriginale,
 }
 
 // affichage de l'image en mode teinte
-cv::Mat Image::afficherTeinte(const cv::Mat& image) {
+cv::Mat Image::afficherTeinte(const cv::Mat &image)
+{
     // Convertir l'image de BGR à HSV
     cv::Mat imageHSV;
     cv::cvtColor(image, imageHSV, cv::COLOR_BGR2HSV);
@@ -194,14 +253,17 @@ cv::Mat Image::afficherTeinte(const cv::Mat& image) {
     return hue;
 }
 
-
-void Image::segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seuilBas, int seuilHaut,int taillekernel) {
+void Image::segmenterParTeinte(const cv::Mat &image, const cv::Mat &hue, int seuilBas, int seuilHaut, int taillekernel)
+{
     cv::Mat masque = cv::Mat::zeros(hue.size(), CV_8U);
 
-    for (int y = 0; y < hue.rows; y++) {
-        for (int x = 0; x < hue.cols; x++) {
+    for (int y = 0; y < hue.rows; y++)
+    {
+        for (int x = 0; x < hue.cols; x++)
+        {
             uchar valeurHue = hue.at<uchar>(y, x);
-            if (valeurHue >= seuilBas && valeurHue <= seuilHaut) {
+            if (valeurHue >= seuilBas && valeurHue <= seuilHaut)
+            {
                 masque.at<uchar>(y, x) = 255;
             }
         }

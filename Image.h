@@ -13,28 +13,28 @@ public:
     Image();
 
     // Constructeur avec paramètres
-    Image(const Mat& data, const std::string& format, bool couleur, float tauxCompression);
+    Image(const Mat &data, const std::string &format, bool couleur, float tauxCompression);
 
     // Constructeur avec un paramètre Mat
-    Image(const Mat& data);
+    Image(const Mat &data);
     ~Image();
 
-        // Getters and Setters
-    const std::string& getTitreImage() const;
-    void setTitreImage(const std::string& titre);
+    // Getters and Setters
+    const std::string &getTitreImage() const;
+    void setTitreImage(const std::string &titre);
     int getLargeur() const;
     void setLargeur(int largeur);
     int getHauteur() const;
     void setHauteur(int hauteur);
-    const Mat& getData() const;
-    const std::string& getFormat() const;
+    const Mat &getData() const;
+    const std::string &getFormat() const;
     bool isCouleur() const;
     float getTauxCompression() const;
     int getAcces() const;
     void setAcces(int acces);
 
     // les méthodes
-    void afficherImage () const  ;
+    void afficherImage() const;
 
     /**
      * @param Image
@@ -55,19 +55,18 @@ public:
 
     void seuillage();
 
-    void transformeeHough();
+    Mat transformeeHough(int nRho, int nTheta);
 
-    
-	// segmentation couleur ou noir et blanc
-    Mat segmentationCouleurOuNG(const cv::Mat& imageOriginale,
-        uchar seuilBasR, uchar seuilHautR,
-        uchar seuilBasG, uchar seuilHautG,
-        uchar seuilBasB, uchar seuilHautB);
+    // segmentation couleur ou noir et blanc
+    Mat segmentationCouleurOuNG(const cv::Mat &imageOriginale,
+                                uchar seuilBasR, uchar seuilHautR,
+                                uchar seuilBasG, uchar seuilHautG,
+                                uchar seuilBasB, uchar seuilHautB);
 
     // affichage de l'image en mode teinte
-    Mat afficherTeinte(const cv::Mat& image);
+    Mat afficherTeinte(const cv::Mat &image);
     // segmenter l'image avec un masque de teinte seuillé
-    void segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seuilBas, int seuilHaut,int taillekernel);
+    void segmenterParTeinte(const cv::Mat &image, const cv::Mat &hue, int seuilBas, int seuilHaut, int taillekernel);
 
 private:
     std::string titreImage;
