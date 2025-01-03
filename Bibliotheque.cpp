@@ -1,57 +1,93 @@
 #include "Bibliotheque.h"
+#include <algorithm>
+using namespace std;
 
 /**
  * Bibliothèque implementation
  */
 // Constructeur par défaut
-Bibliotheque::Bibliotheque() {
-    
-}
-// Constructeur paramétré
-Bibliotheque::Bibliotheque(const std::string& nom, const std::vector<Descripteur>& descripteurs, const std::vector<Utilisateur>& utilisateurs)
-    : nom(nom), descripteurs(descripteurs), utilisateurs(utilisateurs) {
-}
-// Destructeur
-Bibliotheque::~Bibliotheque() {
-    
+Bibliotheque::Bibliotheque()
+{
+    nom = "bibliothèque";
 }
 
+// Constructeur paramétré
+Bibliotheque::Bibliotheque(const string &nom, const vector<Descripteur> &descripteurs)
+    : nom(nom), descripteurs(descripteurs)
+{
+}
+// Destructeur
+// Bibliotheque::~Bibliotheque()
+// {
+// }
+
 // Getters and Setters
-const std::string& Bibliotheque::getNom() const {
+const string &Bibliotheque::getNom() const
+{
     return nom;
 }
 
-void Bibliotheque::setNom(const std::string& nom) {
+void Bibliotheque::setNom(const string &nom)
+{
     this->nom = nom;
 }
 
-const std::vector<Descripteur>& Bibliotheque::getDescripteurs() const {
+const vector<Descripteur> &Bibliotheque::getDescripteurs() const
+{
     return descripteurs;
 }
 
-void Bibliotheque::setImages(const std::vector<Descripteur>& descripteurs) {
+void Bibliotheque::setImages(const vector<Descripteur> &descripteurs)
+{
     this->descripteurs = descripteurs;
 }
 
-const std::vector<Utilisateur>& Bibliotheque::getUtilisateurs() const {
-    return utilisateurs;
+void Bibliotheque::ajouterDescripteur(Descripteur &nouveauDescripteur)
+{
+    for (int i = 0; i < descripteurs.size(); i++)
+    {
+        if (nouveauDescripteur.getSource() == descripteurs[i].getSource())
+        {
+            throw std::invalid_argument("L'image existe déjà dans cette base de donnée.");
+        }
+    }
+    descripteurs.push_back(nouveauDescripteur);
 }
 
-void Bibliotheque::setUtilisateurs(const std::vector<Utilisateur>& utilisateurs) {
-    this->utilisateurs = utilisateurs;
+void Bibliotheque::enleveDescripteur(string &source)
+{
+    for (Descripteur d : descripteurs)
+    {
+        if (d.getSource() == source)
+        {
+            descripteurs.erase(remove_if(descripteurs.begin(), descripteurs.end(), [source](Descripteur d)
+                                         { return d.getSource() == source; }));
+        }
+    }
 }
+
+// const vector<Utilisateur> &Bibliotheque::getUtilisateurs() const
+// {
+//     return utilisateurs;
+// }
+
+// void Bibliotheque::setUtilisateurs(const vector<Utilisateur> &utilisateurs)
+// {
+//     this->utilisateurs = utilisateurs;
+// }
 
 // les méthodes
-void Bibliotheque::creerBibliotheque()
-{
-}
+// void Bibliotheque::creerBibliotheque()
+// {
+// }
 
-void Bibliotheque::modifierBibliotheque()
-{
-}
+// void Bibliotheque::modifierBibliotheque()
+// {
+// }
 
 void Bibliotheque::supprimerBibliotheque()
 {
+    this->descripteurs.clear();
 }
 
 void Bibliotheque::chargerBibliotheque()
@@ -67,7 +103,8 @@ void Bibliotheque::sauvegarderBibliotheque()
  */
 double Bibliotheque::calculerCoutMin()
 {
-    return 0.0;
+    auto descripteur = max_element(descripteurs.begin(), descripteurs.end(), comparerParCout);
+    return descripteur->getCout();
 }
 
 /**
@@ -75,7 +112,8 @@ double Bibliotheque::calculerCoutMin()
  */
 double Bibliotheque::calculerCoutMax()
 {
-    return 0.0;
+    auto descripteur = min_element(descripteurs.begin(), descripteurs.end(), comparerParCout);
+    return descripteur->getCout();
 }
 
 /**
@@ -83,22 +121,27 @@ double Bibliotheque::calculerCoutMax()
  */
 double Bibliotheque::calculerCoutMoyen()
 {
+    if (descripteurs.size() == 0)
+        return 0;
+
+    double accumulator = 0;
+    for (Descripteur d : descripteurs)
+    {
+        accumulator += d.getCout();
+    }
+
+    return accumulator / descripteurs.size();
 }
 
-void Bibliotheque::filter()
+vector<Descripteur> Bibliotheque::filter()
 {
 }
 
-void Bibliotheque::ajouterDescripteur()
+vector<Descripteur> Bibliotheque::trierDescripteurs()
 {
-}
-
-void Bibliotheque::enleveDescripteur()
-{
-}
-
-void Bibliotheque::trierImage()
-{
+    vector<Descripteur> descripteursTries = descripteurs;
+    sort(descripteursTries.begin(), descripteursTries.end(), comparerParCout);
+    return descripteursTries;
 }
 
 /**

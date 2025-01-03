@@ -6,28 +6,33 @@
 #include "Descripteur.h"
 #include "Utilisateur.h"
 
+using namespace std;
+
 class Bibliotheque
 {
 public:
     // Constructeur et Destructeur
     Bibliotheque();
-    Bibliotheque(const std::string& nom, const std::vector<Descripteur>& descripteurs, const std::vector<Utilisateur>& utilisateurs);
-    ~Bibliotheque();
+    Bibliotheque(const string &nom, const vector<Descripteur> &descripteurs);
+    // ~Bibliotheque();
 
-     // Getters and Setters
-    const std::string& getNom() const;
-    void setNom(const std::string& nom);
+    // Getters and Setters
+    const string &getNom() const;
+    void setNom(const string &nom);
 
-    const std::vector<Descripteur>& getDescripteurs() const;
-    void setImages(const std::vector<Descripteur>& descripteurs);
+    const vector<Descripteur> &getDescripteurs() const;
+    void setImages(const vector<Descripteur> &descripteurs);
 
-    const std::vector<Utilisateur>& getUtilisateurs() const;
-    void setUtilisateurs(const std::vector<Utilisateur>& utilisateurs);
+    void ajouterDescripteur(Descripteur &nouveauDescripteur);
+    void enleveDescripteur(string &source);
 
-	// les méthodes
-    void creerBibliotheque();
+    // const vector<Utilisateur> &getUtilisateurs() const;
+    // void setUtilisateurs(const vector<Utilisateur> &utilisateurs);
 
-    void modifierBibliotheque();
+    // les méthodes
+    // void creerBibliotheque();
+
+    // void modifierBibliotheque();
 
     void supprimerBibliotheque();
 
@@ -41,13 +46,9 @@ public:
 
     double calculerCoutMoyen();
 
-    void filter();
+    vector<Descripteur> filter();
 
-    void ajouterDescripteur();
-
-    void enleveDescripteur();
-
-    void trierImage();
+    vector<Descripteur> trierDescripteurs();
 
     /**
      * @param cout
@@ -55,10 +56,10 @@ public:
     void chercherImage(double cout);
 
 private:
-    // void ID; rappelez moi pourquoi ID pour la bibliotheque ? 
-    std::string nom;
-    std::vector<Descripteur> descripteurs;
-    std::vector<Utilisateur> utilisateurs;
+    // void ID; rappelez moi pourquoi ID pour la bibliotheque ?
+    string nom;
+    vector<Descripteur> descripteurs;
+    // vector<Utilisateur> utilisateurs;
 };
 
 #endif //_BIBLIOTHEQUE_H

@@ -10,7 +10,7 @@ class Descripteur
 public:
     // Constructeurs
     Descripteur();
-    Descripteur(int id, const std::string& titre, std::string& source, double cout, const std::string& auteur);
+    Descripteur(int id, const std::string &titre, std::string &source, double cout, const std::string &auteur);
     // Destructeur
     ~Descripteur();
 
@@ -18,23 +18,23 @@ public:
     int getIdDescripteur() const;
     void setIdDescripteur(int id);
 
-    const std::string& getTitre() const;
-    void setTitre(const std::string& titre);
+    const std::string &getTitre() const;
+    void setTitre(const std::string &titre);
 
-    const std::string& getSource() const;
+    const std::string &getSource() const;
 
     double getCout() const;
     void setCout(double cout);
 
-    const std::string& getAuteur() const;
-    void setAuteur(const std::string& auteur);
+    const std::string &getAuteur() const;
+    void setAuteur(const std::string &auteur);
 
-	// Méthodes
+    // Méthodes
     void modifierDescripteur();
 
     void supprimerDescripteur();
 
-    void creerDescripteur(const Image& image);
+    void creerDescripteur(const Image &image);
 
 private:
     int IdDescripteur;
@@ -44,5 +44,7 @@ private:
     std::string Auteur;
     static std::set<std::string> sourcesUtilisees; // Pour vérifier l'unicité de la source
 };
+
+bool comparerParCout(Descripteur &d1, Descripteur &d2);
 
 #endif //_DESCRIPTEUR_H
