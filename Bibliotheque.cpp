@@ -135,6 +135,7 @@ double Bibliotheque::calculerCoutMoyen()
 
 vector<Descripteur> Bibliotheque::filter()
 {
+    return vector<Descripteur>();
 }
 
 vector<Descripteur> Bibliotheque::trierDescripteurs()

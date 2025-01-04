@@ -1,5 +1,9 @@
 #include "Image.h"
 #include <iostream>
+#include <vector>
+
+using namespace std;
+using namespace cv;
 /**
  * Image implementation
  */
@@ -141,32 +145,133 @@ void Image::seuillage()
 
 int mapRho(double rho, int n, double rhomax)
 {
-    return (int)round(n * (rho + rhomax) / (2 * rhomax));
+    return cvRound(n * (rho + rhomax) / (2 * rhomax + 1));
 }
 
 Mat Image::transformeeHough(int nRho, int nTheta)
 {
     Mat contours;
     Canny(data, contours, 50, 200);
-    Mat tableDAccumulation = Mat::zeros(nRho, nTheta, CV_32F);
-    double angle_step = CV_PI / nTheta;
-    double rhomax = sqrt(pow(data.rows, 2) + pow(data.cols, 2));
 
-    for (int i = 1; i < data.rows - 1; i++)
+    vector<Point> pointsContours;
+    findNonZero(contours, pointsContours);
+
+    Mat tableDAccumulation = Mat::zeros(nRho, nTheta, CV_16U);
+    double pasAngulaire = CV_PI / nTheta;
+    int rhomax = cvCeil(sqrt(pow(data.rows, 2) + pow(data.cols, 2)));
+
+    for (int i = 0; i < pointsContours.size(); i++)
     {
-        for (int j = 1; j < data.cols - 1; j++)
+        int x = pointsContours[i].x;
+        int y = pointsContours[i].y;
+        for (int k = 0; k < nTheta; k++)
         {
-            if (contours.at<float>(i, j) > 50)
-                for (int k = 0; k < nTheta; k++)
-                {
-                    double angle = angle_step * k;
-                    double rho = i * cos(angle) + j * sin(angle);
-                    tableDAccumulation.at<float>(mapRho(rho, nRho, rhomax), k) += 1;
-                }
+            double angle = pasAngulaire * k;
+            double rho = x * cos(angle) + y * sin(angle);
+            tableDAccumulation.at<unsigned short>(mapRho(rho, nRho, rhomax), k) += 1;
         }
     }
 
     return tableDAccumulation;
+}
+
+Mat Image::getTableDAccumulationNormalisee(int nRho, int nTheta)
+{
+    Mat table = transformeeHough(nRho, nTheta);
+    Mat tableNormaliseeTemp;
+    normalize(table, tableNormaliseeTemp, 0, 255, cv::NORM_MINMAX);
+    cv::Mat tableNormalisee;
+    tableNormaliseeTemp.convertTo(tableNormalisee, CV_8U);
+    return tableNormalisee;
+}
+
+vector<pair<float, float>> getHoughMaxima(Mat tableDAccumulation, double rhomax, int tailleVoisinage, int seuil)
+{
+    Mat accDilate;
+    dilate(tableDAccumulation, accDilate, Mat::ones(tailleVoisinage, tailleVoisinage, CV_32F));
+    Mat maximaLocaux = (tableDAccumulation == accDilate);
+
+    Mat accumalateurSeuille;
+    threshold(tableDAccumulation, accumalateurSeuille, seuil, 255, THRESH_BINARY);
+
+    Mat accSeuilleBin;
+    accumalateurSeuille.convertTo(accSeuilleBin, CV_8U);
+
+    // cout << "Seuillage tableDAccumulation fait" << endl;
+    // cout << maximaLocaux.type() << endl;
+    // cout << accumalateurSeuille.type() << endl;
+
+    Mat parametresDInterets;
+    bitwise_and(maximaLocaux, accSeuilleBin, parametresDInterets);
+
+    // imshow("Param", parametresDInterets);
+    // waitKey(0);
+
+    vector<pair<float, float>> resultat;
+    vector<Point> tmp;
+    findNonZero(parametresDInterets, tmp);
+
+    double pasAngulaire = CV_PI / parametresDInterets.cols;
+
+    for (int i = 0; i < tmp.size(); i++)
+    {
+        resultat.push_back({tmp[i].y * (2 * rhomax + 1) / parametresDInterets.rows - rhomax, tmp[i].x * pasAngulaire});
+    }
+
+    return resultat;
+}
+
+void _dessineLigneHough(Mat &image, float rho, float theta, Scalar couleur, int epaisseur)
+{
+    double pente = tan(theta + CV_PI / 2);
+
+    // Points d'intersection avec les bords
+    Point pt1, pt2;
+    double y0 = rho * sin(theta);
+    double x0 = rho * cos(theta);
+
+    double ordonneeOrigine = y0 - pente * x0;
+
+    // cout << "Rho " << rho << " theta " << theta / CV_PI * 180 << endl;
+
+    // cout << "Pente " << pente << " ordonnée à l'origine" << ordonneeOrigine << endl;
+
+    if (abs(theta) < 2e-2 || abs(theta) > CV_PI - 2e-2)
+    {
+        pt1.y = 0;
+        pt1.x = cvRound(abs(x0));
+        pt2.y = image.rows;
+        pt2.x = cvRound(abs(x0));
+    }
+    else
+    {
+        pt1.x = 0;
+        pt1.y = cvRound(ordonneeOrigine);
+        pt2.x = image.cols;
+        pt2.y = cvRound(pente * image.cols + ordonneeOrigine);
+    }
+
+    // cout << pt1 << pt2 << endl;
+
+    line(image, pt1, pt2, couleur, epaisseur, cv::LINE_AA);
+}
+
+Mat Image::dessineLigneHough(int nRho, int nTheta, int tailleVoisinage, int seuil, Scalar couleur, int epaisseur)
+{
+    Mat votes = transformeeHough(nRho, nTheta);
+    int rhomax = cvCeil(sqrt(pow(data.rows, 2) + pow(data.cols, 2)));
+    vector<pair<float, float>> parametres = getHoughMaxima(votes, rhomax, tailleVoisinage, seuil);
+
+    Mat resultat = data.clone();
+
+    for (const auto param : parametres)
+    {
+        float rho = param.first;
+        float theta = param.second;
+        _dessineLigneHough(resultat, rho, theta, couleur, epaisseur);
+    }
+
+    return resultat;
 }
 
 // segmentation couleur ou noir et blanc

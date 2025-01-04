@@ -55,7 +55,9 @@ public:
 
     void seuillage();
 
-    Mat transformeeHough(int nRho, int nTheta);
+    Mat transformeeHough(int nRho = 360, int nTheta = 300);
+    Mat getTableDAccumulationNormalisee(int nRho = 360, int nTheta = 300);
+    Mat dessineLigneHough(int nRho, int nTheta, int tailleVoisinage, int seuil, Scalar couleur = Scalar(255, 255, 0), int epaisseur = 2);
 
     // segmentation couleur ou noir et blanc
     Mat segmentationCouleurOuNG(const cv::Mat &imageOriginale,
@@ -78,5 +80,6 @@ private:
     const float TauxCompression;
     int acces;
 };
+void _dessineLigneHough(Mat &image, float rho, float theta, Scalar couleur, int epaisseur);
 
 #endif //_IMAGE_H
