@@ -5,6 +5,11 @@
 #include <set>
 #include "Image.h"
 
+enum class Acces : char
+{
+    OUVERT = 'O',
+    LIMITE = 'L'
+};
 class Descripteur
 {
 public:
@@ -29,6 +34,9 @@ public:
     const std::string &getAuteur() const;
     void setAuteur(const std::string &auteur);
 
+    Acces getAcces() const;
+    void setAcces(Acces acces);
+
     // Méthodes
     void modifierDescripteur();
 
@@ -42,6 +50,7 @@ private:
     std::string source;
     double cout;
     std::string Auteur;
+    Acces acces;
     static std::set<std::string> sourcesUtilisees; // Pour vérifier l'unicité de la source
 };
 

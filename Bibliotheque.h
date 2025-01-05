@@ -46,14 +46,16 @@ public:
 
     double calculerCoutMoyen();
 
-    vector<Descripteur> filter();
+    int nombreDImagesLibres();
+
+    vector<Descripteur> filter(double coutMin = 0, double coutMax = numeric_limits<float>::max());
 
     vector<Descripteur> trierDescripteurs();
 
     /**
      * @param cout
      */
-    void chercherImage(double cout);
+    double chercherCoutImage(int ID);
 
 private:
     // void ID; rappelez moi pourquoi ID pour la bibliotheque ?

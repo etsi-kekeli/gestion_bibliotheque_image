@@ -133,9 +133,30 @@ double Bibliotheque::calculerCoutMoyen()
     return accumulator / descripteurs.size();
 }
 
-vector<Descripteur> Bibliotheque::filter()
+int Bibliotheque::nombreDImagesLibres()
 {
-    return vector<Descripteur>();
+    int compteur = 0;
+    for (Descripteur &d : descripteurs)
+    {
+        if (d.getAcces() == Acces::OUVERT)
+            compteur++;
+    }
+
+    return compteur;
+}
+
+vector<Descripteur> Bibliotheque::filter(double coutMin, double coutMax)
+{
+    vector<Descripteur> resultat;
+    if (coutMax >= coutMin)
+        for (Descripteur &d : descripteurs)
+        {
+            if (d.getCout() >= coutMin && d.getCout() >= coutMax)
+            {
+                resultat.push_back(d);
+            }
+        }
+    return resultat;
 }
 
 vector<Descripteur> Bibliotheque::trierDescripteurs()
@@ -148,6 +169,13 @@ vector<Descripteur> Bibliotheque::trierDescripteurs()
 /**
  * @param cout
  */
-void Bibliotheque::chercherImage(double cout)
+double Bibliotheque::chercherCoutImage(int ID)
 {
+    for (Descripteur &d : descripteurs)
+    {
+        if (d.getIdDescripteur() == ID)
+            return d.getCout();
+    }
+
+    return -1;
 }

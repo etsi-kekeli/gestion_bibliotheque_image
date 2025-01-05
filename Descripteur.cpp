@@ -75,6 +75,15 @@ void Descripteur::setAuteur(const std::string &auteur)
     Auteur = auteur;
 }
 
+Acces Descripteur::getAcces() const
+{
+    return acces;
+}
+void Descripteur::setAcces(Acces acces)
+{
+    this->acces = acces;
+}
+
 // les méthodes
 
 // pour la création, modification et supression du descripteur, le descripteur doit etre crée dynamiquement
