@@ -36,9 +36,9 @@ public:
 
     void supprimerBibliotheque();
 
-    void chargerBibliotheque();
+    bool chargerBibliotheque(string nomDuFichier);
 
-    void sauvegarderBibliotheque();
+    bool sauvegarderBibliotheque(string nomDuFichier) const;
 
     double calculerCoutMin();
 

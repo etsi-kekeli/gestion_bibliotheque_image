@@ -90,12 +90,54 @@ void Bibliotheque::supprimerBibliotheque()
     this->descripteurs.clear();
 }
 
-void Bibliotheque::chargerBibliotheque()
+bool Bibliotheque::chargerBibliotheque(string nomDuFichier)
 {
+    ifstream fichierSauvegarde(nomDuFichier, ios::binary);
+    if (!fichierSauvegarde)
+        return false;
+
+    size_t longueurNom;
+    fichierSauvegarde.read(reinterpret_cast<char *>(&longueurNom), sizeof(longueurNom));
+    nom.resize(longueurNom);
+    fichierSauvegarde.read(&nom[0], longueurNom);
+
+    size_t nombreDescripteur;
+    fichierSauvegarde.read(reinterpret_cast<char *>(&nombreDescripteur), sizeof(nombreDescripteur));
+
+    descripteurs = vector<Descripteur>(nombreDescripteur);
+
+    for (auto &d : descripteurs)
+    {
+        d.deserialiser(fichierSauvegarde);
+    }
+
+    fichierSauvegarde.close();
+    return true;
 }
 
-void Bibliotheque::sauvegarderBibliotheque()
+// string nom;
+// vector<Descripteur> descripteurs;
+bool Bibliotheque::sauvegarderBibliotheque(string nomDuFichier) const
 {
+    ofstream fichierSauvegarde(nomDuFichier, ios::binary);
+
+    if (!fichierSauvegarde)
+        return false;
+
+    size_t longueurNom = nom.size();
+    fichierSauvegarde.write(reinterpret_cast<const char *>(&longueurNom), sizeof(longueurNom));
+    fichierSauvegarde.write(nom.c_str(), longueurNom);
+
+    size_t nombreDescripteur = descripteurs.size();
+    fichierSauvegarde.write(reinterpret_cast<const char *>(&nombreDescripteur), sizeof(nombreDescripteur));
+
+    for (const Descripteur &d : descripteurs)
+    {
+        d.serialiser(fichierSauvegarde);
+    }
+
+    fichierSauvegarde.close();
+    return true;
 }
 
 /**

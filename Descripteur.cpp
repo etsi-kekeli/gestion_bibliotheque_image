@@ -197,6 +197,58 @@ void Descripteur::supprimerDescripteur()
     std::cout << "Descripteur supprime avec succes.\n";
 }
 
+// int IdDescripteur;
+// std::string Titre;
+// std::string source;
+// double cout;
+// std::string Auteur;
+// Acces acces;
+
+void Descripteur::serialiser(std::ofstream &fichier) const
+{
+    fichier.write(reinterpret_cast<const char *>(&IdDescripteur), sizeof(IdDescripteur));
+
+    size_t longueurTitre = Titre.length();
+    fichier.write(reinterpret_cast<const char *>(&longueurTitre), sizeof(longueurTitre));
+    fichier.write(Titre.c_str(), longueurTitre);
+
+    size_t longueurSource = source.size();
+    fichier.write(reinterpret_cast<const char *>(&longueurSource), sizeof(longueurSource));
+    fichier.write(source.c_str(), longueurSource);
+
+    fichier.write(reinterpret_cast<const char *>(&cout), sizeof(cout));
+
+    size_t longueurAuteur = Auteur.size();
+    fichier.write(reinterpret_cast<const char *>(&longueurAuteur), sizeof(longueurAuteur));
+    fichier.write(Auteur.c_str(), longueurAuteur);
+
+    fichier.write(reinterpret_cast<const char *>(&acces), sizeof(acces));
+}
+
+void Descripteur::deserialiser(std::ifstream &fichier)
+{
+    fichier.read(reinterpret_cast<char *>(&IdDescripteur), sizeof(IdDescripteur));
+
+    size_t longueurTitre;
+    fichier.read(reinterpret_cast<char *>(&longueurTitre), sizeof(longueurTitre));
+    Titre.resize(longueurTitre);
+    fichier.read(&Titre[0], longueurTitre);
+
+    size_t longueurSource;
+    fichier.read(reinterpret_cast<char *>(&longueurSource), sizeof(longueurSource));
+    source.resize(longueurSource);
+    fichier.read(&source[0], longueurSource);
+
+    fichier.read(reinterpret_cast<char *>(&cout), sizeof(cout));
+
+    size_t longueurAuteur;
+    fichier.read(reinterpret_cast<char *>(&longueurAuteur), sizeof(longueurAuteur));
+    source.resize(longueurAuteur);
+    fichier.read(&Auteur[0], longueurAuteur);
+
+    fichier.read(reinterpret_cast<char *>(&acces), sizeof(acces));
+}
+
 bool comparerParCout(Descripteur &d1, Descripteur &d2)
 {
     return d1.getCout() < d2.getCout();
