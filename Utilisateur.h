@@ -1,35 +1,44 @@
+#ifndef UTILISATEUR_H
+#define UTILISATEUR_H
 
-#ifndef _UTILISATEUR_H
-#define _UTILISATEUR_H
 #include <string>
+#include <vector>
+#include <stdexcept>
 
 class Utilisateur {
-public: 
-    // Construscteur et Destructeur
-    Utilisateur();
-    ~Utilisateur();
+public:
+    enum class Niveau { NIVEAU1, NIVEAU2, NIVEAU3 };
 
-     // Getters and Setters
-    const std::string& getCodeUtilisateur() const;
-    void setCodeUtilisateur(const std::string& CodeUtilisateur);
+    // Constructeurs
+    Utilisateur(); // Constructeur par défaut
+    Utilisateur(const std::string& code); // Constructeur avec code
 
-    const std::string& getNomUtilisateur() const;
-    void setNomUtilisateur(const std::string& NomUtilisateur);
+    // Getters
+    std::string getCode() const;
+    Niveau getNiveau() const;
 
-
-    // les mÃ©thodes
-    void getNiveauAcces();
-        
-    void crÃ©erUtilisateur();
-        
+    // Méthodes pour la création, modification, et suppression
+    void creerUtilisateur();
     void modifierUtilisateur();
-        
     void supprimerUtilisateur();
-        
-    void authentifier();
-private: 
-    std::string CodeUtilisateur;
-    std::string NomUtilisateur;
+
+    // Méthode pour afficher les informations de l'utilisateur
+    void afficherUtilisateur() const;
+
+private:
+    // Attributs
+    std::string code;
+    Niveau niveau;
+
+    // Méthodes privées
+    void setNiveauFromCode();
+    bool validerCode(const std::string& code);
 };
 
-#endif //_UTILISATEUR_H
+#endif 
+
+
+
+
+
+

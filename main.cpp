@@ -1,30 +1,56 @@
 #include <opencv2/opencv.hpp>
-#include <iostream>
-#include <filesystem>
-#include "Image.h"
-#include "Descripteur.h"
+//#include <iostream>
+//#include <filesystem>
+//#include "Image.h"
+//#include "Descripteur.h"
 
+#include "Utilisateur.h"
+#include <iostream>
 
 int main() {
+    Utilisateur utilisateur;
+    char choix;
 
-    // pour naviguer au repertoire ou se trouve le main
-    std::filesystem::current_path(std::filesystem::path(__FILE__).parent_path());
+    do {
+        std::cout << "\nMenu :\n";
+        std::cout << "1. Creer un utilisateur\n";
+        std::cout << "2. Modifier un utilisateur\n";
+        std::cout << "3. Supprimer un utilisateur\n";
+        std::cout << "4. Quitter\n";
+        std::cout << "Entrez votre choix : ";
+        std::cin >> choix;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    // Afficher le repertoire actuel (for debugging)
-    std::cout << "Current Working Directory: " << std::filesystem::current_path() << std::endl;
+        switch (choix) {
+        case '1':
+            utilisateur.creerUtilisateur();
+            break;
+        case '2':
+            utilisateur.modifierUtilisateur();
+            break;
+        case '3':
+            utilisateur.supprimerUtilisateur();
+            break;
+        case '4':
+            std::cout << "Au revoir !\n";
+            break;
+        default:
+            std::cout << "Choix invalide. Reessayez.\n";
+        }
+    } while (choix != '4');
 
-    // Définir le chemin de l'image
-    std::string imagePath = "BDD_Image/lena.tif";
+    return 0;
+}
 
-    // Charger l'image
-    cv::Mat imageData = cv::imread(imagePath, cv::IMREAD_COLOR);
+       
 
-    // Vérifier si l'image est correctement chargée
-    if (imageData.empty()) {
-        std::cerr << "Erreur : Impossible de charger l'image (main) " << imagePath << std::endl;
-        return -1;
-    }
 
+
+
+ 
+
+
+  /*
     // Créer un objet Image
     Image myImage(imageData);
 
@@ -61,6 +87,7 @@ int main() {
 
 */
   
+    /*
 // filtre gaussien 
     cv::Mat kernel = (cv::Mat_<float>(3, 3) <<
         1 / 16.0f, 2 / 16.0f, 1 / 16.0f,
@@ -86,6 +113,8 @@ int main() {
      // Attendre que l'utilisateur appuie sur une touche pour fermer les fenêtres
     cv::waitKey(0); 
 
+  
     return 0;
 
 }
+ */

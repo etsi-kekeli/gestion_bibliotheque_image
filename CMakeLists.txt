@@ -12,7 +12,8 @@ message(STATUS "OpenCV se trouve dans: ${OpenCV_DIR}")
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 # Cr�er un executable
-add_executable(gestion_bibliotheque_image main.cpp Image.cpp Descripteur.cpp)
+add_executable(gestion_bibliotheque_image main.cpp Image.cpp Descripteur.cpp Utilisateur.cpp)
+
 
 #link Libraries OpenCV
 target_link_libraries(gestion_bibliotheque_image ${OpenCV_LIBS})
