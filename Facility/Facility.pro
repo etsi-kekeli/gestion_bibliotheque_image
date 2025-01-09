@@ -3,8 +3,6 @@ QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
-INCLUDEPATH += /usr/include/opencv4
-LIBS += `pkg-config --cflags --libs opencv4`
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -12,18 +10,10 @@ LIBS += `pkg-config --cflags --libs opencv4`
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    ../routines/Bibliotheque.cpp \
-    ../routines/Descripteur.cpp \
-    ../routines/Image.cpp \
-    ../routines/Utilisateur.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h \
-    ../routines/Bibliotheque.h \
-    ../routines/Descripteur.h \
-    ../routines/Image.h \
-    ../routines/Utilisateur.h
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui
