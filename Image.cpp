@@ -124,7 +124,7 @@ void Image::afficherImage() const
     }
 }
 
-
+// Méthode pour calculer et afficher l'histogramme (Ydriss)
 void Image::calculateAndDisplayHistogram(const Mat& image)
 {
     // Vérification si l'image est en couleur ou en niveaux de gris
@@ -182,13 +182,146 @@ void Image::calculateAndDisplayHistogram(const Mat& image)
     }
 }
 
-
-/**
- * @param Filtre
- */
-void Image::detectionContours()
+// Méthode pour appliquer une convolution 2D (Manel)
+Mat Image::convolution2D(const Mat& src, FilterType filterType)
 {
+    Mat kernel;
+    switch (filterType) {
+    case FilterType::MEAN:
+        kernel = (Mat_<float>(3, 3) << 1 / 9.0, 1 / 9.0, 1 / 9.0,
+            1 / 9.0, 1 / 9.0, 1 / 9.0,
+            1 / 9.0, 1 / 9.0, 1 / 9.0);
+        break;
+    case FilterType::SOBEL_X:
+        kernel = (Mat_<float>(3, 3) << -1, 0, 1,
+            -2, 0, 2,
+            -1, 0, 1);
+        break;
+    case FilterType::SOBEL_Y:
+        kernel = (Mat_<float>(3, 3) << -1, -2, -1,
+            0, 0, 0,
+            1, 2, 1);
+        break;
+    case FilterType::LAPLACIAN:
+        kernel = (Mat_<float>(3, 3) << 0, 1, 0,
+            1, -4, 1,
+            0, 1, 0);
+        break;
+    case FilterType::GAUSSIAN:
+        kernel = (Mat_<float>(3, 3) << 1 / 16.0, 2 / 16.0, 1 / 16.0,
+            2 / 16.0, 4 / 16.0, 2 / 16.0,
+            1 / 16.0, 2 / 16.0, 1 / 16.0);
+        break;
+    }
+
+    Mat dst;
+    if (src.channels() == 3) {
+        // Pour les images en couleur
+        std::vector<Mat> channels(3);
+        split(src, channels); // Séparer les canaux R, G et B
+
+        for (int c = 0; c < channels.size(); ++c) {
+            Mat channelResult = Mat::zeros(src.size(), CV_32F);
+            for (int i = 0; i < src.rows; ++i) {
+                for (int j = 0; j < src.cols; ++j) {
+                    float sum = 0.0;
+                    for (int m = -kernel.rows / 2; m <= kernel.rows / 2; ++m) {
+                        for (int n = -kernel.cols / 2; n <= kernel.cols / 2; ++n) {
+                            int imagex = j + n;
+                            int imagey = i + m;
+
+                            // Réflexion des pixels de bord
+                            if (imagex < 0) imagex = -imagex;
+                            if (imagex >= src.cols) imagex = src.cols - (imagex - src.cols + 1);
+                            if (imagey < 0) imagey = -imagey;
+                            if (imagey >= src.rows) imagey = src.rows - (imagey - src.rows + 1);
+
+                            sum += channels[c].at<uchar>(imagey, imagex) * kernel.at<float>(m + kernel.rows / 2, n + kernel.cols / 2);
+                        }
+                    }
+                    channelResult.at<float>(i, j) = sum;
+                }
+            }
+            channels[c] = channelResult; // Stocker le résultat dans le canal
+        }
+
+        merge(channels, dst); // Fusionner les canaux traités
+    }
+    else {
+        // Pour les images en niveaux de gris
+        dst = Mat::zeros(src.size(), CV_32F);
+        for (int i = 0; i < src.rows; ++i) {
+            for (int j = 0; j < src.cols; ++j) {
+                float sum = 0.0;
+                for (int m = -kernel.rows / 2; m <= kernel.rows / 2; ++m) {
+                    for (int n = -kernel.cols / 2; n <= kernel.cols / 2; ++n) {
+                        int imagex = j + n;
+                        int imagey = i + m;
+
+                        // Réflexion des pixels de bord
+                        if (imagex < 0) imagex = -imagex;
+                        if (imagex >= src.cols) imagex = src.cols - (imagex - src.cols + 1);
+                        if (imagey < 0) imagey = -imagey;
+                        if (imagey >= src.rows) imagey = src.rows - (imagey - src.rows + 1);
+
+                        sum += static_cast<float>(src.at<uchar>(imagey, imagex)) * kernel.at<float>(m + kernel.rows / 2, n + kernel.cols / 2);
+                    }
+                }
+                dst.at<float>(i, j) = sum;
+            }
+        }
+    }
+
+    return dst;
 }
+
+
+// Méthode pour détecter les contours (True pour Gradient False pour Laplacien (Arame)
+void Image::detectionContours(bool useGradient)
+{
+    Mat grayImage;
+    if (data.channels() > 1)
+        cvtColor(data, grayImage, COLOR_BGR2GRAY);
+    else
+        grayImage = data.clone();
+
+    Mat result;
+
+    if (useGradient)
+    {
+        Mat gradX = convolution2D(grayImage, FilterType::SOBEL_X);
+        Mat gradY = convolution2D(grayImage, FilterType::SOBEL_Y);
+        result = calculateMagnitude(gradX, gradY);
+    }
+    else
+    {
+        result = convolution2D(grayImage, FilterType::LAPLACIAN);
+        result = abs(result);
+    }
+
+    normalize(result, result, 0, 255, NORM_MINMAX);
+    result.convertTo(result, CV_8U);
+
+    imshow(useGradient ? "Contours (Gradient)" : "Contours (Laplacien)", result);
+    waitKey(0);
+}
+
+// Méthode pour calculer Magnitude afin de detecter le contour par le Gradient (Arame)
+Mat Image::calculateMagnitude(const Mat& gradX, const Mat& gradY)
+{
+    Mat magnitude = Mat::zeros(gradX.size(), CV_32F);
+    for (int i = 0; i < gradX.rows; ++i)
+    {
+        for (int j = 0; j < gradX.cols; ++j)
+        {
+            float gx = gradX.at<float>(i, j);
+            float gy = gradY.at<float>(i, j);
+            magnitude.at<float>(i, j) = std::sqrt(gx * gx + gy * gy);
+        }
+    }
+    return magnitude;
+}
+
 
 void Image::rehaussementContour()
 {

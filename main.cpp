@@ -59,12 +59,38 @@ int main()
     // Créez une instance de la classe Image
     std::cout << "Avant la creation de l'objet Image" << std::endl;
     Image myImage(carres);
-    Image lenaColor;
-    Image carresColor;
-    Image culturesColor;
+    Image lenaColor(lena);
+    Image carresColor(carres);
+    Image culturesColor(cultures);
     Image imageMedtest(image);
     std::cout << "Apres la creation de l'objet Image" << std::endl;
+    /*
+    // test Convolution 2D (Manel)
+    // Appliquer la convolution avec un filtre moyenneur
+    std::cout << "Application du filtre moyenneur sur l'image." << std::endl;
 
+    // Appel à la méthode convolution2D avec le filtre moyenneur
+    Mat result = culturesColor.convolution2D(cultures, FilterType::MEAN);
+
+    // Afficher l'image originale et le résultat
+    cv::imshow("Image Originale", cultures);
+	//lenaColor.afficherImage();
+    cv::imshow("Image avec Filtre Moyenneur", result);
+    cv::waitKey(0); 
+    // fin test Convolution 2D.
+    */
+
+    /*
+    // Tester la détection des contour (Arame)
+    // Tester la détection des contours avec le gradient
+    std::cout << "Détection des contours (Gradient) sur l'image." << std::endl;
+    lenaColor.detectionContours(true); // true pour utiliser le gradient
+
+    // Tester la détection des contours avec le Laplacien
+    std::cout << "Détection des contours (Laplacien) sur l'image." << std::endl;
+    lenaColor.detectionContours(false); // false pour utiliser le Laplacien
+    // fin test détection de contour (Arame)
+    */
     cv::imshow("Transformée de Hough", myImage.getTableDAccumulationNormalisee(400, 360));
     cv::waitKey(0);
 

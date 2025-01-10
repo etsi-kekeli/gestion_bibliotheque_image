@@ -5,6 +5,15 @@
 #include <string>
 using namespace cv;
 
+// déclaration des enumérations des types des filtres implementés
+enum class FilterType {
+    MEAN,
+    SOBEL_X,
+    SOBEL_Y,
+    LAPLACIAN,
+    GAUSSIAN
+};
+
 class Image
 {
 public:
@@ -39,28 +48,35 @@ public:
     void afficherImage() const;
 
     void calculateAndDisplayHistogram(const Mat& image);
-    /**
-     * @param Filtre
-     */
-    void detectionContours();
+     
+	// Méthode pour appliquer une convolution 2D (Manel)
+    Mat convolution2D(const Mat& src, FilterType filterType);
+
+
+    // Méthode pour détecter les contours (True pour Gradient False pour Laplacien (Arame)
+    void detectionContours(bool useGradient);
+
+    // Méthode pour calculer Magnitude afin de detecter le contour par le Gradient (Arame)
+    Mat calculateMagnitude(const Mat& gradX, const Mat& gradY);
 
     void rehaussementContour();
 
     void seuillage();
 
+	// Méthode pour appliquer la transformee de Hough (Samuel)
     Mat transformeeHough(int nRho = 360, int nTheta = 300);
     Mat getTableDAccumulationNormalisee(int nRho = 360, int nTheta = 300);
     Mat dessineLigneHough(int nRho, int nTheta, int tailleVoisinage, int seuil, Scalar couleur = Scalar(255, 255, 0), int epaisseur = 2);
 
-    // segmentation couleur ou noir et blanc
+    // segmentation couleur ou noir et blanc (Amine)
     Mat segmentationCouleurOuNG(const cv::Mat& imageOriginale,
         uchar seuilBasR, uchar seuilHautR,
         uchar seuilBasG, uchar seuilHautG,
         uchar seuilBasB, uchar seuilHautB);
 
-    // affichage de l'image en mode teinte
+    // affichage de l'image en mode teinte (Amine)
     Mat afficherTeinte(const cv::Mat& image);
-    // segmenter l'image avec un masque de teinte seuillé
+    // segmenter l'image avec un masque de teinte seuillé (Amine)
     void segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seuilBas, int seuilHaut, int taillekernel);
 
 private:
