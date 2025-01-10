@@ -3,9 +3,42 @@
 #include <filesystem>
 #include "Image.h"
 #include "Descripteur.h"
+#include "Utilisateur.h"
 
 int main()
 {
+    Utilisateur utilisateur;
+    char choix;
+    /* Code manel qui permet de créer et tester utilisateur
+    do {
+        std::cout << "\nMenu :\n";
+        std::cout << "1. Creer un utilisateur\n";
+        std::cout << "2. Modifier un utilisateur\n";
+        std::cout << "3. Supprimer un utilisateur\n";
+        std::cout << "4. Quitter\n";
+        std::cout << "Entrez votre choix : ";
+        std::cin >> choix;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        switch (choix) {
+        case '1':
+            utilisateur.creerUtilisateur();
+            break;
+        case '2':
+            utilisateur.modifierUtilisateur();
+            break;
+        case '3':
+            utilisateur.supprimerUtilisateur();
+            break;
+        case '4':
+            std::cout << "Au revoir !\n";
+            break;
+        default:
+            std::cout << "Choix invalide. Reessayez.\n";
+        }
+    } while (choix != '4');
+ */
+
     // pour naviguer au repertoire ou se trouve le main
     // J'ai commenté la ligne car elle engendre une erreur au moment de l'execution
     std::filesystem::current_path(std::filesystem::path(__FILE__).parent_path());

@@ -1,84 +1,38 @@
+#ifndef UTILISATEUR_H
+#define UTILISATEUR_H
 
-#ifndef _IMAGE_H
-#define _IMAGE_H
-
-#include <opencv2/opencv.hpp>
 #include <string>
-using namespace cv;
+#include <vector>
+#include <stdexcept>
 
-class Image
-{
+class Utilisateur {
 public:
-    // Constructeur par défaut
-    Image();
+    enum class Niveau { NIVEAU1, NIVEAU2, NIVEAU3 };
 
-    // Constructeur avec paramètres
-    Image(const Mat& data, const std::string& format, bool couleur, float tauxCompression);
+    // Constructeurs
+    Utilisateur(); // Constructeur par défaut
+    Utilisateur(const std::string& code); // Constructeur avec code
 
-    // Constructeur avec un paramètre Mat
-    Image(const Mat& data);
-    ~Image();
+    // Getters
+    std::string getCode() const;
+    Niveau getNiveau() const;
 
-    // Getters and Setters
-    const std::string& getTitreImage() const;
-    void setTitreImage(const std::string& titre);
-    int getLargeur() const;
-    void setLargeur(int largeur);
-    int getHauteur() const;
-    void setHauteur(int hauteur);
-    const Mat& getData() const;
-    const std::string& getFormat() const;
-    bool isCouleur() const;
-    float getTauxCompression() const;
-    int getAcces() const;
-    void setAcces(int acces);
+    // Méthodes pour la création, modification, et suppression
+    void creerUtilisateur();
+    void modifierUtilisateur();
+    void supprimerUtilisateur();
 
-    // les méthodes
-    void afficherImage() const;
-
-    /**
-     * @param Image
-     */
-    void histogramme();
-
-    /**
-     * @param Filtre
-     */
-    void filtrageConvolution();
-
-    /**
-     * @param Filtre
-     */
-    void detectionContours();
-
-    void rehaussementContour();
-
-    void seuillage();
-
-    void transformeeHough();
-
-    // segmentation couleur ou noir et blanc
-    Mat segmentationCouleurOuNG(const cv::Mat& imageOriginale,
-        uchar seuilBasR, uchar seuilHautR,
-        uchar seuilBasG, uchar seuilHautG,
-        uchar seuilBasB, uchar seuilHautB);
-
-    // affichage de l'image en mode teinte
-    Mat afficherTeinte(const cv::Mat& image);
-    // segmenter l'image avec un masque de teinte seuillé
-    void segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seuilBas, int seuilHaut, int taillekernel);
-
-    void appliquerFiltreConvolution(const cv::Mat& kernel);
+    // Méthode pour afficher les informations de l'utilisateur
+    void afficherUtilisateur() const;
 
 private:
-    std::string titreImage;
-    int Largeur;
-    int Hauteur;
-    const Mat data;
-    const String Format;
-    const bool Couleur;
-    const float TauxCompression;
-    int acces;
+    // Attributs
+    std::string code;
+    Niveau niveau;
+
+    // Méthodes privées
+    void setNiveauFromCode();
+    bool validerCode(const std::string& code);
 };
 
-#endif //_IMAGE_H
+#endif 

@@ -1,4 +1,3 @@
-
 #include "Utilisateur.h"
 #include <iostream>
 #include <regex>
