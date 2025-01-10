@@ -38,16 +38,7 @@ public:
     // les méthodes
     void afficherImage() const;
 
-    /**
-     * @param Image
-     */
-    void histogramme();
-
-    /**
-     * @param Filtre
-     */
-    void filtrageConvolution();
-
+    void calculateAndDisplayHistogram(const Mat& image);
     /**
      * @param Filtre
      */

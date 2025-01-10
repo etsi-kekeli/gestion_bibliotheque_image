@@ -124,19 +124,64 @@ void Image::afficherImage() const
     }
 }
 
-/**
- * @param Image
- */
-void Image::histogramme()
+
+void Image::calculateAndDisplayHistogram(const Mat& image)
 {
+    // Vérification si l'image est en couleur ou en niveaux de gris
+    vector<Mat> channels;
+    if (image.channels() == 3)
+    {
+        // Image en couleur, décomposez les canaux BGR
+        split(image, channels);
+    }
+    else
+    {
+        // Image en niveaux de gris
+        channels.push_back(image);
+    }
+
+    int histSize = 256;
+    float range[] = { 0, 256 };     // intensités
+    const float* histRange = { range };
+    int hist_w = 512, hist_h = 400; // Taille de l'image de l'histogramme
+    int bin_w = cvRound((double)hist_w / histSize);
+
+    for (size_t i = 0; i < channels.size(); i++)
+    {
+        Mat histogram;
+        calcHist(&channels[i], 1, 0, Mat(), histogram, 1, &histSize, &histRange);
+        normalize(histogram, histogram, 0, hist_h, NORM_MINMAX);
+
+        // Dessin de l'histogramme
+        Mat histImage(hist_h + 50, hist_w + 50, CV_8UC3, Scalar(255, 255, 255));
+        Scalar color = (channels.size() == 1)
+            ? Scalar(0, 0, 0) // Noir pour niveaux de gris
+            : (i == 0 ? Scalar(255, 0, 0) : (i == 1 ? Scalar(0, 255, 0) : Scalar(0, 0, 255)));
+
+        // Dessiner l'histogramme
+        for (int j = 0; j < histSize; j++)
+        {
+            line(histImage, Point(bin_w * j + 25, hist_h + 25),
+                Point(bin_w * j + 25, hist_h + 25 - cvRound(histogram.at<float>(j))),
+                color, 2);
+        }
+
+        // noms des axes
+        putText(histImage, "Intensite", Point(hist_w / 2, hist_h + 45), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 0), 2); // Axe des X
+        putText(histImage, "Frequence", Point(5, hist_h / 2), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 0), 2); // Axe des Y (vertical)
+
+
+        line(histImage, Point(25, 25), Point(25, hist_h + 25), Scalar(0, 0, 0), 2); // Axe Y
+        line(histImage, Point(25, hist_h + 25), Point(hist_w + 25, hist_h + 25), Scalar(0, 0, 0), 2); // Axe X
+
+        // Afficher l'histogramme
+        string windowName = (channels.size() == 1)
+            ? "Histogramme Niveaux de Gris"
+            : (i == 0 ? "Histogramme Bleu" : (i == 1 ? "Histogramme Vert" : "Histogramme Rouge"));
+        imshow(windowName, histImage);
+    }
 }
 
-/**
- * @param Filtre
- */
-void Image::filtrageConvolution()
-{
-}
 
 /**
  * @param Filtre

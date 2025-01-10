@@ -29,6 +29,7 @@ int main()
     Image lenaColor;
     Image carresColor;
     Image culturesColor;
+    Image imageMedtest(image);
     std::cout << "Apres la creation de l'objet Image" << std::endl;
 
     cv::imshow("Transformée de Hough", myImage.getTableDAccumulationNormalisee(400, 360));
@@ -59,6 +60,13 @@ int main()
     {
         std::cerr << "Exception capturee : " << e.what() << std::endl;
     }
+
+	// Afficher l'histogramme de l'image (code Ydriss)
+    imshow("Image Originale", image);
+    imageMedtest.calculateAndDisplayHistogram(image);
+    cv::waitKey(0);
+
+
 
     // Créez une instance de Descripteur et associez-la à l'image
     Descripteur *monDescripteur = new Descripteur();
