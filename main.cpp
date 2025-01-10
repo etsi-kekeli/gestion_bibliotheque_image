@@ -8,7 +8,7 @@ int main()
 {
     // pour naviguer au repertoire ou se trouve le main
     // J'ai commenté la ligne car elle engendre une erreur au moment de l'execution
-    // std::filesystem::current_path(std::filesystem::path(__FILE__).parent_path());
+    std::filesystem::current_path(std::filesystem::path(__FILE__).parent_path());
 
     // Afficher le repertoire actuel (for debugging)
     std::cout << "Current Working Directory: " << std::filesystem::current_path() << std::endl;
@@ -64,7 +64,7 @@ int main()
     Descripteur *monDescripteur = new Descripteur();
     try
     {
-        monDescripteur->creerDescripteur(myImage);
+        monDescripteur->creerDescripteur(imagePathCarres);
     }
     catch (const std::exception &e)
     {

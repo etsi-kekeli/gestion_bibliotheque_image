@@ -7,31 +7,64 @@ using namespace cv;
 /**
  * Image implementation
  */
-// Constructeur par défaut
-Image::Image() : data(), Format(""), Couleur(false), TauxCompression(0.0f), Largeur(0), Hauteur(0), acces(2), titreImage("")
+ // Constructeur par défaut
+Image::Image() : data(), Format(""), Couleur(false), TauxCompression(0.0f), titreImage("")
 {
 }
 
 // Constructeur avec paramètres
-Image::Image(const Mat &data, const std::string &format,
-             bool couleur, float tauxCompression)
+Image::Image(const Mat& data, const std::string& format,
+    bool couleur, float tauxCompression)
     : data(data), Format(format), Couleur(couleur), TauxCompression(tauxCompression),
-      Largeur(data.cols), Hauteur(data.rows), acces(2), titreImage("")
+    titreImage("")
 {
 }
 
 // Constructeur avec un paramètre si couleur retourne false = NGR, true = RGB
-Image::Image(const Mat &data)
+Image::Image(const Mat& data)
     : data(data),                   // Initialisation de 'data'
-      Format(""),                   // Initialisation de 'Format'
-      Couleur(data.channels() > 1), // Initialisation de 'Couleur'
-      TauxCompression(1.0f),        // Valeur par défaut pour 'TauxCompression'
-      Largeur(data.cols),           // Initialisation de 'Largeur'
-      Hauteur(data.rows),           // Initialisation de 'Hauteur'
-      acces(2),                     // Valeur par défaut pour 'acces'
-      titreImage("")
+    Format(""),                   // Initialisation de 'Format'
+    Couleur(data.channels() > 1), // Initialisation de 'Couleur'
+    TauxCompression(1.0f),        // Valeur par défaut pour 'TauxCompression'
+    titreImage("")
 {
 }
+
+// Constructeur avec un parametre source
+Image::Image(const std::string& source)
+    : data(imread(source)),
+    Format(""),
+    Couleur(data.channels() > 1),
+    TauxCompression(1.0f),
+    source(source),
+    titreImage("")
+{
+    // Déterminer le format à partir de l'extension du fichier
+    size_t pos = source.find_last_of(".");
+    if (pos != std::string::npos) {
+        Format = source.substr(pos + 1);
+    }
+}
+
+// Surcharge de l'opérateur d'affectation
+    Image& Image::operator=(const Image& other)
+    {
+        if (this != &other)
+        {
+            // Copier les membres non-const
+            titreImage = other.titreImage;
+            
+            const_cast<Mat&>(data) = other.data.clone();
+            const_cast<std::string&>(Format) = other.Format;
+            const_cast<bool&>(Couleur) = other.Couleur;
+            const_cast<float&>(TauxCompression) = other.TauxCompression;
+        }
+        return *this;
+    }
+
+
+
+
 
 // Destructeur
 Image::~Image()
@@ -42,39 +75,21 @@ Image::~Image()
 
 // Implémentation des getters et setters
 
-const std::string &Image::getTitreImage() const
+const std::string& Image::getTitreImage() const
 {
     return titreImage;
 }
-void Image::setTitreImage(const std::string &titre)
+void Image::setTitreImage(const std::string& titre)
 {
     titreImage = titre;
 }
 
-int Image::getLargeur() const
-{
-    return Largeur;
-}
-void Image::setLargeur(int largeur)
-{
-    Largeur = largeur;
-}
-
-int Image::getHauteur() const
-{
-    return Hauteur;
-}
-void Image::setHauteur(int hauteur)
-{
-    Hauteur = hauteur;
-}
-
-const Mat &Image::getData() const
+const Mat& Image::getData() const
 {
     return data;
 }
 
-const std::string &Image::getFormat() const
+const std::string& Image::getFormat() const
 {
     return Format;
 }
@@ -89,14 +104,9 @@ float Image::getTauxCompression() const
     return TauxCompression;
 }
 
-int Image::getAcces() const
+const std::string& Image::getSource() const
 {
-    return acces;
-}
-
-void Image::setAcces(int acces)
-{
-    this->acces = acces;
+    return source;
 }
 
 // les méthodes
@@ -215,13 +225,13 @@ vector<pair<float, float>> getHoughMaxima(Mat tableDAccumulation, double rhomax,
 
     for (int i = 0; i < tmp.size(); i++)
     {
-        resultat.push_back({tmp[i].y * (2 * rhomax + 1) / parametresDInterets.rows - rhomax, tmp[i].x * pasAngulaire});
+        resultat.push_back({ tmp[i].y * (2 * rhomax + 1) / parametresDInterets.rows - rhomax, tmp[i].x * pasAngulaire });
     }
 
     return resultat;
 }
 
-void _dessineLigneHough(Mat &image, float rho, float theta, Scalar couleur, int epaisseur)
+void _dessineLigneHough(Mat& image, float rho, float theta, Scalar couleur, int epaisseur)
 {
     double pente = tan(theta + CV_PI / 2);
 
@@ -275,10 +285,10 @@ Mat Image::dessineLigneHough(int nRho, int nTheta, int tailleVoisinage, int seui
 }
 
 // segmentation couleur ou noir et blanc
-cv::Mat Image::segmentationCouleurOuNG(const cv::Mat &imageOriginale,
-                                       uchar seuilBasR, uchar seuilHautR,
-                                       uchar seuilBasG, uchar seuilHautG,
-                                       uchar seuilBasB, uchar seuilHautB)
+cv::Mat Image::segmentationCouleurOuNG(const cv::Mat& imageOriginale,
+    uchar seuilBasR, uchar seuilHautR,
+    uchar seuilBasG, uchar seuilHautG,
+    uchar seuilBasB, uchar seuilHautB)
 {
 
     // Créer une image binaire pour le masque
@@ -336,7 +346,7 @@ cv::Mat Image::segmentationCouleurOuNG(const cv::Mat &imageOriginale,
 }
 
 // affichage de l'image en mode teinte
-cv::Mat Image::afficherTeinte(const cv::Mat &image)
+cv::Mat Image::afficherTeinte(const cv::Mat& image)
 {
     // Convertir l'image de BGR à HSV
     cv::Mat imageHSV;
@@ -358,7 +368,7 @@ cv::Mat Image::afficherTeinte(const cv::Mat &image)
     return hue;
 }
 
-void Image::segmenterParTeinte(const cv::Mat &image, const cv::Mat &hue, int seuilBas, int seuilHaut, int taillekernel)
+void Image::segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seuilBas, int seuilHaut, int taillekernel)
 {
     cv::Mat masque = cv::Mat::zeros(hue.size(), CV_8U);
 

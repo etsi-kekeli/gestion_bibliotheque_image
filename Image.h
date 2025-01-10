@@ -1,4 +1,3 @@
-
 #ifndef _IMAGE_H
 #define _IMAGE_H
 
@@ -13,25 +12,28 @@ public:
     Image();
 
     // Constructeur avec paramètres
-    Image(const Mat &data, const std::string &format, bool couleur, float tauxCompression);
+    Image(const Mat& data, const std::string& format, bool couleur, float tauxCompression);
 
     // Constructeur avec un paramètre Mat
-    Image(const Mat &data);
+    Image(const Mat& data);
+
+    // Constructeur avec un parametre source
+    Image(const std::string& source);
+
+
+    // Destructeur
     ~Image();
 
     // Getters and Setters
-    const std::string &getTitreImage() const;
-    void setTitreImage(const std::string &titre);
-    int getLargeur() const;
-    void setLargeur(int largeur);
-    int getHauteur() const;
-    void setHauteur(int hauteur);
-    const Mat &getData() const;
-    const std::string &getFormat() const;
+    const std::string& getTitreImage() const;
+    void setTitreImage(const std::string& titre);
+    const std::string& getSource() const;
+    const Mat& getData() const;
+    const std::string& getFormat() const;
     bool isCouleur() const;
     float getTauxCompression() const;
-    int getAcces() const;
-    void setAcces(int acces);
+
+    Image& operator=(const Image& other);
 
     // les méthodes
     void afficherImage() const;
@@ -60,26 +62,25 @@ public:
     Mat dessineLigneHough(int nRho, int nTheta, int tailleVoisinage, int seuil, Scalar couleur = Scalar(255, 255, 0), int epaisseur = 2);
 
     // segmentation couleur ou noir et blanc
-    Mat segmentationCouleurOuNG(const cv::Mat &imageOriginale,
-                                uchar seuilBasR, uchar seuilHautR,
-                                uchar seuilBasG, uchar seuilHautG,
-                                uchar seuilBasB, uchar seuilHautB);
+    Mat segmentationCouleurOuNG(const cv::Mat& imageOriginale,
+        uchar seuilBasR, uchar seuilHautR,
+        uchar seuilBasG, uchar seuilHautG,
+        uchar seuilBasB, uchar seuilHautB);
 
     // affichage de l'image en mode teinte
-    Mat afficherTeinte(const cv::Mat &image);
+    Mat afficherTeinte(const cv::Mat& image);
     // segmenter l'image avec un masque de teinte seuillé
-    void segmenterParTeinte(const cv::Mat &image, const cv::Mat &hue, int seuilBas, int seuilHaut, int taillekernel);
+    void segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seuilBas, int seuilHaut, int taillekernel);
 
 private:
     std::string titreImage;
-    int Largeur;
-    int Hauteur;
     const Mat data;
-    const String Format;
+    String Format;
     const bool Couleur;
     const float TauxCompression;
-    int acces;
+    std::string source;
+
 };
-void _dessineLigneHough(Mat &image, float rho, float theta, Scalar couleur, int epaisseur);
+void _dessineLigneHough(Mat& image, float rho, float theta, Scalar couleur, int epaisseur);
 
 #endif //_IMAGE_H

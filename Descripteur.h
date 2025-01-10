@@ -16,7 +16,7 @@ class Descripteur
 public:
     // Constructeurs
     Descripteur();
-    Descripteur(int id, const std::string &titre, std::string &source, double cout, const std::string &auteur);
+    Descripteur(int id, const std::string& titre, const std::string& imageSource, double cout, const std::string& auteur);
     // Destructeur
     ~Descripteur();
 
@@ -24,16 +24,16 @@ public:
     int getIdDescripteur() const;
     void setIdDescripteur(int id);
 
-    const std::string &getTitre() const;
-    void setTitre(const std::string &titre);
+    const std::string& getTitre() const;
+    void setTitre(const std::string& titre);
 
-    const std::string &getSource() const;
+    const std::string& getSource() const;
 
     double getCout() const;
     void setCout(double cout);
 
-    const std::string &getAuteur() const;
-    void setAuteur(const std::string &auteur);
+    const std::string& getAuteur() const;
+    void setAuteur(const std::string& auteur);
 
     Acces getAcces() const;
     void setAcces(Acces acces);
@@ -43,12 +43,12 @@ public:
 
     void supprimerDescripteur();
 
-    void creerDescripteur(const Image &image);
+    void creerDescripteur(const std::string& imageSource);
 
     // Les méthodes suivantes sont là pour permettre la sauvegarde et le chargement de la bibliothèque
 
-    void serialiser(std::ofstream &fichier) const;
-    void deserialiser(std::ifstream &fichier);
+    void serialiser(std::ofstream& fichier) const;
+    void deserialiser(std::ifstream& fichier);
 
 private:
     int IdDescripteur;
@@ -57,9 +57,10 @@ private:
     double cout;
     std::string Auteur;
     Acces acces;
-    static std::set<std::string> sourcesUtilisees; // Pour vérifier l'unicité de la source
+    Image image;
+
 };
 
-bool comparerParCout(Descripteur &d1, Descripteur &d2);
+bool comparerParCout(Descripteur& d1, Descripteur& d2);
 
 #endif //_DESCRIPTEUR_H
