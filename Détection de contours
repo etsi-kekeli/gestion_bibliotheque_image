@@ -1,0 +1,132 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <opencv2/opencv.hpp>
+
+using namespace std;
+using namespace cv;
+
+// Fonction pour charger une image et la convertir en matrice 2D
+vector<vector<int>> imageToMatrix(const Mat& image) {
+    vector<vector<int>> matrix(image.rows, vector<int>(image.cols));
+    for (int i = 0; i < image.rows; i++) {
+        for (int j = 0; j < image.cols; j++) {
+            matrix[i][j] = image.at<uchar>(i, j);
+        }
+    }
+    return matrix;
+}
+
+// Fonction pour appliquer une convolution manuelle
+vector<vector<int>> applyConvolution(const vector<vector<int>>& image, const vector<vector<int>>& kernel) {
+    int rows = image.size();
+    int cols = image[0].size();
+    int kSize = kernel.size();
+    int offset = kSize / 2;
+
+    vector<vector<int>> result(rows, vector<int>(cols, 0));
+
+    for (int i = offset; i < rows - offset; i++) {
+        for (int j = offset; j < cols - offset; j++) {
+            int sum = 0;
+            for (int m = 0; m < kSize; m++) {
+                for (int n = 0; n < kSize; n++) {
+                    sum += kernel[m][n] * image[i + m - offset][j + n - offset];
+                }
+            }
+            result[i][j] = abs(sum);
+        }
+    }
+
+    return result;
+}
+
+// Fonction pour calculer la magnitude des gradients
+vector<vector<int>> computeMagnitude(const vector<vector<int>>& gradX, const vector<vector<int>>& gradY) {
+    int rows = gradX.size();
+    int cols = gradX[0].size();
+    vector<vector<int>> magnitude(rows, vector<int>(cols, 0));
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            magnitude[i][j] = sqrt(gradX[i][j] * gradX[i][j] + gradY[i][j] * gradY[i][j]);
+        }
+    }
+
+    return magnitude;
+}
+
+// Fonction pour normaliser la matrice entre 0 et 255
+Mat normalizeMatrix(const vector<vector<int>>& matrix) {
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+
+    int maxVal = 0;
+    for (const auto& row : matrix) {
+        for (int val : row) {
+            maxVal = max(maxVal, val);
+        }
+    }
+
+    Mat result(rows, cols, CV_8UC1);
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result.at<uchar>(i, j) = static_cast<uchar>((matrix[i][j] * 255) / maxVal);
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    // Charger l'image
+    string imagePath = "/home/arameseydousarr/Panthererose.jpg";
+    Mat image = imread(imagePath, IMREAD_GRAYSCALE);
+
+    if (image.empty()) {
+        cerr << "Erreur : Impossible de charger l'image depuis " << imagePath << endl;
+        return -1;
+    }
+
+    // Convertir l'image en matrice
+    vector<vector<int>> imageMatrix = imageToMatrix(image);
+
+    // Définir les noyaux Sobel-like pour les gradients horizontaux et verticaux
+    vector<vector<int>> kernelX = {
+        {-1, 0, 1},
+        {-2, 0, 2},
+        {-1, 0, 1}
+    };
+
+    vector<vector<int>> kernelY = {
+        {-1, -2, -1},
+        { 0,  0,  0},
+        { 1,  2,  1}
+    };
+
+    // Appliquer les convolutions
+    vector<vector<int>> gradX = applyConvolution(imageMatrix, kernelX);
+    vector<vector<int>> gradY = applyConvolution(imageMatrix, kernelY);
+
+    // Calculer la magnitude des gradients
+    vector<vector<int>> magnitude = computeMagnitude(gradX, gradY);
+
+    // Normaliser les résultats pour affichage
+    Mat gradXImage = normalizeMatrix(gradX);
+    Mat gradYImage = normalizeMatrix(gradY);
+    Mat magnitudeImage = normalizeMatrix(magnitude);
+
+    // Afficher les résultats
+    imshow("Image Originale", image);
+    imshow("Gradient X", gradXImage);
+    imshow("Gradient Y", gradYImage);
+    imshow("Magnitude des Contours", magnitudeImage);
+
+    // Sauvegarder les résultats
+    imwrite("/home/arameseydousarr/gradient_x.jpg", gradXImage);
+    imwrite("/home/arameseydousarr/gradient_y.jpg", gradYImage);
+    imwrite("/home/arameseydousarr/magnitude.jpg", magnitudeImage);
+
+    waitKey(0);
+    return 0;
+}
