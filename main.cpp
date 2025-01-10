@@ -91,6 +91,30 @@ int main()
     lenaColor.detectionContours(false); // false pour utiliser le Laplacien
     // fin test détection de contour (Arame)
     */
+    /*
+	// Test de la méthode rehaussementContour (Achour)
+    std::cout << "Test de la méthode rehaussementContour" << std::endl;
+
+    // Exemple avec une image en niveaux de gris
+    std::cout << "Test avec une image en niveaux de gris (medtest.png)" << std::endl;
+    cv::imshow("Image Originale", image);
+    imageMedtest.rehaussementContour();
+
+    // Exemple avec une image en couleurs
+    std::cout << "Test avec une image en couleurs (lena.tif)" << std::endl;
+    cv::imshow("Image Originale", lena);
+    lenaColor.rehaussementContour();
+    // fin test rehaussement
+    */
+    /*
+    // test seuillage (Amine)
+    // Appliquer le seuillage avec une valeur de seuil
+    int seuil = 100; // Définir la valeur du seuil
+    imageMedtest.seuillage(seuil);
+    lenaColor.seuillage(seuil);
+    // fin test seuillage
+    */
+    /*
     cv::imshow("Transformée de Hough", myImage.getTableDAccumulationNormalisee(400, 360));
     cv::waitKey(0);
 
@@ -102,6 +126,7 @@ int main()
     // Appel de la méthode afficherImage
     myImage.afficherImage();
     */
+    /*
     try
     {
         std::cout << "Avant l'appel a segmentation" << std::endl;
@@ -145,7 +170,7 @@ int main()
     catch (const std::exception& e) {
         std::cerr << "Exception capturee lors de la modification : " << e.what() << std::endl;
     }
-    */
+    
 
     // suppression d'un descripteur
     try
@@ -156,6 +181,6 @@ int main()
     {
         std::cerr << "Exception capturee lors de la suppression : " << e.what() << std::endl;
     }
-
+    */
     return 0;
 }

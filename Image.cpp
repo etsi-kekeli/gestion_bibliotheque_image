@@ -183,6 +183,7 @@ void Image::calculateAndDisplayHistogram(const Mat& image)
 }
 
 // Méthode pour appliquer une convolution 2D (Manel)
+//options pour type filtres : MEAN, SOBEL_X, SOBEL_Y, LAPLACIAN, GAUSSIAN
 Mat Image::convolution2D(const Mat& src, FilterType filterType)
 {
     Mat kernel;
@@ -275,7 +276,6 @@ Mat Image::convolution2D(const Mat& src, FilterType filterType)
     return dst;
 }
 
-
 // Méthode pour détecter les contours (True pour Gradient False pour Laplacien (Arame)
 void Image::detectionContours(bool useGradient)
 {
@@ -322,14 +322,84 @@ Mat Image::calculateMagnitude(const Mat& gradX, const Mat& gradY)
     return magnitude;
 }
 
+// Méthode pour rehausser les contours de l'image (Achour)
+void Image::rehaussementContour() {
+    if (data.empty()) {
+        std::cerr << "Erreur : L'image source est vide !" << std::endl;
+        return;
+    }
 
-void Image::rehaussementContour()
-{
+    Mat originalImage = data.clone();
+    Mat contours;
+
+    // Détection des contours en utilisant la méthode detectionContours
+    detectionContours(false); // Utilisation de l'option Gradient
+    contours = data.clone(); // Les contours devraient être écrits dans 'data' par detectionContours
+
+    if (contours.empty()) {
+        std::cerr << "Erreur : La détection de contours a échoué !" << std::endl;
+        return;
+    }
+
+    // Vérification et harmonisation des types
+    if (originalImage.channels() == 3 && contours.channels() == 1) {
+        cvtColor(contours, contours, cv::COLOR_GRAY2BGR); // Convertir en BGR si nécessaire
+    }
+
+    if (originalImage.type() != contours.type()) {
+        contours.convertTo(contours, originalImage.type()); // Harmoniser les types
+    }
+
+    try {
+        // Ajout des contours à l'image originale
+        cv::add(originalImage, contours, originalImage, cv::Mat(), originalImage.type());
+
+        // Afficher l'image avec contours rehaussés
+        cv::imshow("Image avec contours rehaussés", originalImage);
+        cv::waitKey(0);
+    }
+    catch (const cv::Exception& e) {
+        std::cerr << "Erreur lors de l'ajout des contours : " << e.what() << std::endl;
+    }
 }
 
-void Image::seuillage()
+// méthode pour seuiller l'image (Amine)
+void Image::seuillage(int seuil)
 {
+    if (data.empty()) {
+        std::cerr << "Erreur : Les données de l'image sont vides." << std::endl;
+        return;
+    }
+
+    cv::Mat imageNG;
+
+    // Convertir l'image en niveaux de gris
+    if (data.channels() == 3) {
+        cv::cvtColor(data, imageNG, cv::COLOR_BGR2GRAY); // Image en couleur, conversion en NG
+    }
+    else {
+        imageNG = data.clone(); // Image déjà en NG
+    }
+
+    // Créer une copie pour stocker l'image seuillée
+    cv::Mat imageSeuillee = imageNG.clone();
+
+    // Appliquer le seuillage sur l'image en niveaux de gris
+    for (int i = 0; i < imageNG.rows; ++i) {
+        for (int j = 0; j < imageNG.cols; ++j) {
+            uchar pixelValue = imageNG.at<uchar>(i, j);
+            imageSeuillee.at<uchar>(i, j) = (pixelValue > seuil) ? 255 : 0;
+        }
+    }
+
+    // Afficher l'image originale et l'image seuillée
+    cv::imshow("Image Originale", data);
+    cv::imshow("Image Seuillée", imageSeuillee);
+
+    // Attente pour l'utilisateur
+    cv::waitKey(0);
 }
+
 
 int mapRho(double rho, int n, double rhomax)
 {

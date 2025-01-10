@@ -59,9 +59,11 @@ public:
     // Méthode pour calculer Magnitude afin de detecter le contour par le Gradient (Arame)
     Mat calculateMagnitude(const Mat& gradX, const Mat& gradY);
 
+    // Méthode pour rehausser les contours de l'image (Achour)
     void rehaussementContour();
 
-    void seuillage();
+    // méthode pour seuiller l'image (Amine)
+    void seuillage(int seuil);
 
 	// Méthode pour appliquer la transformee de Hough (Samuel)
     Mat transformeeHough(int nRho = 360, int nTheta = 300);
@@ -81,7 +83,7 @@ public:
 
 private:
     std::string titreImage;
-    const Mat data;
+    Mat data;
     String Format;
     const bool Couleur;
     const float TauxCompression;
