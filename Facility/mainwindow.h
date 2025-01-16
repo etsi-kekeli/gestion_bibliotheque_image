@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "../routines/Utilisateur.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -14,9 +15,19 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    // Constructeur avec l'objet Utilisateur et le parent
+    explicit MainWindow(Utilisateur& utilisateur, QWidget *parent = nullptr);
     ~MainWindow();
 
+
+private:
+    Ui::MainWindow *ui;
+    Utilisateur m_utilisateur;  // Déclaration de l'objet Utilisateur
+};
+
+#endif // MAINWINDOW_H
+
+/*
 private slots:
     void connectionWidget();
     void mainWidget();
@@ -27,3 +38,4 @@ private:
 
 
 #endif // MAINWINDOW_H
+*/

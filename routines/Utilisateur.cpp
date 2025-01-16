@@ -34,7 +34,7 @@ void Utilisateur::setNiveauFromCode() {
         niveau = Niveau::NIVEAU3;
     }
     else {
-        throw std::invalid_argument("Code invalide : doit commencer par AB, CD ou EF.");
+        throw std::invalid_argument("Code érroné.");
     }
 }
 

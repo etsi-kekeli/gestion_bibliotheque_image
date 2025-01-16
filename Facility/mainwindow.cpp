@@ -1,11 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(Utilisateur& utilisateur, QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow), m_utilisateur(utilisateur)  // Initialisation de m_utilisateur
 {
     ui->setupUi(this);
+
 }
 
 MainWindow::~MainWindow()
@@ -13,6 +13,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/*
 void MainWindow::connectionWidget() {
     ui->stackedWidget->setCurrentIndex(1);
 }
@@ -20,3 +21,4 @@ void MainWindow::connectionWidget() {
 void MainWindow::mainWidget() {
     std::string code = ui->btnConnect->text().toStdString();
 }
+*/
