@@ -17,7 +17,8 @@ SOURCES += \
     ../routines/Bibliotheque.cpp \
     ../routines/Descripteur.cpp \
     ../routines/Image.cpp \
-    ../routines/Utilisateur.cpp
+    ../routines/Utilisateur.cpp \
+    processingwindow.cpp
 
 HEADERS += \
     loginwindow.h \
@@ -25,11 +26,13 @@ HEADERS += \
     ../routines/Bibliotheque.h \
     ../routines/Descripteur.h \
     ../routines/Image.h \
-    ../routines/Utilisateur.h
+    ../routines/Utilisateur.h \
+    processingwindow.h
 
 FORMS += \
     loginwindow.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    processingwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
