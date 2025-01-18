@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <QGraphicsItem>
 #include "../routines/Image.h"
+#include <vector>
 
 ProcessingWindow::ProcessingWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -510,6 +511,62 @@ void ProcessingWindow::on_RehaussButton_clicked()
 
         // Afficher l'image réhaussée dans la vue graphique
         displayImage(resultat, ui->ImageResultatgraphicsView, &sceneResult);
+    }
+    catch (const std::exception& e) {
+        QMessageBox::critical(this, "Erreur", QString("Une erreur s'est produite : %1").arg(e.what()));
+    }
+}
+
+
+void ProcessingWindow::on_HistoButton_clicked()
+{
+    if (originalImage.empty()) {
+        QMessageBox::warning(this, "Erreur", "Aucune image chargée.");
+        return;
+    }
+
+    try {
+        QString selectedOption = ui->histogramComboBox->currentText();
+        Image image;
+        bool isGray = originalImage.channels() == 1;
+
+        if (isGray && (selectedOption == "Bleu" || selectedOption == "Vert" || selectedOption == "Rouge")) {
+            QMessageBox::warning(this, "Erreur", "L'image est en niveaux de gris. Vous ne pouvez pas afficher les histogrammes des canaux de couleur.");
+            return;
+        }
+
+        Mat histogramImage;
+
+        if (isGray) {
+            histogramImage = image.calculateAndDisplayHistogram(originalImage, "Niv_Gris");
+        } else {
+            std::vector<Mat> channels;
+            cv::Mat bgrImage;
+
+            // Convertir explicitement en BGR si nécessaire
+            if (originalImage.channels() == 3) {
+                bgrImage = originalImage.clone();
+            } else {
+                cv::cvtColor(originalImage, bgrImage, cv::COLOR_RGBA2BGR);
+            }
+
+            cv::split(bgrImage, channels);
+
+            if (selectedOption == "Niv_Gris") {
+                histogramImage = image.calculateAndDisplayHistogram(channels);
+            } else {
+                int channelIndex = (selectedOption == "Bleu") ? 0 :
+                                       (selectedOption == "Vert") ? 1 : 2;
+                histogramImage = image.calculateAndDisplayHistogram(channels[channelIndex], selectedOption.toStdString());
+            }
+        }
+
+        if (histogramImage.empty()) {
+            QMessageBox::critical(this, "Erreur", "L'histogramme n'a pas pu être calculé.");
+            return;
+        }
+
+        displayImage(histogramImage, ui->ImageResultatgraphicsView, &sceneResult);
     }
     catch (const std::exception& e) {
         QMessageBox::critical(this, "Erreur", QString("Une erreur s'est produite : %1").arg(e.what()));

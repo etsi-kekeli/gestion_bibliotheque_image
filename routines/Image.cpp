@@ -124,63 +124,86 @@ void Image::afficherImage() const
     }
 }
 
-// Méthode pour calculer et afficher l'histogramme (Ydriss)
-void Image::calculateAndDisplayHistogram(const Mat& image)
+ // histograme (Ydriss)
+Mat Image::calculateAndDisplayHistogram(const std::vector<Mat>& channels)
 {
-    // Vérification si l'image est en couleur ou en niveaux de gris
-    vector<Mat> channels;
-    if (image.channels() == 3)
-    {
-        // Image en couleur, décomposez les canaux BGR
-        split(image, channels);
-    }
-    else
-    {
-        // Image en niveaux de gris
-        channels.push_back(image);
-    }
-
     int histSize = 256;
-    float range[] = { 0, 256 };     // intensités
+    float range[] = { 0, 256 };  // Intensité des pixels
     const float* histRange = { range };
-    int hist_w = 512, hist_h = 400; // Taille de l'image de l'histogramme
+    int hist_w = 512, hist_h = 400;  // Taille de l'histogramme
     int bin_w = cvRound((double)hist_w / histSize);
 
-    for (size_t i = 0; i < channels.size(); i++)
-    {
+    // Créer une image vide pour afficher l'histogramme
+    Mat histImage(hist_h + 50, hist_w + 50, CV_8UC3, Scalar(255, 255, 255));
+
+    // Dessiner l'histogramme pour chaque canal
+    Scalar color;
+    for (int i = 0; i < channels.size(); i++) {
         Mat histogram;
         calcHist(&channels[i], 1, 0, Mat(), histogram, 1, &histSize, &histRange);
         normalize(histogram, histogram, 0, hist_h, NORM_MINMAX);
 
-        // Dessin de l'histogramme
-        Mat histImage(hist_h + 50, hist_w + 50, CV_8UC3, Scalar(255, 255, 255));
-        Scalar color = (channels.size() == 1)
-            ? Scalar(0, 0, 0) // Noir pour niveaux de gris
-            : (i == 0 ? Scalar(255, 0, 0) : (i == 1 ? Scalar(0, 255, 0) : Scalar(0, 0, 255)));
+        // Définir la couleur du canal
+        if (i == 0) color = Scalar(255, 0, 0);  // Bleu
+        else if (i == 1) color = Scalar(0, 255, 0);  // Vert
+        else if (i == 2) color = Scalar(0, 0, 255);  // Rouge
 
-        // Dessiner l'histogramme
-        for (int j = 0; j < histSize; j++)
-        {
+        // Dessiner les lignes de l'histogramme pour chaque canal
+        for (int j = 0; j < histSize; j++) {
             line(histImage, Point(bin_w * j + 25, hist_h + 25),
-                Point(bin_w * j + 25, hist_h + 25 - cvRound(histogram.at<float>(j))),
-                color, 2);
+                 Point(bin_w * j + 25, hist_h + 25 - cvRound(histogram.at<float>(j))),
+                 color, 2);
         }
-
-        // noms des axes
-        putText(histImage, "Intensite", Point(hist_w / 2, hist_h + 45), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 0), 2); // Axe des X
-        putText(histImage, "Frequence", Point(5, hist_h / 2), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 0), 2); // Axe des Y (vertical)
-
-
-        line(histImage, Point(25, 25), Point(25, hist_h + 25), Scalar(0, 0, 0), 2); // Axe Y
-        line(histImage, Point(25, hist_h + 25), Point(hist_w + 25, hist_h + 25), Scalar(0, 0, 0), 2); // Axe X
-
-        // Afficher l'histogramme
-        string windowName = (channels.size() == 1)
-            ? "Histogramme Niveaux de Gris"
-            : (i == 0 ? "Histogramme Bleu" : (i == 1 ? "Histogramme Vert" : "Histogramme Rouge"));
-        imshow(windowName, histImage);
     }
+
+    // Ajouter des noms aux axes
+    putText(histImage, "Intensite", Point(hist_w / 2, hist_h + 45), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 0), 2);
+    putText(histImage, "Frequence", Point(5, hist_h / 2), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 0), 2);
+
+    // Dessiner les axes X et Y
+    line(histImage, Point(25, 25), Point(25, hist_h + 25), Scalar(0, 0, 0), 2); // Axe Y
+    line(histImage, Point(25, hist_h + 25), Point(hist_w + 25, hist_h + 25), Scalar(0, 0, 0), 2); // Axe X
+
+    return histImage;
 }
+
+Mat Image::calculateAndDisplayHistogram(const Mat& image, const std::string& channel)
+{
+    int histSize = 256;
+    float range[] = { 0, 256 };
+    const float* histRange = { range };
+    int hist_w = 512, hist_h = 400;
+    int bin_w = cvRound((double)hist_w / histSize);
+
+    Mat histogram;
+    calcHist(&image, 1, 0, Mat(), histogram, 1, &histSize, &histRange);
+    normalize(histogram, histogram, 0, hist_h, NORM_MINMAX);
+
+    Mat histImage(hist_h + 50, hist_w + 50, CV_8UC3, Scalar(255, 255, 255));
+
+    Scalar color = (channel == "Bleu") ? Scalar(255, 0, 0) :
+                       (channel == "Vert") ? Scalar(0, 255, 0) :
+                       (channel == "Rouge") ? Scalar(0, 0, 255) :
+                       Scalar(0, 0, 0);  // Par défaut, noir si autre canal non spécifié.
+
+    // Dessiner l'histogramme pour le canal spécifique
+    for (int j = 0; j < histSize; j++) {
+        line(histImage, Point(bin_w * j + 25, hist_h + 25),
+             Point(bin_w * j + 25, hist_h + 25 - cvRound(histogram.at<float>(j))),
+             color, 2);
+    }
+
+    // Ajouter des noms aux axes
+    putText(histImage, "Intensite", Point(hist_w / 2, hist_h + 45), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 0), 2);
+    putText(histImage, "Frequence", Point(5, hist_h / 2), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(0, 0, 0), 2);
+
+    // Dessiner les axes X et Y
+    line(histImage, Point(25, 25), Point(25, hist_h + 25), Scalar(0, 0, 0), 2); // Axe Y
+    line(histImage, Point(25, hist_h + 25), Point(hist_w + 25, hist_h + 25), Scalar(0, 0, 0), 2); // Axe X
+
+    return histImage;
+}
+
 
 // Méthode pour appliquer une convolution 2D (Manel)
 //options pour type filtres : MEAN, SOBEL_X, SOBEL_Y, LAPLACIAN, GAUSSIAN

@@ -47,7 +47,12 @@ public:
     // les méthodes
     void afficherImage() const;
 
-    void calculateAndDisplayHistogram(const Mat& image);
+    // Déclaration de la méthode qui accepte un vecteur de canaux
+    Mat calculateAndDisplayHistogram(const std::vector<cv::Mat>& channels);
+
+    // L'autre méthode qui accepte un seul canal
+    Mat calculateAndDisplayHistogram(const cv::Mat& image, const std::string& channel);
+
      
 	// Méthode pour appliquer une convolution 2D (Manel)
     Mat convolution2D(const Mat& src, FilterType filterType);

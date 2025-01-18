@@ -41,6 +41,8 @@ private slots:
 
     void on_RehaussButton_clicked();
 
+    void on_HistoButton_clicked();
+
 private:
     Ui::ProcessingWindow *ui;
     cv::Mat originalImage;

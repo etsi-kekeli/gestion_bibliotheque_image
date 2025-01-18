@@ -86,7 +86,7 @@
             <item>
              <widget class="QLabel" name="label_3">
               <property name="text">
-               <string>Segmentation RGB</string>
+               <string>Segmentation RGB : </string>
               </property>
              </widget>
             </item>
@@ -104,14 +104,14 @@
             <item>
              <widget class="QLabel" name="label_4">
               <property name="text">
-               <string>Min</string>
+               <string>Min : </string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_5">
               <property name="text">
-               <string>Max</string>
+               <string>Max : </string>
               </property>
              </widget>
             </item>
@@ -222,7 +222,7 @@
           <item>
            <widget class="QLabel" name="label_15">
             <property name="text">
-             <string>Segmentation HSV</string>
+             <string>Segmentation HSV :</string>
             </property>
            </widget>
           </item>
@@ -357,14 +357,14 @@
             <item row="1" column="1">
              <widget class="QLabel" name="label_17">
               <property name="text">
-               <string>Seuil Bas</string>
+               <string>Seuil Bas : </string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
              <widget class="QLabel" name="label_16">
               <property name="text">
-               <string>Seuil Haut</string>
+               <string>Seuil Haut : </string>
               </property>
              </widget>
             </item>
@@ -388,7 +388,7 @@
             <item row="2" column="1">
              <widget class="QLabel" name="label_18">
               <property name="text">
-               <string>Noyau</string>
+               <string>Noyau : </string>
               </property>
              </widget>
             </item>
@@ -440,7 +440,7 @@
           <item>
            <widget class="QLabel" name="label_10">
             <property name="text">
-             <string>Convolution</string>
+             <string>Convolution : </string>
             </property>
            </widget>
           </item>
@@ -517,7 +517,7 @@
             <item row="0" column="1">
              <widget class="QLabel" name="label_9">
               <property name="text">
-               <string>Type Filtre</string>
+               <string>Type Filtre : </string>
               </property>
              </widget>
             </item>
@@ -610,7 +610,7 @@
           <item>
            <widget class="QLabel" name="label_11">
             <property name="text">
-             <string>Detection Contour</string>
+             <string>Detection Contour : </string>
             </property>
            </widget>
           </item>
@@ -665,7 +665,7 @@
             <item row="0" column="1">
              <widget class="QLabel" name="label_12">
               <property name="text">
-               <string>Type Filtre</string>
+               <string>Type Filtre : </string>
               </property>
              </widget>
             </item>
@@ -768,55 +768,46 @@
           <property name="topMargin">
            <number>0</number>
           </property>
-          <item row="3" column="0">
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_14">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Divers : </string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
            <layout class="QGridLayout" name="gridLayout_4">
-            <item row="0" column="1">
-             <widget class="QPushButton" name="HistoButton">
-              <property name="text">
-               <string>Histogramme</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <spacer name="horizontalSpacer_6">
-              <property name="orientation">
-               <enum>Qt::Orientation::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Policy::Preferred</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="2" column="1">
+            <item row="5" column="1">
              <widget class="QPushButton" name="HoughButton">
               <property name="text">
                <string>TF Hough</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <spacer name="horizontalSpacer_7">
-              <property name="orientation">
-               <enum>Qt::Orientation::Horizontal</enum>
+            <item row="4" column="1">
+             <widget class="QPushButton" name="RehaussButton">
+              <property name="text">
+               <string>Rehaussement</string>
               </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Policy::Preferred</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
+             </widget>
             </item>
-            <item row="0" column="0">
+            <item row="2" column="1">
+             <widget class="QPushButton" name="HistoButton">
+              <property name="text">
+               <string>Histogramme</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
              <spacer name="horizontalSpacer_5">
               <property name="orientation">
                <enum>Qt::Orientation::Horizontal</enum>
@@ -832,15 +823,15 @@
               </property>
              </spacer>
             </item>
-            <item row="1" column="1">
-             <widget class="QPushButton" name="RehaussButton">
-              <property name="text">
-               <string>Rehaussement</string>
+            <item row="3" column="1">
+             <widget class="Line" name="line">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
               </property>
              </widget>
             </item>
-            <item row="0" column="2">
-             <spacer name="horizontalSpacer_8">
+            <item row="5" column="0">
+             <spacer name="horizontalSpacer_7">
               <property name="orientation">
                <enum>Qt::Orientation::Horizontal</enum>
               </property>
@@ -855,7 +846,63 @@
               </property>
              </spacer>
             </item>
-            <item row="1" column="2">
+            <item row="4" column="0">
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="5" column="2">
+             <spacer name="horizontalSpacer_10">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="1">
+             <widget class="QComboBox" name="histogramComboBox">
+              <item>
+               <property name="text">
+                <string>Niv_Gris</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Rouge</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Vert</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Bleu</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="4" column="2">
              <spacer name="horizontalSpacer_9">
               <property name="orientation">
                <enum>Qt::Orientation::Horizontal</enum>
@@ -872,7 +919,46 @@
              </spacer>
             </item>
             <item row="2" column="2">
-             <spacer name="horizontalSpacer_10">
+             <spacer name="horizontalSpacer_8">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="label_19">
+              <property name="text">
+               <string>Canal :</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Policy::Preferred</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="2">
+             <spacer name="horizontalSpacer_4">
               <property name="orientation">
                <enum>Qt::Orientation::Horizontal</enum>
               </property>
@@ -900,26 +986,10 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>70</height>
+              <height>9</height>
              </size>
             </property>
            </spacer>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_14">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Divers</string>
-            </property>
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-           </widget>
           </item>
          </layout>
         </item>
@@ -934,7 +1004,7 @@
           <item>
            <widget class="QLabel" name="label_13">
             <property name="text">
-             <string>Seuillage</string>
+             <string>Seuillage : </string>
             </property>
            </widget>
           </item>
