@@ -212,11 +212,79 @@ void ProcessingWindow::on_actionSortir_triggered()
     this->close();
 }
 
-
 void ProcessingWindow::on_actionSauvegarder_triggered()
 {
+    // Vérifier si une image est affichée dans ImageResultatgraphicsView
+    if (!sceneResult || sceneResult->items().isEmpty()) {
+        QMessageBox::warning(this, "Erreur", "Aucune image affichée dans ImageResultatgraphicsView à sauvegarder.");
+        return;
+    }
 
+    // Récupérer l'image de la scène
+    QGraphicsPixmapItem* pixmapItem = dynamic_cast<QGraphicsPixmapItem*>(sceneResult->items().at(0));
+    if (!pixmapItem) {
+        QMessageBox::critical(this, "Erreur", "Erreur lors de la récupération de l'image.");
+        return;
+    }
+
+    QPixmap pixmap = pixmapItem->pixmap();
+
+    // Convertir QPixmap en cv::Mat
+    QImage image = pixmap.toImage().convertToFormat(QImage::Format_RGB888);
+    cv::Mat mat(image.height(), image.width(), CV_8UC3, const_cast<uchar*>(image.bits()), image.bytesPerLine());
+    cv::cvtColor(mat, mat, cv::COLOR_RGB2BGR); // Convertir de RGB (Qt) à BGR (OpenCV)
+
+    // Ouvrir une boîte de dialogue pour sélectionner le chemin et le nom du fichier
+    QString selectedFilter;
+    QString filePath = QFileDialog::getSaveFileName(
+        this,
+        "Enregistrer l'image",
+        QDir::homePath(), // Répertoire par défaut
+        "PNG (*.png);;JPEG (*.jpg *.jpeg);;BMP (*.bmp);;PGM (*.pgm);;TIFF (*.tif);;Tous les fichiers (*)",
+        &selectedFilter);
+
+    // Vérifier si l'utilisateur a annulé la boîte de dialogue
+    if (filePath.isEmpty()) {
+        return;
+    }
+
+    // Identifier l'extension à partir du filtre sélectionné
+    QString extension;
+    if (selectedFilter.contains("*.png")) {
+        extension = "png";
+    } else if (selectedFilter.contains("*.jpg") || selectedFilter.contains("*.jpeg")) {
+        extension = "jpg";
+    } else if (selectedFilter.contains("*.bmp")) {
+        extension = "bmp";
+    } else if (selectedFilter.contains("*.pgm")) {
+        extension = "pgm";
+    } else if (selectedFilter.contains("*.tif")) {
+        extension = "tif";
+    }
+
+    // Ajouter l'extension au chemin si elle n'est pas déjà présente
+    QFileInfo fileInfo(filePath);
+    if (fileInfo.suffix().isEmpty() || fileInfo.suffix().toLower() != extension) {
+        filePath += "." + extension;
+    }
+
+    // Convertir le chemin en string pour OpenCV
+    std::string outputPath = filePath.toStdString();
+
+    // Sauvegarder l'image résultante avec OpenCV
+    try {
+        bool success = cv::imwrite(outputPath, mat);
+        if (!success) {
+            throw std::runtime_error("Échec de l'enregistrement de l'image.");
+        }
+
+        QMessageBox::information(this, "Succès", "Image enregistrée avec succès !");
+    } catch (const std::exception& e) {
+        QMessageBox::critical(this, "Erreur", QString("Une erreur s'est produite : %1").arg(e.what()));
+    }
 }
+
+
 
 QImage ProcessingWindow::matToQImage(const cv::Mat& mat)
 {
