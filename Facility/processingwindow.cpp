@@ -31,6 +31,35 @@ ProcessingWindow::~ProcessingWindow()
 void ProcessingWindow::on_SeuilDial_valueChanged(int value)
 {
     ui->SeuilValLabel->setText(QString::number(value));
+
+    if (originalImage.empty()) {
+        QMessageBox::warning(this, "Erreur", "Aucune image chargée");
+        return;
+    }
+
+    try {
+        // Créer une copie de l'image originale
+        cv::Mat imageTraitement = originalImage.clone();
+
+        // Créer un objet Image
+        Image image(imageTraitement);
+
+        // Appliquer le seuillage
+        image.seuillage(value);
+
+        // Récupérer l'image seuillée
+        cv::Mat imageSeuillée = image.getData();
+
+        // Afficher l'image seuillée dans la vue
+        displayImage(imageSeuillée, ui->ImageResultatgraphicsView, &sceneResult);
+    }
+    catch (const std::bad_alloc&) {
+        QMessageBox::critical(this, "Erreur", "Mémoire insuffisante pour le traitement");
+    }
+    catch (const std::exception& e) {
+        QMessageBox::warning(this, "Erreur", QString("Erreur: %1").arg(e.what()));
+    }
+
 }
 
 
@@ -45,6 +74,7 @@ void ProcessingWindow::on_RestValRGBSeuilButton_clicked()
     ui->SeuilMinHSV->setValue(0);
     ui->SeuilMaxHSV->setValue(0);
     ui->tailleNoyau->setValue(1);
+    ui->SeuilDial->setValue(0);
 
 }
 
@@ -267,13 +297,14 @@ void ProcessingWindow::on_segRGBButton_clicked()
     }
 
     try {
+        /*
         // Vérifier la taille de l'image
         const size_t MAX_SIZE = 1920 * 1080 * 3; // Limite pour une image HD
         if (originalImage.total() * originalImage.elemSize() > MAX_SIZE) {
             QMessageBox::warning(this, "Erreur", "Image trop grande");
             return;
         }
-
+        */
         // Récupérer les valeurs des seuils
         uchar seuilBasR = ui->SeuilMinRVal->value();
         uchar seuilHautR = ui->SeuilMaxRVal->value();

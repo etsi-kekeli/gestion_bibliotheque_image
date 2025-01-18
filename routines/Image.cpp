@@ -366,6 +366,7 @@ void Image::rehaussementContour() {
 // méthode pour seuiller l'image (Amine)
 void Image::seuillage(int seuil)
 {
+
     if (data.empty()) {
         std::cerr << "Erreur : Les données de l'image sont vides." << std::endl;
         return;
@@ -376,28 +377,27 @@ void Image::seuillage(int seuil)
     // Convertir l'image en niveaux de gris
     if (data.channels() == 3) {
         cv::cvtColor(data, imageNG, cv::COLOR_BGR2GRAY); // Image en couleur, conversion en NG
-    }
-    else {
+    } else {
         imageNG = data.clone(); // Image déjà en NG
     }
 
-    // Créer une copie pour stocker l'image seuillée
-    cv::Mat imageSeuillee = imageNG.clone();
-
-    // Appliquer le seuillage sur l'image en niveaux de gris
+    // Appliquer le seuillage
     for (int i = 0; i < imageNG.rows; ++i) {
         for (int j = 0; j < imageNG.cols; ++j) {
             uchar pixelValue = imageNG.at<uchar>(i, j);
-            imageSeuillee.at<uchar>(i, j) = (pixelValue > seuil) ? 255 : 0;
+            imageNG.at<uchar>(i, j) = (pixelValue > seuil) ? 255 : 0;
         }
     }
 
+    // Mettre à jour `data` pour qu'il contienne l'image seuillée
+    data = imageNG.clone();
+
     // Afficher l'image originale et l'image seuillée
-    cv::imshow("Image Originale", data);
-    cv::imshow("Image Seuillée", imageSeuillee);
+    //cv::imshow("Image Originale", data);
+   // cv::imshow("Image Seuillée", imageSeuillee);
 
     // Attente pour l'utilisateur
-    cv::waitKey(0);
+    //cv::waitKey(0);
 }
 
 
