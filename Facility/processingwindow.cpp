@@ -572,3 +572,41 @@ void ProcessingWindow::on_HistoButton_clicked()
         QMessageBox::critical(this, "Erreur", QString("Une erreur s'est produite : %1").arg(e.what()));
     }
 }
+
+void ProcessingWindow::on_HoughButton_clicked()
+{
+    if (originalImage.empty()) {
+        QMessageBox::warning(this, "Erreur", "Aucune image chargée.");
+        return;
+    }
+
+    try {
+        // Initialisation de l'objet Image avec l'image en mémoire
+        Image myImage(originalImage);
+
+        // Paramètres pour la transformée de Hough
+        int nRho = 400;         // Nombre de divisions pour rho
+        int nTheta = 360;       // Nombre de divisions pour theta
+        int voisinage = 10;     // Taille du voisinage pour la détection de maxima
+        int seuil = 100;        // Seuil pour les votes
+
+        // Calcul et affichage de la table d'accumulation normalisée
+        cv::Mat houghTable = myImage.getTableDAccumulationNormalisee(nRho, nTheta);
+        if (houghTable.empty()) {
+            QMessageBox::critical(this, "Erreur", "Erreur lors du calcul de la table d'accumulation.");
+            return;
+        }
+        displayImage(houghTable, ui->ImageResultatgraphicsView, &sceneResult);
+
+        // Dessiner les lignes détectées sur l'image originale
+        cv::Mat imageAvecLignes = myImage.dessineLigneHough(nRho, nTheta, voisinage, seuil, cv::Scalar(0, 0, 255), 2);
+        if (imageAvecLignes.empty()) {
+            QMessageBox::critical(this, "Erreur", "Erreur lors du dessin des lignes de Hough.");
+            return;
+        }
+        displayImage(imageAvecLignes, ui->ImageOriginalegraphicsView, &sceneOriginal);
+    }
+    catch (const std::exception& e) {
+        QMessageBox::critical(this, "Erreur", QString("Une erreur s'est produite : %1").arg(e.what()));
+    }
+}
