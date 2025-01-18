@@ -60,7 +60,7 @@ public:
     Mat calculateMagnitude(const Mat& gradX, const Mat& gradY);
 
     // Méthode pour rehausser les contours de l'image (Achour)
-    void rehaussementContour();
+    Mat rehaussementContour(const cv::Mat& inputImage, bool gradOrLap) ;
 
     // méthode pour seuiller l'image (Amine)
     void seuillage(int seuil);

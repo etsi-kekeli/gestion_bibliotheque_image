@@ -39,6 +39,8 @@ private slots:
 
     void on_contourButton_clicked();
 
+    void on_RehaussButton_clicked();
+
 private:
     Ui::ProcessingWindow *ui;
     cv::Mat originalImage;

@@ -453,6 +453,65 @@ void ProcessingWindow::on_convButton_clicked()
 
 void ProcessingWindow::on_contourButton_clicked()
 {
+    if (originalImage.empty()) {
+        QMessageBox::warning(this, "Erreur", "Aucune image chargée.");
+        return;
+    }
 
+    try {
+        // Récupérer l'option sélectionnée dans le combo box
+        QString selectedOption = ui->contourComboBox->currentText();
+
+        // Déterminer si l'on utilise le gradient ou le laplacien
+        bool useGradient = (selectedOption == "GRADIENT");
+
+        // Créer une instance de la classe Image
+        cv::Mat imageTraitement = originalImage.clone();
+        Image image(imageTraitement);
+
+        // Appliquer la détection de contours
+        image.detectionContours(useGradient);
+
+        // Récupérer les résultats depuis l'objet Image
+        cv::Mat resultat = image.getData(); // Assurez-vous que `Image` dispose d'un getter pour les données d'image
+
+        // Afficher l'image traitée
+        displayImage(resultat, ui->ImageResultatgraphicsView, &sceneResult);
+    }
+    catch (const std::exception& e) {
+        QMessageBox::critical(this, "Erreur", QString("Une erreur s'est produite : %1").arg(e.what()));
+    }
 }
 
+
+void ProcessingWindow::on_RehaussButton_clicked()
+{
+    if (originalImage.empty()) {
+        QMessageBox::warning(this, "Erreur", "Aucune image chargée.");
+        return;
+    }
+
+    try {
+        // Déterminer l'option de réhaussement des contours (Gradient ou Laplacien)
+        QString selectedOption = ui->contourComboBox->currentText();
+        bool gradOrLap = (selectedOption == "GRADIENT"); // true pour Gradient, false pour Laplacien
+
+        // Créer une instance de la classe Image
+        Image image;
+
+        // Appliquer le réhaussement des contours
+        cv::Mat resultat = image.rehaussementContour(originalImage, gradOrLap);
+
+        // Vérifier si le résultat est vide
+        if (resultat.empty()) {
+            QMessageBox::critical(this, "Erreur", "Le réhaussement des contours a échoué.");
+            return;
+        }
+
+        // Afficher l'image réhaussée dans la vue graphique
+        displayImage(resultat, ui->ImageResultatgraphicsView, &sceneResult);
+    }
+    catch (const std::exception& e) {
+        QMessageBox::critical(this, "Erreur", QString("Une erreur s'est produite : %1").arg(e.what()));
+    }
+}

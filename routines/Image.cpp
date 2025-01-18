@@ -302,6 +302,8 @@ void Image::detectionContours(bool useGradient)
     normalize(result, result, 0, 255, NORM_MINMAX);
     result.convertTo(result, CV_8U);
 
+    data = result.clone(); // Mettre à jour la matrice interne `data` avec le résultat
+
     //imshow(useGradient ? "Contours (Gradient)" : "Contours (Laplacien)", result);
     //waitKey(0);
 }
@@ -321,29 +323,29 @@ Mat Image::calculateMagnitude(const Mat& gradX, const Mat& gradY)
     }
     return magnitude;
 }
-
-// Méthode pour rehausser les contours de l'image (Achour)
-void Image::rehaussementContour() {
-    if (data.empty()) {
+// Méthode pour rehausser les contours d'une image donnée
+Mat Image::rehaussementContour(const cv::Mat& inputImage, bool gradOrLap) {
+    if (inputImage.empty()) {
         std::cerr << "Erreur : L'image source est vide !" << std::endl;
-        return;
+        return cv::Mat(); // Retourne une matrice vide en cas d'erreur
     }
 
-    Mat originalImage = data.clone();
-    Mat contours;
+    cv::Mat originalImage = inputImage.clone();
+    cv::Mat contours;
 
     // Détection des contours en utilisant la méthode detectionContours
-    detectionContours(false); // Utilisation de l'option Gradient
-    contours = data.clone(); // Les contours devraient être écrits dans 'data' par detectionContours
+    Image tempImage(inputImage.clone());
+    tempImage.detectionContours(gradOrLap); // Utilisation de l'option Gradient ou Laplacien
+    contours = tempImage.getData(); // Les contours sont stockés dans `data` de `tempImage`
 
     if (contours.empty()) {
         std::cerr << "Erreur : La détection de contours a échoué !" << std::endl;
-        return;
+        return cv::Mat(); // Retourne une matrice vide en cas d'erreur
     }
 
     // Vérification et harmonisation des types
     if (originalImage.channels() == 3 && contours.channels() == 1) {
-        cvtColor(contours, contours, cv::COLOR_GRAY2BGR); // Convertir en BGR si nécessaire
+        cv::cvtColor(contours, contours, cv::COLOR_GRAY2BGR); // Convertir en BGR si nécessaire
     }
 
     if (originalImage.type() != contours.type()) {
@@ -353,14 +355,14 @@ void Image::rehaussementContour() {
     try {
         // Ajout des contours à l'image originale
         cv::add(originalImage, contours, originalImage, cv::Mat(), originalImage.type());
-
-        // Afficher l'image avec contours rehaussés
-        cv::imshow("Image avec contours rehaussés", originalImage);
-        cv::waitKey(0);
     }
     catch (const cv::Exception& e) {
         std::cerr << "Erreur lors de l'ajout des contours : " << e.what() << std::endl;
+        return cv::Mat(); // Retourne une matrice vide en cas d'exception
     }
+
+    // Retourner l'image avec contours rehaussés
+    return originalImage;
 }
 
 // méthode pour seuiller l'image (Amine)
