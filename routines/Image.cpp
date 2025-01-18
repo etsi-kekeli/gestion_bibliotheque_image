@@ -276,7 +276,7 @@ Mat Image::convolution2D(const Mat& src, FilterType filterType)
     return dst;
 }
 
-// Méthode pour détecter les contours (True pour Gradient False pour Laplacien (Arame)
+// Méthode pour détecter les contours (True pour Gradient False pour Laplacien (Arame))
 void Image::detectionContours(bool useGradient)
 {
     Mat grayImage;
@@ -533,7 +533,7 @@ Mat Image::dessineLigneHough(int nRho, int nTheta, int tailleVoisinage, int seui
 }
 
 // segmentation couleur ou noir et blanc
-cv::Mat Image::segmentationCouleurOuNG(const cv::Mat& imageOriginale,
+Mat Image::segmentationCouleurOuNG(const cv::Mat& imageOriginale,
     uchar seuilBasR, uchar seuilHautR,
     uchar seuilBasG, uchar seuilHautG,
     uchar seuilBasB, uchar seuilHautB)
@@ -587,8 +587,8 @@ cv::Mat Image::segmentationCouleurOuNG(const cv::Mat& imageOriginale,
     imageOriginale.copyTo(imageSegmentee, masque);
 
     // Afficher le résultat
-    cv::imshow("image segmentee", imageSegmentee);
-    cv::waitKey(0); // Attendre une touche pour fermer la fenêtre
+   // cv::imshow("image segmentee", imageSegmentee);
+    //cv::waitKey(0); // Attendre une touche pour fermer la fenêtre
 
     return imageSegmentee;
 }
@@ -596,27 +596,25 @@ cv::Mat Image::segmentationCouleurOuNG(const cv::Mat& imageOriginale,
 // affichage de l'image en mode teinte
 cv::Mat Image::afficherTeinte(const cv::Mat& image)
 {
-    // Convertir l'image de BGR à HSV
     cv::Mat imageHSV;
-    cv::cvtColor(image, imageHSV, cv::COLOR_BGR2HSV);
+    if (image.channels() == 1) {
+        // If the image is grayscale, convert it to BGR first
+        cv::cvtColor(image, imageHSV, cv::COLOR_GRAY2BGR);
+        cv::cvtColor(imageHSV, imageHSV, cv::COLOR_BGR2HSV);
+    } else {
+        // If the image is already in color, convert directly to HSV
+        cv::cvtColor(image, imageHSV, cv::COLOR_BGR2HSV);
+    }
 
-    // Extraire le canal de teinte
+    // Extract the hue channel
     std::vector<cv::Mat> channels;
     cv::split(imageHSV, channels);
     cv::Mat hue = channels[0];
 
-    // Appliquer une colormap à l'image de teinte
-    cv::Mat hueColoree;
-    cv::applyColorMap(hue, hueColoree, cv::COLORMAP_HSV);
-
-    // Afficher l'image de teinte avec le codage en couleur
-    cv::imshow("Teinte (Hue)", hueColoree);
-    cv::waitKey(0);
-
     return hue;
 }
 
-void Image::segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seuilBas, int seuilHaut, int taillekernel)
+cv::Mat Image::segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seuilBas, int seuilHaut, int taillekernel)
 {
     cv::Mat masque = cv::Mat::zeros(hue.size(), CV_8U);
 
@@ -640,7 +638,9 @@ void Image::segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seu
     cv::Mat imageSegmentee;
     image.copyTo(imageSegmentee, masqueMorpho);
 
+    return imageSegmentee;
+
     // Afficher l'image segmentée
-    cv::imshow("Image segmentee", imageSegmentee);
-    cv::waitKey(0);
+   // cv::imshow("Image segmentee", imageSegmentee);
+    //cv::waitKey(0);
 }

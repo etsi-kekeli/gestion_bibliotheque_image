@@ -79,7 +79,7 @@ public:
     // affichage de l'image en mode teinte (Amine)
     Mat afficherTeinte(const cv::Mat& image);
     // segmenter l'image avec un masque de teinte seuillé (Amine)
-    void segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seuilBas, int seuilHaut, int taillekernel);
+    Mat segmenterParTeinte(const cv::Mat& image, const cv::Mat& hue, int seuilBas, int seuilHaut, int taillekernel);
 
 private:
     std::string titreImage;
