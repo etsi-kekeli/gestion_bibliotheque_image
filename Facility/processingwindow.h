@@ -43,6 +43,8 @@ private slots:
 
     void on_HistoButton_clicked();
 
+    void on_HoughButton_clicked();
+
 private:
     Ui::ProcessingWindow *ui;
     cv::Mat originalImage;
