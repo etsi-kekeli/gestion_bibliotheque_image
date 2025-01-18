@@ -302,8 +302,8 @@ void Image::detectionContours(bool useGradient)
     normalize(result, result, 0, 255, NORM_MINMAX);
     result.convertTo(result, CV_8U);
 
-    imshow(useGradient ? "Contours (Gradient)" : "Contours (Laplacien)", result);
-    waitKey(0);
+    //imshow(useGradient ? "Contours (Gradient)" : "Contours (Laplacien)", result);
+    //waitKey(0);
 }
 
 // Méthode pour calculer Magnitude afin de detecter le contour par le Gradient (Arame)

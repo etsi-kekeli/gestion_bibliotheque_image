@@ -35,6 +35,10 @@ private slots:
 
     void on_teinteButton_clicked();
 
+    void on_convButton_clicked();
+
+    void on_contourButton_clicked();
+
 private:
     Ui::ProcessingWindow *ui;
     cv::Mat originalImage;

@@ -402,3 +402,57 @@ void ProcessingWindow::on_teinteButton_clicked()
     }
 }
 
+
+void ProcessingWindow::on_convButton_clicked()
+{
+    if (originalImage.empty()) {
+        QMessageBox::warning(this, "Erreur", "Aucune image chargée.");
+        return;
+    }
+
+    try {
+        // Récupérer le type de filtre sélectionné par l'utilisateur
+        QString selectedFilter = ui->convComboBox->currentText(); // Exemple : QComboBox avec les types de filtre
+
+        // Convertir le type de filtre en `FilterType`
+        FilterType filterType;
+        if (selectedFilter == "MEAN") {
+            filterType = FilterType::MEAN;
+        } else if (selectedFilter == "SOBEL_X") {
+            filterType = FilterType::SOBEL_X;
+        } else if (selectedFilter == "SOBEL_Y") {
+            filterType = FilterType::SOBEL_Y;
+        } else if (selectedFilter == "LAPLACIAN") {
+            filterType = FilterType::LAPLACIAN;
+        } else if (selectedFilter == "GAUSSIAN") {
+            filterType = FilterType::GAUSSIAN;
+        } else {
+            QMessageBox::warning(this, "Erreur", "Filtre inconnu sélectionné.");
+            return;
+        }
+
+        // Créer une instance de la classe Image
+        cv::Mat imageTraitement = originalImage.clone();
+        Image image(imageTraitement);
+
+        // Appliquer la convolution
+        cv::Mat resultat = image.convolution2D(imageTraitement, filterType);
+
+        // Normaliser les valeurs si nécessaire pour les afficher
+        cv::normalize(resultat, resultat, 0, 255, cv::NORM_MINMAX, CV_8UC1);
+
+        // Afficher l'image traitée
+        displayImage(resultat, ui->ImageResultatgraphicsView, &sceneResult);
+    }
+    catch (const std::exception& e) {
+        QMessageBox::critical(this, "Erreur", QString("Une erreur s'est produite : %1").arg(e.what()));
+    }
+}
+
+
+
+void ProcessingWindow::on_contourButton_clicked()
+{
+
+}
+

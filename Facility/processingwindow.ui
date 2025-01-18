@@ -476,7 +476,12 @@
               </item>
               <item>
                <property name="text">
-                <string>SOBEL</string>
+                <string>SOBEL_X</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>SOBEL_Y</string>
                </property>
               </item>
               <item>
