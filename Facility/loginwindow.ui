@@ -84,6 +84,9 @@ border-radius: 10px;
          <property name="styleSheet">
           <string notr="true">background-color: rgb(0, 33, 37);</string>
          </property>
+         <property name="locale">
+          <locale language="French" country="France"/>
+         </property>
          <property name="orientation">
           <enum>Qt::Orientation::Horizontal</enum>
          </property>
@@ -99,7 +102,7 @@ border-radius: 10px;
    <item row="2" column="1">
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Veuillez saisir votre code pour ce connecter&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Veuillez saisir votre code pour se connecter&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignCenter</set>

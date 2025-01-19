@@ -5,7 +5,8 @@
 #include <QMessageBox>
 #include <QGraphicsDropShadowEffect>
 #include <QPainterPath>
-
+#include <QDialogButtonBox>
+#include <QPushButton>
 LoginWindow::LoginWindow(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::LoginWindow)
@@ -14,6 +15,20 @@ LoginWindow::LoginWindow(QWidget *parent)
     this->setWindowTitle("Connexion");
     this->setWindowFlags(Qt::WindowType::FramelessWindowHint);
     this->setWindowIcon(QIcon(":/FacilityLogo/FacilityLogo/Logo.png"));
+
+    // modifier le Qdialg button pour ecrire les mots en français
+    QDialogButtonBox* buttonBox = findChild<QDialogButtonBox*>();
+    if (buttonBox) {
+        QPushButton* okButton = buttonBox->button(QDialogButtonBox::Ok);
+        if (okButton) {
+            okButton->setText("Valider");
+        }
+
+        QPushButton* cancelButton = buttonBox->button(QDialogButtonBox::Cancel);
+        if (cancelButton) {
+            cancelButton->setText("Annuler");
+        }
+    }
 
     // pour rendre les coins rondus
     QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect(this);
