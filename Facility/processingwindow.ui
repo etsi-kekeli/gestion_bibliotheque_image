@@ -19,6 +19,11 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+	border-image: url(:/FacilityLogo/FacilityLogo/Full_logo.png);
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <property name="enabled">
     <bool>true</bool>
@@ -33,7 +38,7 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(0, 33, 37);
+    <string notr="true">
 </string>
    </property>
    <layout class="QGridLayout" name="gridLayout_8">
@@ -56,8 +61,10 @@
           <item>
            <widget class="QGraphicsView" name="ImageOriginalegraphicsView">
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(77, 122, 128);
-border-radius: 5px;</string>
+             <string notr="true">background-color: transparent;
+border-radius: 5px;
+border: 2px solid rgb(0, 46, 52);
+</string>
             </property>
            </widget>
           </item>
@@ -84,8 +91,10 @@ border-radius: 5px;</string>
              <cursorShape>ClosedHandCursor</cursorShape>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(77, 122, 128);
-border-radius: 5px;</string>
+             <string notr="true">background-color: transparent;
+border-radius: 5px;
+border: 2px solid rgb(0, 46, 52);
+</string>
             </property>
            </widget>
           </item>
@@ -95,8 +104,11 @@ border-radius: 5px;</string>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="sizeConstraint">
+         <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+        </property>
         <item>
-         <widget class="QFrame" name="">
+         <widget class="QFrame" name="frame">
           <property name="styleSheet">
            <string notr="true">background-color: rgb(0, 46, 52);
 border-radius: 5px;
@@ -301,7 +313,7 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="" native="true">
+         <widget class="QWidget" name="widget" native="true">
           <property name="styleSheet">
            <string notr="true">background-color: rgb(0, 46, 52);
 border-radius: 5px;
@@ -346,7 +358,7 @@ border-top-right-radius: 50;</string>
              <property name="sizeHint" stdset="0">
               <size>
                <width>20</width>
-               <height>40</height>
+               <height>43</height>
               </size>
              </property>
             </spacer>
@@ -580,7 +592,7 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="">
+         <widget class="QFrame" name="frame">
           <property name="styleSheet">
            <string notr="true">background-color: rgb(0, 46, 52);
 border-radius: 5px;
@@ -625,7 +637,7 @@ border-top-right-radius: 50;</string>
              <property name="sizeHint" stdset="0">
               <size>
                <width>20</width>
-               <height>71</height>
+               <height>69</height>
               </size>
              </property>
             </spacer>
@@ -792,7 +804,7 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="">
+         <widget class="QFrame" name="frame">
           <property name="styleSheet">
            <string notr="true">background-color: rgb(0, 46, 52);
 border-radius: 5px;
@@ -837,15 +849,81 @@ border-top-right-radius: 50;</string>
              <property name="sizeHint" stdset="0">
               <size>
                <width>20</width>
-               <height>71</height>
+               <height>41</height>
               </size>
              </property>
             </spacer>
            </item>
            <item>
             <layout class="QGridLayout" name="gridLayout_5">
-             <item row="2" column="0">
-              <spacer name="horizontalSpacer_13">
+             <item row="2" column="1">
+              <widget class="QPushButton" name="contourButton">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(0, 33, 37);
+border-radius:5px;
+font: 700 10pt &quot;Ubuntu&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Contour</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <spacer name="horizontalSpacer_14">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Policy::Preferred</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="1" column="0">
+              <spacer name="horizontalSpacer_12">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Policy::Preferred</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="0" column="2">
+              <spacer name="horizontalSpacer_16">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Policy::Preferred</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="0" column="0">
+              <spacer name="horizontalSpacer_11">
                <property name="orientation">
                 <enum>Qt::Orientation::Horizontal</enum>
                </property>
@@ -885,58 +963,8 @@ border-top-right-radius: 50;</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="0">
-              <spacer name="horizontalSpacer_12">
-               <property name="orientation">
-                <enum>Qt::Orientation::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Policy::Preferred</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="0" column="0">
-              <spacer name="horizontalSpacer_11">
-               <property name="orientation">
-                <enum>Qt::Orientation::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Policy::Preferred</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="2" column="1">
-              <widget class="QPushButton" name="contourButton">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(0, 33, 37);
-border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
-               </property>
-               <property name="text">
-                <string>Contour</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="2">
-              <spacer name="horizontalSpacer_14">
+             <item row="2" column="0">
+              <spacer name="horizontalSpacer_13">
                <property name="orientation">
                 <enum>Qt::Orientation::Horizontal</enum>
                </property>
@@ -967,8 +995,42 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
                </property>
               </spacer>
              </item>
-             <item row="0" column="2">
-              <spacer name="horizontalSpacer_16">
+             <item row="3" column="1">
+              <widget class="QPushButton" name="RehaussButton">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(0, 33, 37);
+border-radius:5px;
+font: 700 10pt &quot;Ubuntu&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Rehaussement</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <spacer name="horizontalSpacer_6">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Policy::Preferred</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="3" column="2">
+              <spacer name="horizontalSpacer_9">
                <property name="orientation">
                 <enum>Qt::Orientation::Horizontal</enum>
                </property>
@@ -989,7 +1051,7 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="">
+         <widget class="QFrame" name="frame">
           <property name="styleSheet">
            <string notr="true">background-color: rgb(0, 46, 52);
 border-radius: 5px;
@@ -1002,22 +1064,6 @@ border-top-right-radius: 50;</string>
            <property name="topMargin">
             <number>1</number>
            </property>
-           <item row="3" column="0">
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Orientation::Vertical</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Policy::Preferred</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>9</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
            <item row="5" column="0">
             <layout class="QGridLayout" name="gridLayout_4">
              <item row="5" column="1">
@@ -1038,58 +1084,6 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
                </property>
               </widget>
              </item>
-             <item row="4" column="1">
-              <widget class="QPushButton" name="RehaussButton">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(0, 33, 37);
-border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
-               </property>
-               <property name="text">
-                <string>Rehaussement</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QPushButton" name="HistoButton">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(0, 33, 37);
-border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
-               </property>
-               <property name="text">
-                <string>Histogramme</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <spacer name="horizontalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Orientation::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Policy::Preferred</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
              <item row="3" column="1">
               <widget class="Line" name="line">
                <property name="styleSheet">
@@ -1103,22 +1097,6 @@ background-color: rgb(0, 33, 37);</string>
              </item>
              <item row="5" column="0">
               <spacer name="horizontalSpacer_7">
-               <property name="orientation">
-                <enum>Qt::Orientation::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Policy::Preferred</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="4" column="0">
-              <spacer name="horizontalSpacer_6">
                <property name="orientation">
                 <enum>Qt::Orientation::Horizontal</enum>
                </property>
@@ -1176,38 +1154,6 @@ background-color: rgb(0, 33, 37);</string>
                </item>
               </widget>
              </item>
-             <item row="4" column="2">
-              <spacer name="horizontalSpacer_9">
-               <property name="orientation">
-                <enum>Qt::Orientation::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Policy::Preferred</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="2" column="2">
-              <spacer name="horizontalSpacer_8">
-               <property name="orientation">
-                <enum>Qt::Orientation::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Policy::Preferred</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
              <item row="0" column="1">
               <widget class="QLabel" name="label_19">
                <property name="text">
@@ -1248,7 +1194,73 @@ background-color: rgb(0, 33, 37);</string>
                </property>
               </spacer>
              </item>
+             <item row="2" column="2">
+              <spacer name="horizontalSpacer_8">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Policy::Preferred</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="2" column="0">
+              <spacer name="horizontalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Policy::Preferred</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="2" column="1">
+              <widget class="QPushButton" name="HistoButton">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(0, 33, 37);
+border-radius:5px;
+font: 700 10pt &quot;Ubuntu&quot;;</string>
+               </property>
+               <property name="text">
+                <string>Histogramme</string>
+               </property>
+              </widget>
+             </item>
             </layout>
+           </item>
+           <item row="3" column="0">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Policy::Preferred</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>33</height>
+              </size>
+             </property>
+            </spacer>
            </item>
            <item row="1" column="0">
             <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -1264,7 +1276,10 @@ background-color: rgb(0, 33, 37);</string>
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Divers : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="wordWrap">
-                <bool>true</bool>
+                <bool>false</bool>
+               </property>
+               <property name="margin">
+                <number>4</number>
                </property>
               </widget>
              </item>
@@ -1290,13 +1305,13 @@ background-color: rgb(0, 33, 37);</string>
          </widget>
         </item>
         <item>
-         <widget class="QFrame" name="">
+         <widget class="QFrame" name="frame">
           <property name="styleSheet">
            <string notr="true">background-color: rgb(0, 46, 52);
 border-radius: 5px;
 border-top-right-radius: 50;</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,0,0,0">
+          <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,0,0">
            <property name="sizeConstraint">
             <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
            </property>
@@ -1329,22 +1344,6 @@ border-top-right-radius: 50;</string>
               </spacer>
              </item>
             </layout>
-           </item>
-           <item>
-            <spacer name="verticalSpacer_5">
-             <property name="orientation">
-              <enum>Qt::Orientation::Vertical</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Policy::Preferred</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>24</height>
-              </size>
-             </property>
-            </spacer>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_9">

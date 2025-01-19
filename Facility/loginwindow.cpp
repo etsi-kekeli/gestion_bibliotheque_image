@@ -3,13 +3,35 @@
 #include "mainwindow.h"
 #include "../routines/Utilisateur.h"
 #include <QMessageBox>
-
+#include <QGraphicsDropShadowEffect>
+#include <QPainterPath>
 
 LoginWindow::LoginWindow(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::LoginWindow)
 {
     ui->setupUi(this);
+    this->setWindowFlags(Qt::WindowType::FramelessWindowHint);
+
+    // pour rendre les coins rondus
+    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect(this);
+    effect->setBlurRadius(20);
+    effect->setOffset(0, 0);
+    effect->setColor(QColor(0, 0, 0, 80)); // Semi-transparent black
+    this->setGraphicsEffect(effect);
+
+
+    // assurer que layout respect les coins ronds
+    if (layout()) {
+        layout()->setContentsMargins(10, 10, 10, 10);
+    }
+
+    // mask pour assurer la transparence du fond
+    QPainterPath path;
+    path.addRoundedRect(rect(), 10, 10);
+    setMask(QRegion(path.toFillPolygon().toPolygon()));
+
+
 }
 
 LoginWindow::~LoginWindow()

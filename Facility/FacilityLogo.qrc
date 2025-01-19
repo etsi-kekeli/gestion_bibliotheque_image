@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/FacilityLogo">
+        <file>FacilityLogo/Facility.png</file>
+        <file>FacilityLogo/Full_logo.png</file>
+        <file>FacilityLogo/Logo.png</file>
+    </qresource>
+</RCC>
