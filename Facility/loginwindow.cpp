@@ -11,7 +11,9 @@ LoginWindow::LoginWindow(QWidget *parent)
     , ui(new Ui::LoginWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Connexion");
     this->setWindowFlags(Qt::WindowType::FramelessWindowHint);
+    this->setWindowIcon(QIcon(":/FacilityLogo/FacilityLogo/Logo.png"));
 
     // pour rendre les coins rondus
     QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect(this);

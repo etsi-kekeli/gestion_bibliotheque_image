@@ -20,6 +20,7 @@ ProcessingWindow::ProcessingWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle("Traitement des images");
+    this->setWindowIcon(QIcon(":/FacilityLogo/FacilityLogo/Logo.png"));
 }
 
 ProcessingWindow::~ProcessingWindow()
