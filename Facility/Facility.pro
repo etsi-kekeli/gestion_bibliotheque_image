@@ -11,6 +11,10 @@ LIBS += `pkg-config --cflags --libs opencv4`
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    afficheurdescripteur.cpp \
+    biblioinputdialog.cpp \
+    descripteurdialog.cpp \
+    gallerie.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -21,6 +25,10 @@ SOURCES += \
     processingwindow.cpp
 
 HEADERS += \
+    afficheurdescripteur.h \
+    biblioinputdialog.h \
+    descripteurdialog.h \
+    gallerie.h \
     loginwindow.h \
     mainwindow.h \
     ../routines/Bibliotheque.h \
@@ -30,6 +38,8 @@ HEADERS += \
     processingwindow.h
 
 FORMS += \
+    afficheurdescripteur.ui \
+    descripteurdialog.ui \
     loginwindow.ui \
     mainwindow.ui \
     processingwindow.ui

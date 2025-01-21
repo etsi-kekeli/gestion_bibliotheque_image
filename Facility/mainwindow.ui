@@ -6,62 +6,123 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1143</width>
+    <height>625</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QStackedWidget" name="stackedWidget">
+   <widget class="QGroupBox" name="biblioGroupBox">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>9</y>
-      <width>771</width>
-      <height>551</height>
+      <x>880</x>
+      <y>10</y>
+      <width>221</width>
+      <height>131</height>
      </rect>
     </property>
-    <widget class="QWidget" name="connexion">
-     <widget class="QLineEdit" name="leCode">
-      <property name="geometry">
-       <rect>
-        <x>180</x>
-        <y>240</y>
-        <width>321</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnConnect">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>280</y>
-        <width>101</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Se Connecter</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>130</x>
-        <y>240</y>
-        <width>41</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Code :</string>
-      </property>
-     </widget>
+    <property name="layoutDirection">
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
+    </property>
+    <property name="title">
+     <string>Bibliothèque</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <widget class="QPushButton" name="btnCharger">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>80</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Charger</string>
+     </property>
     </widget>
-    <widget class="QWidget" name="page_2"/>
+    <widget class="QPushButton" name="btnCreer">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>30</y>
+       <width>80</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Créer</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnTrier">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>71</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Trier</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnVider">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>60</y>
+       <width>80</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Vider</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnSauvegarder">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>60</y>
+       <width>80</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Sauvegarder</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnImage">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>90</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Ajouter Image</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="contGalerie" native="true">
+    <property name="geometry">
+     <rect>
+      <x>29</x>
+      <y>149</y>
+      <width>1071</width>
+      <height>421</height>
+     </rect>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -69,7 +130,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1143</width>
      <height>20</height>
     </rect>
    </property>

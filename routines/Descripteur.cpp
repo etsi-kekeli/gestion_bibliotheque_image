@@ -50,6 +50,10 @@ const std::string& Descripteur::getSource() const
     return source;
 }
 
+void Descripteur::setSource(const std::string s) {
+    source = s;
+}
+
 double Descripteur::getCout() const
 {
     return cout;
@@ -226,7 +230,7 @@ void Descripteur::deserialiser(std::ifstream& fichier)
     fichier.read(reinterpret_cast<char*>(&acces), sizeof(acces));
 }
 
-bool comparerParCout(Descripteur& d1, Descripteur& d2)
+bool comparerParCout(Descripteur* d1, Descripteur* d2)
 {
-    return d1.getCout() < d2.getCout();
+    return d1->getCout() < d2->getCout();
 }

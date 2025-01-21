@@ -13,17 +13,17 @@ class Bibliotheque
 public:
     // Constructeur et Destructeur
     Bibliotheque();
-    Bibliotheque(const string &nom, const vector<Descripteur> &descripteurs);
-    // ~Bibliotheque();
+    Bibliotheque(const string &nom, vector<Descripteur*>* descripteurs);
+    ~Bibliotheque();
 
     // Getters and Setters
     const string &getNom() const;
-    void setNom(const string &nom);
+    void setNom(const string nom);
 
-    const vector<Descripteur> &getDescripteurs() const;
-    void setImages(const vector<Descripteur> &descripteurs);
+    vector<Descripteur*>* getDescripteurs() const;
+    void setImages(vector<Descripteur*>* descripteurs);
 
-    void ajouterDescripteur(Descripteur &nouveauDescripteur);
+    void ajouterDescripteur(Descripteur *nouveauDescripteur);
     void enleveDescripteur(string &source);
 
     // const vector<Utilisateur> &getUtilisateurs() const;
@@ -48,9 +48,9 @@ public:
 
     int nombreDImagesLibres();
 
-    vector<Descripteur> filter(double coutMin = 0, double coutMax = numeric_limits<float>::max());
+    vector<Descripteur*>* filter(double coutMin = 0, double coutMax = numeric_limits<float>::max());
 
-    vector<Descripteur> trierDescripteurs();
+    vector<Descripteur*>* trierDescripteurs();
 
     /**
      * @param cout
@@ -60,7 +60,8 @@ public:
 private:
     // void ID; rappelez moi pourquoi ID pour la bibliotheque ?
     string nom;
-    vector<Descripteur> descripteurs;
+    vector<Descripteur*> *descripteurs;
+    const static int signature;
     // vector<Utilisateur> utilisateurs;
 };
 

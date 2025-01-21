@@ -2,6 +2,9 @@
 #include <algorithm>
 using namespace std;
 
+const int Bibliotheque::signature = 2025;
+
+
 /**
  * Bibliothèque implementation
  */
@@ -9,17 +12,23 @@ using namespace std;
 Bibliotheque::Bibliotheque()
 {
     nom = "bibliothèque";
+    descripteurs = new vector<Descripteur*>();
 }
 
 // Constructeur paramétré
-Bibliotheque::Bibliotheque(const string &nom, const vector<Descripteur> &descripteurs)
+Bibliotheque::Bibliotheque(const string &nom, vector<Descripteur*> *descripteurs)
     : nom(nom), descripteurs(descripteurs)
 {
 }
 // Destructeur
-// Bibliotheque::~Bibliotheque()
-// {
-// }
+Bibliotheque::~Bibliotheque()
+{
+    for (Descripteur* d: *descripteurs){
+        if (d != nullptr) delete d;
+    }
+
+    if (descripteurs!= nullptr) delete descripteurs;
+}
 
 // Getters and Setters
 const string &Bibliotheque::getNom() const
@@ -27,41 +36,41 @@ const string &Bibliotheque::getNom() const
     return nom;
 }
 
-void Bibliotheque::setNom(const string &nom)
+void Bibliotheque::setNom(string nom)
 {
     this->nom = nom;
 }
 
-const vector<Descripteur> &Bibliotheque::getDescripteurs() const
+vector<Descripteur*>* Bibliotheque::getDescripteurs() const
 {
     return descripteurs;
 }
 
-void Bibliotheque::setImages(const vector<Descripteur> &descripteurs)
+void Bibliotheque::setImages(vector<Descripteur*> *descripteurs)
 {
     this->descripteurs = descripteurs;
 }
 
-void Bibliotheque::ajouterDescripteur(Descripteur &nouveauDescripteur)
+void Bibliotheque::ajouterDescripteur(Descripteur *nouveauDescripteur)
 {
-    for (int i = 0; i < descripteurs.size(); i++)
+    for (size_t i = 0; i < descripteurs->size(); i++)
     {
-        if (nouveauDescripteur.getSource() == descripteurs[i].getSource())
+        if (nouveauDescripteur->getSource() == (*descripteurs)[i]->getSource())
         {
             throw std::invalid_argument("L'image existe déjà dans cette base de donnée.");
         }
     }
-    descripteurs.push_back(nouveauDescripteur);
+    descripteurs->push_back(nouveauDescripteur);
 }
 
 void Bibliotheque::enleveDescripteur(string &source)
 {
-    for (Descripteur d : descripteurs)
+    for (Descripteur* d : *descripteurs)
     {
-        if (d.getSource() == source)
+        if (d->getSource() == source)
         {
-            descripteurs.erase(remove_if(descripteurs.begin(), descripteurs.end(), [source](Descripteur d)
-                                         { return d.getSource() == source; }));
+            descripteurs->erase(remove_if(descripteurs->begin(), descripteurs->end(), [source](Descripteur* d)
+                                         { return d->getSource() == source; }));
         }
     }
 }
@@ -87,7 +96,7 @@ void Bibliotheque::enleveDescripteur(string &source)
 
 void Bibliotheque::supprimerBibliotheque()
 {
-    this->descripteurs.clear();
+    this->descripteurs->clear();
 }
 
 bool Bibliotheque::chargerBibliotheque(string nomDuFichier)
@@ -95,6 +104,11 @@ bool Bibliotheque::chargerBibliotheque(string nomDuFichier)
     ifstream fichierSauvegarde(nomDuFichier, ios::binary);
     if (!fichierSauvegarde)
         return false;
+
+    int test;
+    fichierSauvegarde.read(reinterpret_cast<char *>(&test), sizeof(test));
+
+    if (test != signature) return false;
 
     size_t longueurNom;
     fichierSauvegarde.read(reinterpret_cast<char *>(&longueurNom), sizeof(longueurNom));
@@ -104,11 +118,11 @@ bool Bibliotheque::chargerBibliotheque(string nomDuFichier)
     size_t nombreDescripteur;
     fichierSauvegarde.read(reinterpret_cast<char *>(&nombreDescripteur), sizeof(nombreDescripteur));
 
-    descripteurs = vector<Descripteur>(nombreDescripteur);
+    descripteurs = new vector<Descripteur*>(nombreDescripteur);
 
-    for (auto &d : descripteurs)
+    for (auto d : *descripteurs)
     {
-        d.deserialiser(fichierSauvegarde);
+        d->deserialiser(fichierSauvegarde);
     }
 
     fichierSauvegarde.close();
@@ -124,16 +138,18 @@ bool Bibliotheque::sauvegarderBibliotheque(string nomDuFichier) const
     if (!fichierSauvegarde)
         return false;
 
+    fichierSauvegarde.write(reinterpret_cast<const char *>(&signature), sizeof(signature));
+
     size_t longueurNom = nom.size();
     fichierSauvegarde.write(reinterpret_cast<const char *>(&longueurNom), sizeof(longueurNom));
     fichierSauvegarde.write(nom.c_str(), longueurNom);
 
-    size_t nombreDescripteur = descripteurs.size();
+    size_t nombreDescripteur = descripteurs->size();
     fichierSauvegarde.write(reinterpret_cast<const char *>(&nombreDescripteur), sizeof(nombreDescripteur));
 
-    for (const Descripteur &d : descripteurs)
+    for (Descripteur *d : *descripteurs)
     {
-        d.serialiser(fichierSauvegarde);
+        d->serialiser(fichierSauvegarde);
     }
 
     fichierSauvegarde.close();
@@ -145,8 +161,8 @@ bool Bibliotheque::sauvegarderBibliotheque(string nomDuFichier) const
  */
 double Bibliotheque::calculerCoutMin()
 {
-    auto descripteur = max_element(descripteurs.begin(), descripteurs.end(), comparerParCout);
-    return descripteur->getCout();
+    auto descripteur = max_element(descripteurs->begin(), descripteurs->end(), comparerParCout);
+    return (*descripteur)->getCout();
 }
 
 /**
@@ -154,8 +170,8 @@ double Bibliotheque::calculerCoutMin()
  */
 double Bibliotheque::calculerCoutMax()
 {
-    auto descripteur = min_element(descripteurs.begin(), descripteurs.end(), comparerParCout);
-    return descripteur->getCout();
+    auto descripteur = min_element(descripteurs->begin(), descripteurs->end(), comparerParCout);
+    return (*descripteur)->getCout();
 }
 
 /**
@@ -163,48 +179,51 @@ double Bibliotheque::calculerCoutMax()
  */
 double Bibliotheque::calculerCoutMoyen()
 {
-    if (descripteurs.size() == 0)
+    if (descripteurs->size() == 0)
         return 0;
 
     double accumulator = 0;
-    for (Descripteur d : descripteurs)
+    for (Descripteur *d : *descripteurs)
     {
-        accumulator += d.getCout();
+        accumulator += d->getCout();
     }
 
-    return accumulator / descripteurs.size();
+    return accumulator / descripteurs->size();
 }
 
 int Bibliotheque::nombreDImagesLibres()
 {
     int compteur = 0;
-    for (Descripteur &d : descripteurs)
+    for (Descripteur *d : *descripteurs)
     {
-        if (d.getAcces() == Acces::OUVERT)
+        if (d->getAcces() == Acces::OUVERT)
             compteur++;
     }
 
     return compteur;
 }
 
-vector<Descripteur> Bibliotheque::filter(double coutMin, double coutMax)
+vector<Descripteur*>* Bibliotheque::filter(double coutMin, double coutMax)
 {
-    vector<Descripteur> resultat;
+    vector<Descripteur*>* resultat = new vector<Descripteur*>();
+
     if (coutMax >= coutMin)
-        for (Descripteur &d : descripteurs)
+        for (Descripteur *d : *descripteurs)
         {
-            if (d.getCout() >= coutMin && d.getCout() >= coutMax)
+            if (d->getCout() >= coutMin && d->getCout() >= coutMax)
             {
-                resultat.push_back(d);
+                resultat->push_back(d);
             }
         }
+
     return resultat;
 }
 
-vector<Descripteur> Bibliotheque::trierDescripteurs()
+vector<Descripteur*>* Bibliotheque::trierDescripteurs()
 {
-    vector<Descripteur> descripteursTries = descripteurs;
-    sort(descripteursTries.begin(), descripteursTries.end(), comparerParCout);
+    vector<Descripteur*>* descripteursTries = descripteurs;
+
+    sort(descripteursTries->begin(), descripteursTries->end(), comparerParCout);
     return descripteursTries;
 }
 
@@ -213,10 +232,10 @@ vector<Descripteur> Bibliotheque::trierDescripteurs()
  */
 double Bibliotheque::chercherCoutImage(int ID)
 {
-    for (Descripteur &d : descripteurs)
+    for (Descripteur *d : *descripteurs)
     {
-        if (d.getIdDescripteur() == ID)
-            return d.getCout();
+        if (d->getIdDescripteur() == ID)
+            return d->getCout();
     }
 
     return -1;

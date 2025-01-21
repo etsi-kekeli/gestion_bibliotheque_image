@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AfficheurDescripteur</class>
+ <widget class="QWidget" name="AfficheurDescripteur">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>284</width>
+    <height>286</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="btnModifier">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>250</y>
+     <width>231</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Modifier Descripteur</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnTraiter">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>220</y>
+     <width>101</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Traiter Image</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnSupprimer">
+   <property name="geometry">
+    <rect>
+     <x>149</x>
+     <y>220</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Supprimer</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblImage">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>221</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Image</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblTitre">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>140</y>
+     <width>58</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Titre : </string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblCout">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>160</y>
+     <width>58</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Coût :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblAuteur">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>58</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Auteur :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblID">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>120</y>
+     <width>58</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ID :</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

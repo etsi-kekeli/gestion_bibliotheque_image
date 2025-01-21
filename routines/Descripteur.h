@@ -28,6 +28,7 @@ public:
     void setTitre(const std::string& titre);
 
     const std::string& getSource() const;
+    void setSource(const std::string s);
 
     double getCout() const;
     void setCout(double cout);
@@ -61,6 +62,6 @@ private:
 
 };
 
-bool comparerParCout(Descripteur& d1, Descripteur& d2);
+bool comparerParCout(Descripteur* d1, Descripteur* d2);
 
 #endif //_DESCRIPTEUR_H

@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <gallerie.h>
 #include "../routines/Utilisateur.h"
+#include "../routines/Bibliotheque.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,9 +22,20 @@ public:
     ~MainWindow();
 
 
+private slots:
+    void on_btnCreer_clicked();
+
+    void on_btnCharger_clicked();
+
+    void on_btnSauvegarder_clicked();
+
+    void on_btnImage_clicked();
+
 private:
     Ui::MainWindow *ui;
     Utilisateur m_utilisateur;  // Déclaration de l'objet Utilisateur
+    Gallerie* galerie;
+    Bibliotheque* biblio = nullptr;
 };
 
 #endif // MAINWINDOW_H
