@@ -16,6 +16,7 @@ class ProcessingWindow : public QMainWindow
 
 public:
     explicit ProcessingWindow(QWidget *parent = nullptr);
+    ProcessingWindow(const QString& imagePath, QWidget *parent = nullptr);
     ~ProcessingWindow();
 
 private slots:
@@ -56,6 +57,8 @@ private:
     void displayImage(const cv::Mat& mat, QGraphicsView* view, QGraphicsScene** scene);
     QImage matToQImage(const cv::Mat& mat);
     cv::Mat QPixmapToCvMat(const QPixmap &pixmap);
+    // une méthode privée pour charger l'image
+    void loadImage(const QString& imagePath);
 };
 
 #endif // PROCESSINGWINDOW_H

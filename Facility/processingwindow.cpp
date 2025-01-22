@@ -24,11 +24,149 @@ ProcessingWindow::ProcessingWindow(QWidget *parent)
     this->setWindowIcon(QIcon(":/FacilityLogo/FacilityLogo/Logo.png"));
 }
 
+ProcessingWindow::ProcessingWindow(const QString& imagePath, QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::ProcessingWindow)
+    , sceneOriginal(nullptr)
+    , sceneResult(nullptr)
+{
+    ui->setupUi(this);
+    this->setWindowTitle("Traitement des images");
+    this->setWindowIcon(QIcon(":/FacilityLogo/FacilityLogo/Logo.png"));
+
+    loadImage(imagePath);
+}
+
+
 ProcessingWindow::~ProcessingWindow()
 {
     delete sceneOriginal;
     delete sceneResult;
     delete ui;
+}
+
+// méthode pour charger l'image a partir du constructeur qui prend image path comme attribut
+void ProcessingWindow::loadImage(const QString& imagePath)
+{
+    // Clear previous image data
+    originalImage.release();
+    if (sceneOriginal) {
+        delete sceneOriginal;
+        sceneOriginal = nullptr;
+    }
+    if (sceneResult) {
+        delete sceneResult;
+        sceneResult = nullptr;
+    }
+
+    // Charger l'image avec OpenCV
+    cv::Mat cvImage = cv::imread(imagePath.toStdString(), cv::IMREAD_UNCHANGED);
+    if (cvImage.empty())
+    {
+        QMessageBox::warning(this, tr("Erreur"), tr("Impossible de charger l'image."));
+        return;
+    }
+
+    // Vérification et conversion si nécessaire
+    if (cvImage.channels() == 3)
+    {
+        qDebug() << "Image couleur BGR détectée (3 canaux).";
+    }
+    else if (cvImage.channels() == 4)
+    {
+        qDebug() << "Image couleur avec transparence détectée (4 canaux).";
+    }
+    else if (cvImage.channels() == 1)
+    {
+        qDebug() << "Image en niveaux de gris détectée (1 canal).";
+    }
+    else
+    {
+        QMessageBox::warning(this, tr("Erreur"), tr("Format d'image non pris en charge."));
+        return;
+    }
+
+    // Si image PNG mal interprétée en RGB mais est en réalité NG
+    if (cvImage.channels() == 3 || cvImage.channels() == 4)
+    {
+        bool isGrayscale = true;
+        for (int row = 0; row < cvImage.rows; ++row)
+        {
+            for (int col = 0; col < cvImage.cols; ++col)
+            {
+                cv::Vec3b pixel = cvImage.at<cv::Vec3b>(row, col);
+                if (pixel[0] != pixel[1] || pixel[1] != pixel[2])
+                {
+                    isGrayscale = false;
+                    break;
+                }
+            }
+            if (!isGrayscale)
+                break;
+        }
+
+        if (isGrayscale)
+        {
+            qDebug() << "Image RGB détectée mais identifiée comme niveaux de gris.";
+            cv::cvtColor(cvImage, cvImage, cv::COLOR_BGR2GRAY);
+        }
+    }
+
+    Image myImage(cvImage);
+    myImage.setTitreImage(imagePath.toStdString());
+
+    originalImage = cvImage; // Stocker l'image dans la variable membre
+
+    // Conversion en QImage
+    QImage qImage;
+    if (cvImage.channels() == 1)
+    {
+        qDebug() << "image en niveaux de gris.";
+        qImage = QImage(cvImage.data, cvImage.cols, cvImage.rows, cvImage.step, QImage::Format_Grayscale8);
+
+        // Désactiver les contrôles pour les canaux inutilisés
+        ui->SeuilMinVVal->setEnabled(false);
+        ui->SeuilMinBVal->setEnabled(false);
+        ui->SeuilMaxVVal->setEnabled(false);
+        ui->SeuilMaxBVal->setEnabled(false);
+    }
+    else if (cvImage.channels() == 3)
+    {
+        qDebug() << "Image finale en couleur (RGB).";
+        qImage = QImage(cvImage.data, cvImage.cols, cvImage.rows, cvImage.step, QImage::Format_RGB888).rgbSwapped();
+
+        // Activer les contrôles pour tous les canaux
+        ui->SeuilMinVVal->setEnabled(true);
+        ui->SeuilMinBVal->setEnabled(true);
+        ui->SeuilMaxVVal->setEnabled(true);
+        ui->SeuilMaxBVal->setEnabled(true);
+    }
+    else if (cvImage.channels() == 4)
+    {
+        qDebug() << "Image finale en couleur avec transparence (RGBA).";
+        qImage = QImage(cvImage.data, cvImage.cols, cvImage.rows, cvImage.step, QImage::Format_RGBA8888);
+
+        // Activer les contrôles pour tous les canaux
+        ui->SeuilMinVVal->setEnabled(true);
+        ui->SeuilMinBVal->setEnabled(true);
+        ui->SeuilMaxVVal->setEnabled(true);
+        ui->SeuilMaxBVal->setEnabled(true);
+    }
+
+    // Affichage dans le GraphicsView
+    QGraphicsScene* sceneOrigin = new QGraphicsScene(this);
+    sceneOrigin->addPixmap(QPixmap::fromImage(qImage));
+    ui->ImageOriginalegraphicsView->setScene(sceneOrigin);
+    ui->ImageOriginalegraphicsView->fitInView(sceneOrigin->sceneRect(), Qt::KeepAspectRatio);
+
+    // Vider l'affichage de l'image résultante
+    if (ui->ImageResultatgraphicsView->scene() != nullptr) {
+        delete ui->ImageResultatgraphicsView->scene();
+    }
+    ui->ImageResultatgraphicsView->setScene(new QGraphicsScene(this));
+    ui->ImageResultatgraphicsView->update();
+
+    ProcessingWindow::on_RestValRGBSeuilButton_clicked();
 }
 
 void ProcessingWindow::on_SeuilDial_valueChanged(int value)
@@ -371,6 +509,7 @@ void ProcessingWindow::displayImage(const cv::Mat& mat, QGraphicsView* view, QGr
         qDebug() << "Erreur dans displayImage:" << e.what();
     }
 }
+
 void ProcessingWindow::on_segRGBButton_clicked()
 {
     if (originalImage.empty()) {
