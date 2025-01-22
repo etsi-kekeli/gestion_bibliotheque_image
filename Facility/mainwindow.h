@@ -31,7 +31,16 @@ private slots:
 
     void on_btnImage_clicked();
 
+    void on_btnSupprimer_clicked();
+
+    void on_btnTrier_clicked();
+
+    void on_btnPrix_clicked();
+
+    void on_btnFiltrer_clicked();
+
 private:
+    void updateStats();
     Ui::MainWindow *ui;
     Utilisateur m_utilisateur;  // Déclaration de l'objet Utilisateur
     Gallerie* galerie;

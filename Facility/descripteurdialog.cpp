@@ -22,6 +22,10 @@ DescripteurDialog::DescripteurDialog(Descripteur *d, QWidget *parent)
 
     ui->edCout->setValidator(new QDoubleValidator(0.0, 100.0, 2, this));
 
+    QStringList droits;
+    droits << "Ouvert" << "Limité";
+    ui->accesBox->addItems(droits);
+
     ui->accesBox->setCurrentText(accesToString(d->getAcces()));
     ui->edAuteur->setText(QString::fromStdString(d->getAuteur()));
     ui->edCout->setText(QString::number(d->getCout()));

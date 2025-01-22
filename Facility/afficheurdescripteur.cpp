@@ -6,7 +6,7 @@ AfficheurDescripteur::AfficheurDescripteur(Descripteur* d, QWidget *parent)
     ui->setupUi(this);
     this->d = d;
     this->ui->lblID->setText("ID : " + QString::number(d->getIdDescripteur()));
-    this->ui->lblCout->setText("Cout + " + QString::number(d->getCout()));
+    this->ui->lblCout->setText("Cout : " + QString::number(d->getCout()));
     this->ui->lblAuteur->setText("Auteur : " + QString::fromStdString(d->getAuteur()));
     this->ui->lblTitre->setText("Titre : " + QString::fromStdString(d->getTitre()));
 
@@ -17,7 +17,9 @@ AfficheurDescripteur::AfficheurDescripteur(Descripteur* d, QWidget *parent)
     int h = pix.height();
     int w = pix.width();
     ui->lblImage->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
+    ui->lblImage->setMinimumSize(100, 100);
 
+    setMinimumSize(220, 280);
     show();
 }
 

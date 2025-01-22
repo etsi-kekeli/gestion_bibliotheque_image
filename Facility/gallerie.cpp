@@ -1,25 +1,35 @@
 #include "gallerie.h"
 
 Gallerie::Gallerie(QWidget *parent)
-    : QWidget{parent}
+    : QScrollArea{parent}
 {
-    scrollArea = new QScrollArea(this);
-    container = new QWidget();
-    layout = new QGridLayout(container);
+    layout = new QGridLayout(this);
+    container = new QWidget(this);
+    // QVBoxLayout* vlayout = new QVBoxLayout(this);
+    // setLayout(vlayout);
 
     container->setLayout(layout);
-    scrollArea->setWidget(container);
-    QVBoxLayout *pLayout = new QVBoxLayout;
-    pLayout->addWidget(scrollArea);
-    setLayout(pLayout);
-    update();
-    show();
+    container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    this->setWidget(container);
+    setWidgetResizable(true);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 }
 
 Gallerie::~Gallerie(){
-    delete scrollArea;
-    delete container;
     delete layout;
+}
+
+void Gallerie::vider(){
+    if (!layout) {
+        return;
+    }
+
+    while (QLayoutItem* item = layout->takeAt(0)) {
+        if (QWidget* widget = item->widget()) {
+            widget->deleteLater();
+        }
+        delete item;
+    }
 }
 
 void Gallerie::raffrachir(std::vector<Descripteur*>* descripteurs){

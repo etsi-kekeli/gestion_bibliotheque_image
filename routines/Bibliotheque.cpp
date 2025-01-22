@@ -105,10 +105,10 @@ bool Bibliotheque::chargerBibliotheque(string nomDuFichier)
     if (!fichierSauvegarde)
         return false;
 
-    int test;
-    fichierSauvegarde.read(reinterpret_cast<char *>(&test), sizeof(test));
+    // int test;
+    // fichierSauvegarde.read(reinterpret_cast<char *>(&test), sizeof(test));
 
-    if (test != signature) return false;
+    // if (test != signature) return false;
 
     size_t longueurNom;
     fichierSauvegarde.read(reinterpret_cast<char *>(&longueurNom), sizeof(longueurNom));
@@ -118,11 +118,13 @@ bool Bibliotheque::chargerBibliotheque(string nomDuFichier)
     size_t nombreDescripteur;
     fichierSauvegarde.read(reinterpret_cast<char *>(&nombreDescripteur), sizeof(nombreDescripteur));
 
-    descripteurs = new vector<Descripteur*>(nombreDescripteur);
+    descripteurs = new vector<Descripteur*>();
 
-    for (auto d : *descripteurs)
+    for (size_t i = 0; i < nombreDescripteur; i++)
     {
+        Descripteur *d = new Descripteur();
         d->deserialiser(fichierSauvegarde);
+        descripteurs->push_back(d);
     }
 
     fichierSauvegarde.close();
@@ -138,7 +140,7 @@ bool Bibliotheque::sauvegarderBibliotheque(string nomDuFichier) const
     if (!fichierSauvegarde)
         return false;
 
-    fichierSauvegarde.write(reinterpret_cast<const char *>(&signature), sizeof(signature));
+    // fichierSauvegarde.write(reinterpret_cast<const char *>(&signature), sizeof(signature));
 
     size_t longueurNom = nom.size();
     fichierSauvegarde.write(reinterpret_cast<const char *>(&longueurNom), sizeof(longueurNom));
@@ -161,7 +163,8 @@ bool Bibliotheque::sauvegarderBibliotheque(string nomDuFichier) const
  */
 double Bibliotheque::calculerCoutMin()
 {
-    auto descripteur = max_element(descripteurs->begin(), descripteurs->end(), comparerParCout);
+    if (descripteurs->empty()) return 0.0;
+    auto descripteur = min_element(descripteurs->begin(), descripteurs->end(), comparerParCout);
     return (*descripteur)->getCout();
 }
 
@@ -170,7 +173,8 @@ double Bibliotheque::calculerCoutMin()
  */
 double Bibliotheque::calculerCoutMax()
 {
-    auto descripteur = min_element(descripteurs->begin(), descripteurs->end(), comparerParCout);
+    if (descripteurs->empty()) return 0.0;
+    auto descripteur = max_element(descripteurs->begin(), descripteurs->end(), comparerParCout);
     return (*descripteur)->getCout();
 }
 
@@ -210,7 +214,7 @@ vector<Descripteur*>* Bibliotheque::filter(double coutMin, double coutMax)
     if (coutMax >= coutMin)
         for (Descripteur *d : *descripteurs)
         {
-            if (d->getCout() >= coutMin && d->getCout() >= coutMax)
+            if (d->getCout() >= coutMin && d->getCout() <= coutMax)
             {
                 resultat->push_back(d);
             }

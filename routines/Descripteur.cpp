@@ -224,7 +224,7 @@ void Descripteur::deserialiser(std::ifstream& fichier)
 
     size_t longueurAuteur;
     fichier.read(reinterpret_cast<char*>(&longueurAuteur), sizeof(longueurAuteur));
-    source.resize(longueurAuteur);
+    Auteur.resize(longueurAuteur);
     fichier.read(&Auteur[0], longueurAuteur);
 
     fichier.read(reinterpret_cast<char*>(&acces), sizeof(acces));

@@ -7,16 +7,17 @@
 
 #include "afficheurdescripteur.h"
 
-class Gallerie : public QWidget
+class Gallerie : public QScrollArea
 {
     Q_OBJECT
 public:
     explicit Gallerie(QWidget *parent = nullptr);
     ~Gallerie();
     void raffrachir(std::vector<Descripteur*>* descripteurs);
+    void vider();
 
 private:
-    QScrollArea* scrollArea;
+    // QScrollArea* scrollArea;
     QWidget* container;
     QGridLayout* layout;
 
