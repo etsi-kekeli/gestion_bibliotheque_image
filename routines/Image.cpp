@@ -559,61 +559,53 @@ Mat Image::dessineLigneHough(int nRho, int nTheta, int tailleVoisinage, int seui
 
 // segmentation couleur ou noir et blanc
 Mat Image::segmentationCouleurOuNG(const cv::Mat& imageOriginale,
-    uchar seuilBasR, uchar seuilHautR,
-    uchar seuilBasG, uchar seuilHautG,
-    uchar seuilBasB, uchar seuilHautB)
+                                   uchar seuilBasR, uchar seuilHautR,
+                                   uchar seuilBasG, uchar seuilHautG,
+                                   uchar seuilBasB, uchar seuilHautB)
 {
+    cv::Mat imageSegmentee = imageOriginale.clone();
 
-    // Créer une image binaire pour le masque
-    cv::Mat masque = cv::Mat::zeros(imageOriginale.size(), CV_8U);
-
-    // Vérifier si l'image est en couleur (RGB) ou en niveaux de gris (NG)
     if (imageOriginale.channels() == 3)
-    { // Image RGB
+    {
         for (int y = 0; y < imageOriginale.rows; y++)
         {
             for (int x = 0; x < imageOriginale.cols; x++)
             {
-                // Obtenir les valeurs des canaux R, G et B pour l'image RGB
-                cv::Vec3b pixel = imageOriginale.at<cv::Vec3b>(y, x); // Le pixel est un vecteur avec 3 valeurs : R, G, B
-                uchar valeurR = pixel[2];                             // Canal Rouge (index 2)
-                uchar valeurG = pixel[1];                             // Canal Vert (index 1)
-                uchar valeurB = pixel[0];                             // Canal Bleu (index 0)
-
-                // Vérifier si la couleur du pixel est dans les intervalles définis
-                if (valeurR >= seuilBasR && valeurR <= seuilHautR &&
-                    valeurG >= seuilBasG && valeurG <= seuilHautG &&
-                    valeurB >= seuilBasB && valeurB <= seuilHautB)
+                cv::Vec3b pixel = imageOriginale.at<cv::Vec3b>(y, x);
+                // Si les seuils G et B sont à 0, on ne vérifie que le canal R
+                if (seuilBasG == 0 && seuilHautG == 0 && seuilBasB == 0 && seuilHautB == 0)
                 {
-                    masque.at<uchar>(y, x) = 255; // Pixel dans l'intervalle
+                    if (!(pixel[2] >= seuilBasR && pixel[2] <= seuilHautR))
+                    {
+                        imageSegmentee.at<cv::Vec3b>(y, x) = cv::Vec3b(0, 0, 0);
+                    }
+                }
+                else
+                {
+                    if (!(pixel[2] >= seuilBasR && pixel[2] <= seuilHautR &&
+                          pixel[1] >= seuilBasG && pixel[1] <= seuilHautG &&
+                          pixel[0] >= seuilBasB && pixel[0] <= seuilHautB))
+                    {
+                        imageSegmentee.at<cv::Vec3b>(y, x) = cv::Vec3b(0, 0, 0);
+                    }
                 }
             }
         }
     }
     else if (imageOriginale.channels() == 1)
-    { // Image en niveaux de gris
+    {
         for (int y = 0; y < imageOriginale.rows; y++)
         {
             for (int x = 0; x < imageOriginale.cols; x++)
             {
-                uchar valeurNG = imageOriginale.at<uchar>(y, x); // Valeur du pixel en NG
-
-                // Utiliser uniquement le seuil rouge pour le seuillage
-                if (valeurNG >= seuilBasR && valeurNG <= seuilHautR)
+                uchar valeurNG = imageOriginale.at<uchar>(y, x);
+                if (!(valeurNG >= seuilBasR && valeurNG <= seuilHautR))
                 {
-                    masque.at<uchar>(y, x) = 255; // Pixel au-dessus du seuil rouge
+                    imageSegmentee.at<uchar>(y, x) = 0;
                 }
             }
         }
     }
-
-    // Appliquer le masque à l'image originale pour obtenir l'image segmentée
-    cv::Mat imageSegmentee;
-    imageOriginale.copyTo(imageSegmentee, masque);
-
-    // Afficher le résultat
-   // cv::imshow("image segmentee", imageSegmentee);
-    //cv::waitKey(0); // Attendre une touche pour fermer la fenêtre
 
     return imageSegmentee;
 }

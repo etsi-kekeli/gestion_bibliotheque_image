@@ -45,6 +45,8 @@ private slots:
 
     void on_HoughButton_clicked();
 
+    void on_actionSwitch_triggered();
+
 private:
     Ui::ProcessingWindow *ui;
     cv::Mat originalImage;
@@ -53,6 +55,7 @@ private:
 
     void displayImage(const cv::Mat& mat, QGraphicsView* view, QGraphicsScene** scene);
     QImage matToQImage(const cv::Mat& mat);
+    cv::Mat QPixmapToCvMat(const QPixmap &pixmap);
 };
 
 #endif // PROCESSINGWINDOW_H

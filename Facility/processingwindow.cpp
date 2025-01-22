@@ -11,6 +11,7 @@
 #include <QGraphicsItem>
 #include "../routines/Image.h"
 #include <vector>
+#include <QPixmap>
 
 ProcessingWindow::ProcessingWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -330,52 +331,53 @@ QImage ProcessingWindow::matToQImage(const cv::Mat& mat)
     }
 }
 
+
 void ProcessingWindow::displayImage(const cv::Mat& mat, QGraphicsView* view, QGraphicsScene** scene)
 {
-    if (!view || mat.empty())
+    if (!view || mat.empty()) {
+        qDebug() << "View invalide ou matrice vide";
         return;
+    }
 
     try {
-        // Supprimer l'ancienne scène si elle existe
         if (*scene) {
             delete *scene;
             *scene = nullptr;
         }
 
-        // Créer une nouvelle scène
         *scene = new QGraphicsScene(this);
-
-        // Convertir et ajouter l'image
         QImage qImage = matToQImage(mat);
+
         if (!qImage.isNull()) {
-            (*scene)->addPixmap(QPixmap::fromImage(qImage));
+            QPixmap pixmap = QPixmap::fromImage(qImage);
+            qDebug() << "Dimensions du pixmap:" << pixmap.width() << "x" << pixmap.height();
+
+            (*scene)->clear();
+            (*scene)->addPixmap(pixmap);
             view->setScene(*scene);
             view->fitInView((*scene)->sceneRect(), Qt::KeepAspectRatio);
+
+            // Force le rafraîchissement
+            view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+            view->viewport()->update();
+            view->update();
+
+            qDebug() << "Scene rect:" << (*scene)->sceneRect();
+        } else {
+            qDebug() << "Conversion en QImage échouée";
         }
     }
-    catch (const std::bad_alloc&) {
-        QMessageBox::critical(this, "Erreur", "Mémoire insuffisante pour afficher l'image");
+    catch (const std::exception& e) {
+        qDebug() << "Erreur dans displayImage:" << e.what();
     }
 }
-
-
 void ProcessingWindow::on_segRGBButton_clicked()
 {
     if (originalImage.empty()) {
         QMessageBox::warning(this, "Erreur", "Aucune image chargée");
         return;
     }
-
     try {
-        /*
-        // Vérifier la taille de l'image
-        const size_t MAX_SIZE = 1920 * 1080 * 3; // Limite pour une image HD
-        if (originalImage.total() * originalImage.elemSize() > MAX_SIZE) {
-            QMessageBox::warning(this, "Erreur", "Image trop grande");
-            return;
-        }
-        */
-        // Récupérer les valeurs des seuils
         uchar seuilBasR = ui->SeuilMinRVal->value();
         uchar seuilHautR = ui->SeuilMaxRVal->value();
         uchar seuilBasG = ui->SeuilMinVVal->value();
@@ -383,22 +385,34 @@ void ProcessingWindow::on_segRGBButton_clicked()
         uchar seuilBasB = ui->SeuilMinBVal->value();
         uchar seuilHautB = ui->SeuilMaxBVal->value();
 
-        // Créer une copie de l'image pour le traitement
-        cv::Mat imageTraitement = originalImage.clone();
+        qDebug() << "Avant segmentation:";
+        qDebug() << "- Type image:" << originalImage.type();
+        qDebug() << "- Canaux:" << originalImage.channels();
+        qDebug() << "- Dimensions:" << originalImage.size().width << "x" << originalImage.size().height;
+        qDebug() << "- Seuils R:" << (int)seuilBasR << "-" << (int)seuilHautR;
+        qDebug() << "- Seuils G:" << (int)seuilBasG << "-" << (int)seuilHautG;
+        qDebug() << "- Seuils B:" << (int)seuilBasB << "-" << (int)seuilHautB;
 
-        // Traiter l'image
+        cv::Mat imageTraitement = originalImage.clone();
         Image image(imageTraitement);
         cv::Mat resultat = image.segmentationCouleurOuNG(imageTraitement,
                                                          seuilBasR, seuilHautR,
                                                          seuilBasG, seuilHautG,
                                                          seuilBasB, seuilHautB);
 
-        // Vérifier le résultat
+        qDebug() << "Après segmentation:";
+        qDebug() << "- Type résultat:" << resultat.type();
+        qDebug() << "- Canaux:" << resultat.channels();
+        qDebug() << "- Dimensions:" << resultat.size().width << "x" << resultat.size().height;
+
+        // Vérifions si l'image n'est pas complètement noire
+        cv::Scalar moyenne = cv::mean(resultat);
+        qDebug() << "- Moyenne des canaux:" << moyenne[0] << moyenne[1] << moyenne[2];
+
         if (resultat.empty()) {
             throw std::runtime_error("Échec de la segmentation");
         }
 
-        // Afficher le résultat
         displayImage(resultat, ui->ImageResultatgraphicsView, &sceneResult);
     }
     catch (const std::bad_alloc&) {
@@ -678,4 +692,65 @@ void ProcessingWindow::on_HoughButton_clicked()
     catch (const std::exception& e) {
         QMessageBox::critical(this, "Erreur", QString("Une erreur s'est produite : %1").arg(e.what()));
     }
+}
+
+
+cv::Mat ProcessingWindow::QPixmapToCvMat(const QPixmap &pixmap) {
+    QImage img = pixmap.toImage().convertToFormat(QImage::Format_ARGB32);
+    cv::Mat mat = cv::Mat(img.height(), img.width(), CV_8UC4, (void*)img.bits(), img.bytesPerLine());
+    // Conversion en BGR si nécessaire
+    cv::Mat matBGR;
+    cv::cvtColor(mat, matBGR, cv::COLOR_BGRA2BGR);
+    return matBGR.clone();
+}
+
+
+void ProcessingWindow::on_actionSwitch_triggered()
+{
+    if (!ui->ImageResultatgraphicsView || !ui->ImageResultatgraphicsView->scene()) {
+        qDebug() << "Scene ou view invalide";
+        return;
+    }
+
+    QGraphicsScene* scene = ui->ImageResultatgraphicsView->scene();
+    if (scene->items().isEmpty()) {
+        qDebug() << "Scene vide";
+        return;
+    }
+
+    QGraphicsPixmapItem *pixmapItem = qgraphicsitem_cast<QGraphicsPixmapItem*>(scene->items().first());
+    if (!pixmapItem) {
+        qDebug() << "Pas de pixmap item";
+        return;
+    }
+
+    QPixmap pixmap = pixmapItem->pixmap();
+    if (pixmap.isNull()) {
+        qDebug() << "Pixmap invalide";
+        return;
+    }
+
+    cv::Mat newOriginalImage = QPixmapToCvMat(pixmap);
+    if (newOriginalImage.empty()) {
+        qDebug() << "Conversion cv::Mat échouée";
+        return;
+    }
+
+    // Ajout de debug pour vérifier les dimensions
+    qDebug() << "Dimensions de newOriginalImage:" << newOriginalImage.cols << "x" << newOriginalImage.rows;
+
+    originalImage = newOriginalImage.clone();
+
+    // Force le rafraîchissement complet
+    if (sceneOriginal) {
+        delete sceneOriginal;
+        sceneOriginal = nullptr;
+    }
+
+    displayImage(originalImage, ui->ImageOriginalegraphicsView, &sceneOriginal);
+
+    // Force la mise à jour
+    ui->ImageOriginalegraphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    ui->ImageOriginalegraphicsView->viewport()->update();
+    ui->ImageOriginalegraphicsView->update();
 }

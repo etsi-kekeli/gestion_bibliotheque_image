@@ -38,10 +38,9 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">
-</string>
+    <string notr="true"/>
    </property>
-   <layout class="QGridLayout" name="gridLayout_8">
+   <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -78,6 +77,9 @@ border: 2px solid rgb(0, 46, 52);
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Résultat&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_10"/>
           </item>
           <item>
            <widget class="QGraphicsView" name="ImageResultatgraphicsView">
@@ -1473,6 +1475,7 @@ border-top-right-radius: 50;</string>
     <addaction name="actionOuvrir"/>
     <addaction name="actionSauvegarder"/>
     <addaction name="separator"/>
+    <addaction name="actionSwitch"/>
     <addaction name="actionSortir"/>
    </widget>
    <addaction name="menuFichier"/>
@@ -1491,6 +1494,11 @@ border-top-right-radius: 50;</string>
   <action name="actionSortir">
    <property name="text">
     <string>Sortir</string>
+   </property>
+  </action>
+  <action name="actionSwitch">
+   <property name="text">
+    <string>Switch</string>
    </property>
   </action>
  </widget>
