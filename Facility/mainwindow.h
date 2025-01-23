@@ -44,6 +44,8 @@ private slots:
 
     void on_btnUtilisateur_clicked();
 
+    void on_resetBtn_clicked();
+
 private:
     void updateStats();
     Ui::MainWindow *ui;

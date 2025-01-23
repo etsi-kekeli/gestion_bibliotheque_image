@@ -82,7 +82,8 @@ border-radius: 10px;
        <item>
         <widget class="QDialogButtonBox" name="LoginbuttonBox">
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(0, 33, 37);</string>
+          <string notr="true">background-color: rgb(0, 33, 37);
+font: 700 10pt &quot;Ubuntu&quot;;</string>
          </property>
          <property name="locale">
           <locale language="French" country="France"/>

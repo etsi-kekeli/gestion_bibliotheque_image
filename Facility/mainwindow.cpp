@@ -245,3 +245,11 @@ void MainWindow::on_btnUtilisateur_clicked()
     this->close();
 }
 
+
+void MainWindow::on_resetBtn_clicked()
+{
+    ui->edCoutMin->clear();
+    ui->edCoutMax->clear();
+    ui->edID->clear();
+}
+

@@ -26,13 +26,13 @@
     <string>Image</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>130</y>
      <width>251</width>
-     <height>131</height>
+     <height>142</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -72,6 +72,11 @@
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QPushButton" name="btnTraiter">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 33, 37);
+border-radius:5px;
+font: 700 10pt &quot;Ubuntu&quot;;</string>
+        </property>
         <property name="text">
          <string>Traiter Image</string>
         </property>
@@ -79,6 +84,11 @@
       </item>
       <item>
        <widget class="QPushButton" name="btnSupprimer">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 33, 37);
+border-radius:5px;
+font: 700 10pt &quot;Ubuntu&quot;;</string>
+        </property>
         <property name="text">
          <string>Supprimer</string>
         </property>
@@ -88,6 +98,11 @@
     </item>
     <item>
      <widget class="QPushButton" name="btnModifier">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(0, 33, 37);
+border-radius:5px;
+font: 700 10pt &quot;Ubuntu&quot;;</string>
+      </property>
       <property name="text">
        <string>Modifier Descripteur</string>
       </property>
