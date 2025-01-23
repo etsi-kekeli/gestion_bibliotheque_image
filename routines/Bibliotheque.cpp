@@ -207,6 +207,18 @@ int Bibliotheque::nombreDImagesLibres()
     return compteur;
 }
 
+vector<Descripteur*>* Bibliotheque::getDescripteursLibres(){
+    vector<Descripteur*>* resultat = new vector<Descripteur*>();
+
+    for (Descripteur *d : *descripteurs)
+    {
+        if (d->getAcces() == Acces::OUVERT)
+            resultat->push_back(d);
+    }
+
+    return resultat;
+}
+
 vector<Descripteur*>* Bibliotheque::filter(double coutMin, double coutMax)
 {
     vector<Descripteur*>* resultat = new vector<Descripteur*>();

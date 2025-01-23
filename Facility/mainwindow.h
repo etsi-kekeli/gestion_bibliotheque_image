@@ -21,6 +21,8 @@ public:
     explicit MainWindow(Utilisateur& utilisateur, QWidget *parent = nullptr);
     ~MainWindow();
     void enleverDescripteur();
+    void appliquerNiveau2();
+    void appliquerNiveau3();
 
 
 private slots:

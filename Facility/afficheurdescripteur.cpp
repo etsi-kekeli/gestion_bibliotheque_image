@@ -4,7 +4,11 @@
 #include "descripteurdialog.h"
 #include "processingwindow.h"
 
-AfficheurDescripteur::AfficheurDescripteur(Descripteur* d,  std::function<void(const std::string&)> f, std::function<void()> g, QWidget *parent)
+AfficheurDescripteur::AfficheurDescripteur(Descripteur* d,
+                                           Utilisateur::Niveau droit,
+                                           std::function<void(const std::string&)> f,
+                                           std::function<void()> g,
+                                           QWidget *parent)
     : d(new Descripteur()), supprimerDescripteur(f), mettreAJourUi(g), QWidget{parent}, ui(new Ui::AfficheurDescripteur)
 {
     ui->setupUi(this);
@@ -14,10 +18,24 @@ AfficheurDescripteur::AfficheurDescripteur(Descripteur* d,  std::function<void(c
     this->ui->lblAuteur->setText("Auteur : " + QString::fromStdString(d->getAuteur()));
     this->ui->lblTitre->setText("Titre : " + QString::fromStdString(d->getTitre()));
 
+    if (droit == Utilisateur::Niveau::NIVEAU2){
+        ui->btnModifier->setDisabled(true);
+        ui->btnSupprimer->setDisabled(true);
+    }
+
+    if (droit == Utilisateur::Niveau::NIVEAU3){
+        ui->btnModifier->setDisabled(true);
+        ui->btnSupprimer->setDisabled(true);
+        ui->btnTraiter->setDisabled(true);
+    }
+
+
     pix = QPixmap(QString::fromStdString(d->getSource()));
+
     if (pix.isNull()) {
         pix = QPixmap(":/FacilityLogo/FacilityLogo/Logo.png");
     }
+
     int h = pix.height();
     int w = pix.width();
     ui->lblImage->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));

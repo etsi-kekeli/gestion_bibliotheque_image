@@ -14,7 +14,7 @@ MainWindow::MainWindow(Utilisateur& utilisateur, QWidget *parent)
     ui->setupUi(this);
     this->setWindowIcon(QIcon(":/FacilityLogo/FacilityLogo/Logo.png"));
     this->setWindowTitle("Main");
-    galerie = new Gallerie(biblio, [this]() { this->updateStats(); }, this);
+    galerie = new Gallerie(biblio, m_utilisateur.getNiveau(), [this]() { this->updateStats(); }, this);
     ui->contGalerie->setLayout(new QVBoxLayout);
     ui->contGalerie->layout()->addWidget(galerie);
 
@@ -22,7 +22,25 @@ MainWindow::MainWindow(Utilisateur& utilisateur, QWidget *parent)
     ui->edCoutMax->setValidator(new QDoubleValidator(0.0, 1e5, 2, this));
     ui->edCoutMin->setValidator(new QDoubleValidator(0.0, 1e5, 2, this));
 
-    updateStats();
+    if (m_utilisateur.getNiveau() == Utilisateur::Niveau::NIVEAU1) updateStats();
+    else if (m_utilisateur.getNiveau() == Utilisateur::Niveau::NIVEAU2) appliquerNiveau2();
+    else appliquerNiveau3();
+}
+
+void MainWindow::appliquerNiveau2(){
+    ui->btnCreer->setDisabled(true);
+    ui->btnFiltrer->setDisabled(true);
+    ui->btnSupprimer->setDisabled(true);
+    ui->btnSauvegarder->setDisabled(true);
+    ui->btnImage->setDisabled(true);
+
+    ui->btnTrier->setDisabled(true);
+    ui->btnPrix->setDisabled(true);
+}
+
+void MainWindow::appliquerNiveau3(){
+    appliquerNiveau2();
+    ui->btnCharger->setDisabled(true);
 }
 
 MainWindow::~MainWindow()
@@ -62,9 +80,16 @@ void MainWindow::on_btnCharger_clicked()
             biblio = new_biblio;
             galerie->setBib(biblio);
             galerie->vider();
-            this->galerie->raffrachir(biblio->getDescripteurs());
-            update();
-            updateStats();
+
+
+            if (m_utilisateur.getNiveau() == Utilisateur::Niveau::NIVEAU1){
+                this->galerie->raffrachir(biblio->getDescripteurs());
+                update();
+                updateStats();
+            }
+            else {
+                galerie->raffrachir(biblio->getDescripteursLibres());
+            }
 
         } catch (Exception q) {
             delete new_biblio;

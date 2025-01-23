@@ -48,6 +48,8 @@ public:
 
     int nombreDImagesLibres();
 
+    vector<Descripteur*>* getDescripteursLibres();
+
     vector<Descripteur*>* filter(double coutMin = 0, double coutMax = numeric_limits<float>::max());
 
     vector<Descripteur*>* trierDescripteurs();

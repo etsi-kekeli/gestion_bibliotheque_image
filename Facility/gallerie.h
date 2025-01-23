@@ -6,12 +6,13 @@
 #include <QGridLayout>
 #include "../routines/Bibliotheque.h"
 #include "afficheurdescripteur.h"
+#include "../routines/Utilisateur.h"
 
 class Gallerie : public QScrollArea
 {
     Q_OBJECT
 public:
-    explicit Gallerie(Bibliotheque* b, std::function<void()> updateStats, QWidget *parent = nullptr);
+    explicit Gallerie(Bibliotheque* b, Utilisateur::Niveau niv, std::function<void()> updateStats, QWidget *parent = nullptr);
     ~Gallerie();
     void raffrachir(std::vector<Descripteur*>* descripteurs = nullptr);
     void enleverDescripteur(const string& s);
@@ -23,6 +24,7 @@ private:
     QWidget* container;
     QGridLayout* layout;
     Bibliotheque* bib;
+    Utilisateur::Niveau droit;
     std::function<void()> updateStats;
 
 signals:

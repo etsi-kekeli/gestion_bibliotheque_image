@@ -1,7 +1,7 @@
 #include "gallerie.h"
 
-Gallerie::Gallerie(Bibliotheque* b, std::function<void()> f, QWidget *parent)
-    : bib(b), updateStats(f), QScrollArea{parent}
+Gallerie::Gallerie(Bibliotheque* b, Utilisateur::Niveau niv, std::function<void()> f, QWidget *parent)
+    : bib(b), updateStats(f), QScrollArea{parent}, droit(niv)
 {
     layout = new QGridLayout(this);
     container = new QWidget(this);
@@ -47,6 +47,7 @@ void Gallerie::raffrachir(std::vector<Descripteur*>* descripteurs){
 
     for (Descripteur* d : *descripteurs){
         AfficheurDescripteur* afficheur = new AfficheurDescripteur(d,
+                                                                    droit,
                                                                    [this](const std::string& s) { this->enleverDescripteur(s); },
                                                                    [this]() {
                                                                         this->vider();

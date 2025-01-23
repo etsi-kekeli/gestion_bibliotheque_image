@@ -5,6 +5,7 @@
 #include "ui_afficheurdescripteur.h"
 
 #include "../routines/Descripteur.h"
+#include "../routines/Utilisateur.h"
 
 namespace Ui {
 class AfficheurDescripteur;
@@ -14,7 +15,7 @@ class AfficheurDescripteur : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AfficheurDescripteur(Descripteur* d, std::function<void(const std::string&)> f, std::function<void()> g, QWidget *parent = nullptr);
+    explicit AfficheurDescripteur(Descripteur* d, Utilisateur::Niveau droit, std::function<void(const std::string&)> f, std::function<void()> g, QWidget *parent = nullptr);
     ~AfficheurDescripteur();
 
 private:
