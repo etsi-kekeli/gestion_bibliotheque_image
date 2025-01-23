@@ -24,7 +24,7 @@ public:
     void setImages(vector<Descripteur*>* descripteurs);
 
     void ajouterDescripteur(Descripteur *nouveauDescripteur);
-    void enleveDescripteur(string &source);
+    void enleveDescripteur(const string &source);
 
     // const vector<Utilisateur> &getUtilisateurs() const;
     // void setUtilisateurs(const vector<Utilisateur> &utilisateurs);

@@ -20,6 +20,7 @@ public:
     // Constructeur avec l'objet Utilisateur et le parent
     explicit MainWindow(Utilisateur& utilisateur, QWidget *parent = nullptr);
     ~MainWindow();
+    void enleverDescripteur();
 
 
 private slots:

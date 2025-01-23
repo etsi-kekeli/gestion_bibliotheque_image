@@ -14,7 +14,7 @@ MainWindow::MainWindow(Utilisateur& utilisateur, QWidget *parent)
     ui->setupUi(this);
     this->setWindowIcon(QIcon(":/FacilityLogo/FacilityLogo/Logo.png"));
     this->setWindowTitle("Main");
-    galerie = new Gallerie(this);
+    galerie = new Gallerie(biblio, [this]() { this->updateStats(); }, this);
     ui->contGalerie->setLayout(new QVBoxLayout);
     ui->contGalerie->layout()->addWidget(galerie);
 
@@ -30,6 +30,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::enleverDescripteur(){
+    updateStats();
+}
+
 void MainWindow::on_btnCreer_clicked()
 {
     Bibliotheque* b = new Bibliotheque();
@@ -40,6 +44,7 @@ void MainWindow::on_btnCreer_clicked()
     if (biblio) delete biblio;
 
     biblio = b;
+    galerie->setBib(biblio);
     // std::cout<<"Done in slot"<<std::endl;
     updateStats();
 }
@@ -55,6 +60,7 @@ void MainWindow::on_btnCharger_clicked()
             new_biblio->chargerBibliotheque(path.toStdString());
             if (biblio) delete biblio;
             biblio = new_biblio;
+            galerie->setBib(biblio);
             this->galerie->raffrachir(biblio->getDescripteurs());
             update();
             updateStats();

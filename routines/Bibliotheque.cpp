@@ -63,7 +63,7 @@ void Bibliotheque::ajouterDescripteur(Descripteur *nouveauDescripteur)
     descripteurs->push_back(nouveauDescripteur);
 }
 
-void Bibliotheque::enleveDescripteur(string &source)
+void Bibliotheque::enleveDescripteur(const string &source)
 {
     for (Descripteur* d : *descripteurs)
     {
