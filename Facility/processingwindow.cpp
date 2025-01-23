@@ -12,6 +12,7 @@
 #include "../routines/Image.h"
 #include <vector>
 #include <QPixmap>
+#include <QTimer>
 
 ProcessingWindow::ProcessingWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -35,6 +36,12 @@ ProcessingWindow::ProcessingWindow(const QString& imagePath, QWidget *parent)
     this->setWindowIcon(QIcon(":/FacilityLogo/FacilityLogo/Logo.png"));
 
     loadImage(imagePath);
+ // Ajout d'un délai pour forcer l'ajustement après l'affichage complet de la fenêtre
+    QTimer::singleShot(100, this, [this]() {
+        if (ui->ImageOriginalegraphicsView->scene()) {
+            ui->ImageOriginalegraphicsView->fitInView(ui->ImageOriginalegraphicsView->scene()->sceneRect(), Qt::KeepAspectRatio);
+        }
+         });
 }
 
 
@@ -43,6 +50,22 @@ ProcessingWindow::~ProcessingWindow()
     delete sceneOriginal;
     delete sceneResult;
     delete ui;
+}
+
+// surcharger l'événement resizeEvent Pour que l'image s'ajuste automatiquement lorsque la fenêtre est redimensionnée
+void ProcessingWindow::resizeEvent(QResizeEvent *event)
+{
+    QMainWindow::resizeEvent(event);
+
+    // Ajuster l'image originale si la scène existe
+    if (ui->ImageOriginalegraphicsView->scene()) {
+        ui->ImageOriginalegraphicsView->fitInView(ui->ImageOriginalegraphicsView->scene()->sceneRect(), Qt::KeepAspectRatio);
+    }
+
+    // Ajuster l'image traitée si la scène existe
+    if (ui->ImageResultatgraphicsView->scene()) {
+        ui->ImageResultatgraphicsView->fitInView(ui->ImageResultatgraphicsView->scene()->sceneRect(), Qt::KeepAspectRatio);
+    }
 }
 
 // méthode pour charger l'image a partir du constructeur qui prend image path comme attribut

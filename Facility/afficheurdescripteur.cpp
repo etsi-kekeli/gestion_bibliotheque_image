@@ -72,6 +72,7 @@ void AfficheurDescripteur::on_btnModifier_clicked()
 void AfficheurDescripteur::on_btnTraiter_clicked()
 {
     ProcessingWindow* pw = new ProcessingWindow(QString::fromStdString(d->getSource()), this);
+    pw->setAttribute(Qt::WA_DeleteOnClose); // La fenêtre sera détruite à la fermeture
     pw->show();
 
     // delete pw;
