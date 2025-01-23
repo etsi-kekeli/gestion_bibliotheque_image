@@ -42,6 +42,8 @@ private slots:
 
     void on_btnFiltrer_clicked();
 
+    void on_btnUtilisateur_clicked();
+
 private:
     void updateStats();
     Ui::MainWindow *ui;

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "loginwindow.h"
 #include <QVBoxLayout>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -17,6 +18,14 @@ MainWindow::MainWindow(Utilisateur& utilisateur, QWidget *parent)
     galerie = new Gallerie(biblio, m_utilisateur.getNiveau(), [this]() { this->updateStats(); }, this);
     ui->contGalerie->setLayout(new QVBoxLayout);
     ui->contGalerie->layout()->addWidget(galerie);
+
+    ui->statusbar->addPermanentWidget(ui->btnUtilisateur);
+    ui->statusbar->addPermanentWidget(ui->lblBib);
+
+    ui->lblBib->setText("Bibliothèque : ");
+
+    ui->btnUtilisateur->setText("Déconnecter " + QString::fromStdString(m_utilisateur.getCode()));
+
 
     ui->edID->setValidator(new QIntValidator(0, 1000, ui->edID));
     ui->edCoutMax->setValidator(new QDoubleValidator(0.0, 1e5, 2, this));
@@ -65,6 +74,8 @@ void MainWindow::on_btnCreer_clicked()
     galerie->setBib(biblio);
     // std::cout<<"Done in slot"<<std::endl;
     updateStats();
+
+    ui->lblBib->setText("Bibliothèque : " + QString::fromStdString(biblio->getNom()));
 }
 
 void MainWindow::on_btnCharger_clicked()
@@ -80,6 +91,8 @@ void MainWindow::on_btnCharger_clicked()
             biblio = new_biblio;
             galerie->setBib(biblio);
             galerie->vider();
+
+            ui->lblBib->setText("Bibliothèque : " + QString::fromStdString(biblio->getNom()));
 
 
             if (m_utilisateur.getNiveau() == Utilisateur::Niveau::NIVEAU1){
@@ -122,6 +135,7 @@ void MainWindow::on_btnImage_clicked()
     Descripteur *d = new Descripteur;
     if (!biblio){
         QMessageBox::information(this, "Échec", "Aucune bibliothèque n'est active");
+        return;
     }
     if (biblio->getDescripteurs()->empty()){
         d->setIdDescripteur(1);
@@ -159,6 +173,8 @@ void MainWindow::on_btnSupprimer_clicked()
         biblio = nullptr;
         this->galerie->vider();
         updateStats();
+
+        ui->lblBib->setText("Bibliothèque : ");
     }
 }
 
@@ -215,8 +231,17 @@ void MainWindow::updateStats(){
     }
     ui->statMin->setText("Coût min : " + QString::number(min));
     ui->statMax->setText("Coût max : " + QString::number(max));
-    ui->statMoy->setText("Coût moyen : " + QString::number(moy));
+    ui->statMoy->setText("Coût moyen : " + QString::number(moy, 'f', 2));
     ui->statLibre->setText("Images libres : " + QString::number(libres));
 
+}
+
+
+void MainWindow::on_btnUtilisateur_clicked()
+{
+    LoginWindow * log = new LoginWindow(nullptr);
+    log->show();
+
+    this->close();
 }
 
