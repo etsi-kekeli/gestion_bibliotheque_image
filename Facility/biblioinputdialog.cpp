@@ -23,5 +23,5 @@ std::string BiblioInputDialog::getNom() {
 
 void BiblioInputDialog::setBiblioName() {
     this->biblio->setNom(getNom());
-    this->close();
+    this->accept();
 }

@@ -28,6 +28,7 @@ signals:
 private slots:
     void on_btnSupprimer_clicked();
     void on_btnModifier_clicked();
+    void on_btnTraiter_clicked();
 };
 
 #endif // AFFICHEURDESCRIPTEUR_H

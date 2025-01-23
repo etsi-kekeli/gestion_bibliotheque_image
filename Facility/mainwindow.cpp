@@ -39,7 +39,7 @@ void MainWindow::on_btnCreer_clicked()
     Bibliotheque* b = new Bibliotheque();
 
     BiblioInputDialog* dialogue = new BiblioInputDialog(b, this);
-    dialogue->exec();
+    if (dialogue->exec() != QDialog::Accepted ) return;
 
     if (biblio) delete biblio;
 
@@ -61,6 +61,7 @@ void MainWindow::on_btnCharger_clicked()
             if (biblio) delete biblio;
             biblio = new_biblio;
             galerie->setBib(biblio);
+            galerie->vider();
             this->galerie->raffrachir(biblio->getDescripteurs());
             update();
             updateStats();

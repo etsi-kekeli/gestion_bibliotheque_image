@@ -113,6 +113,7 @@ void ProcessingWindow::loadImage(const QString& imagePath)
     }
 
     Image myImage(cvImage);
+
     myImage.setTitreImage(imagePath.toStdString());
 
     originalImage = cvImage; // Stocker l'image dans la variable membre

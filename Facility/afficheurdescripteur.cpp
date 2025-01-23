@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include "gallerie.h"
 #include "descripteurdialog.h"
+#include "processingwindow.h"
 
 AfficheurDescripteur::AfficheurDescripteur(Descripteur* d,  std::function<void(const std::string&)> f, std::function<void()> g, QWidget *parent)
     : d(new Descripteur()), supprimerDescripteur(f), mettreAJourUi(g), QWidget{parent}, ui(new Ui::AfficheurDescripteur)
@@ -47,5 +48,14 @@ void AfficheurDescripteur::on_btnModifier_clicked()
     dialogue->exec();
     mettreAJourUi();
     delete dialogue;
+}
+
+
+void AfficheurDescripteur::on_btnTraiter_clicked()
+{
+    ProcessingWindow* pw = new ProcessingWindow(QString::fromStdString(d->getSource()), this);
+    pw->show();
+
+    // delete pw;
 }
 
