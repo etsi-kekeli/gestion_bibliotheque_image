@@ -131,6 +131,9 @@ border-top-right-radius: 50;</string>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
               <widget class="QLabel" name="label_3">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Segmentation RGB : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -169,6 +172,9 @@ border-top-right-radius: 50;</string>
              </item>
              <item>
               <widget class="QLabel" name="label_4">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Min : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -176,6 +182,9 @@ border-top-right-radius: 50;</string>
              </item>
              <item>
               <widget class="QLabel" name="label_5">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Max : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -187,6 +196,9 @@ border-top-right-radius: 50;</string>
             <layout class="QGridLayout" name="gridLayout_2">
              <item row="0" column="0">
               <widget class="QLabel" name="label_6">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Rouge : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -195,7 +207,8 @@ border-top-right-radius: 50;</string>
              <item row="2" column="2">
               <widget class="QSpinBox" name="SeuilMaxBVal">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(77, 122, 128);</string>
+                <string notr="true">background-color: rgb(77, 122, 128);
+color:white;</string>
                </property>
                <property name="maximum">
                 <number>255</number>
@@ -204,6 +217,9 @@ border-top-right-radius: 50;</string>
              </item>
              <item row="2" column="0">
               <widget class="QLabel" name="label_8">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Bleu : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -212,7 +228,8 @@ border-top-right-radius: 50;</string>
              <item row="1" column="1">
               <widget class="QSpinBox" name="SeuilMinVVal">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(77, 122, 128);</string>
+                <string notr="true">background-color: rgb(77, 122, 128);
+color:white;</string>
                </property>
                <property name="maximum">
                 <number>255</number>
@@ -222,7 +239,8 @@ border-top-right-radius: 50;</string>
              <item row="2" column="1">
               <widget class="QSpinBox" name="SeuilMinBVal">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(77, 122, 128);</string>
+                <string notr="true">background-color: rgb(77, 122, 128);
+color:white;</string>
                </property>
                <property name="maximum">
                 <number>255</number>
@@ -231,6 +249,9 @@ border-top-right-radius: 50;</string>
              </item>
              <item row="1" column="0">
               <widget class="QLabel" name="label_7">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Vert : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -239,7 +260,8 @@ border-top-right-radius: 50;</string>
              <item row="0" column="2">
               <widget class="QSpinBox" name="SeuilMaxRVal">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(77, 122, 128);</string>
+                <string notr="true">background-color: rgb(77, 122, 128);
+color:white;</string>
                </property>
                <property name="maximum">
                 <number>255</number>
@@ -255,7 +277,8 @@ border-top-right-radius: 50;</string>
              <item row="1" column="2">
               <widget class="QSpinBox" name="SeuilMaxVVal">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(77, 122, 128);</string>
+                <string notr="true">background-color: rgb(77, 122, 128);
+color:white;</string>
                </property>
                <property name="maximum">
                 <number>255</number>
@@ -265,7 +288,8 @@ border-top-right-radius: 50;</string>
              <item row="0" column="1">
               <widget class="QSpinBox" name="SeuilMinRVal">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(77, 122, 128);</string>
+                <string notr="true">background-color: rgb(77, 122, 128);
+color:white;</string>
                </property>
                <property name="maximum">
                 <number>255</number>
@@ -294,7 +318,8 @@ border-top-right-radius: 50;</string>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>Reintialiser</string>
@@ -312,7 +337,8 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>Segmenter</string>
@@ -336,6 +362,9 @@ border-top-right-radius: 50;</string>
             <layout class="QHBoxLayout" name="horizontalLayout_14">
              <item>
               <widget class="QLabel" name="label_15">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Segmentation HSV :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -380,7 +409,8 @@ border-top-right-radius: 50;</string>
              <item row="1" column="2">
               <widget class="QSpinBox" name="SeuilMinHSV">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(77, 122, 128);</string>
+                <string notr="true">background-color: rgb(77, 122, 128);
+color:white;</string>
                </property>
                <property name="maximum">
                 <number>360</number>
@@ -390,7 +420,8 @@ border-top-right-radius: 50;</string>
              <item row="0" column="2">
               <widget class="QSpinBox" name="SeuilMaxHSV">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(77, 122, 128);</string>
+                <string notr="true">background-color: rgb(77, 122, 128);
+color:white;</string>
                </property>
                <property name="maximum">
                 <number>360</number>
@@ -495,6 +526,9 @@ border-top-right-radius: 50;</string>
              </item>
              <item row="1" column="1">
               <widget class="QLabel" name="label_17">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Seuil Bas : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
 </string>
@@ -503,6 +537,9 @@ border-top-right-radius: 50;</string>
              </item>
              <item row="0" column="1">
               <widget class="QLabel" name="label_16">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Seuil Haut : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
 </string>
@@ -520,7 +557,8 @@ border-top-right-radius: 50;</string>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>Segmenter</string>
@@ -530,7 +568,8 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
              <item row="2" column="2">
               <widget class="QSpinBox" name="tailleNoyau">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(77, 122, 128);</string>
+                <string notr="true">background-color: rgb(77, 122, 128);
+color:white;</string>
                </property>
                <property name="minimum">
                 <number>1</number>
@@ -542,6 +581,9 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
              </item>
              <item row="2" column="1">
               <widget class="QLabel" name="label_18">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Noyau : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
 </string>
@@ -591,7 +633,8 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>Teinte</string>
@@ -615,6 +658,9 @@ border-top-right-radius: 50;</string>
             <layout class="QHBoxLayout" name="horizontalLayout_15">
              <item>
               <widget class="QLabel" name="label_10">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Convolution : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -659,7 +705,8 @@ border-top-right-radius: 50;</string>
              <item row="1" column="1">
               <widget class="QComboBox" name="convComboBox">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(77, 122, 128);</string>
+                <string notr="true">background-color: rgb(77, 122, 128);
+color:white;</string>
                </property>
                <item>
                 <property name="text">
@@ -715,7 +762,8 @@ border-top-right-radius: 50;</string>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>Filtrer</string>
@@ -724,6 +772,9 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
              </item>
              <item row="0" column="1">
               <widget class="QLabel" name="label_9">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Type Filtre : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
 </string>
@@ -827,6 +878,9 @@ border-top-right-radius: 50;</string>
             <layout class="QHBoxLayout" name="horizontalLayout_16">
              <item>
               <widget class="QLabel" name="label_11">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Detect Contour : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -879,7 +933,8 @@ border-top-right-radius: 50;</string>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>Contour</string>
@@ -953,7 +1008,8 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
              <item row="1" column="1">
               <widget class="QComboBox" name="contourComboBox">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(77, 122, 128);</string>
+                <string notr="true">background-color: rgb(77, 122, 128);
+color:white;</string>
                </property>
                <item>
                 <property name="text">
@@ -969,6 +1025,9 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
              </item>
              <item row="0" column="1">
               <widget class="QLabel" name="label_12">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:700;&quot;&gt;Type Filtre : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
 </string>
@@ -1018,7 +1077,8 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>Rehaussement</string>
@@ -1089,7 +1149,8 @@ border-top-right-radius: 50;</string>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>TF Hough</string>
@@ -1142,7 +1203,8 @@ background-color: rgb(0, 33, 37);</string>
              <item row="1" column="1">
               <widget class="QComboBox" name="histogramComboBox">
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(77, 122, 128);</string>
+                <string notr="true">background-color: rgb(77, 122, 128);
+color:white;</string>
                </property>
                <item>
                 <property name="text">
@@ -1249,7 +1311,8 @@ background-color: rgb(0, 33, 37);</string>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>Histogramme</string>
@@ -1283,6 +1346,9 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
                </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Divers : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1334,6 +1400,9 @@ border-top-right-radius: 50;</string>
             <layout class="QHBoxLayout" name="horizontalLayout_18">
              <item>
               <widget class="QLabel" name="label_13">
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Seuillage : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
@@ -1384,6 +1453,9 @@ border-top-right-radius: 50;</string>
                  <strikeout>false</strikeout>
                  <kerning>true</kerning>
                 </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color:white;</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::Shape::Panel</enum>

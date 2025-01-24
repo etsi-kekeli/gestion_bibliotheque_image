@@ -25,7 +25,7 @@
       <item row="0" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
-         <widget class="QGroupBox" name="">
+         <widget class="QGroupBox" name="groupBox">
           <property name="styleSheet">
            <string notr="true">background-color: rgb(0, 46, 52);
 border-radius: 5px;
@@ -41,7 +41,8 @@ border-top-right-radius: 50;</string>
               </sizepolicy>
              </property>
              <property name="styleSheet">
-              <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;</string>
+              <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
              </property>
              <property name="text">
               <string>Filtrage</string>
@@ -54,6 +55,7 @@ border-top-right-radius: 50;</string>
               <widget class="QLabel" name="label">
                <property name="styleSheet">
                 <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;
+color:white;
 </string>
                </property>
                <property name="text">
@@ -77,7 +79,8 @@ border-top-right-radius: 50;</string>
              <item>
               <widget class="QLabel" name="label_2">
                <property name="styleSheet">
-                <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;</string>
+                <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>Coût max :</string>
@@ -102,7 +105,8 @@ border-top-right-radius: 50;</string>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>Filtrer</string>
@@ -122,7 +126,8 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
                 </sizepolicy>
                </property>
                <property name="styleSheet">
-                <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;</string>
+                <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>Entrer l'ID :</string>
@@ -154,6 +159,7 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
                 <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
 font: 700 10pt &quot;Ubuntu&quot;;
+color:white;
 </string>
                </property>
                <property name="text">
@@ -172,7 +178,8 @@ font: 700 10pt &quot;Ubuntu&quot;;
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>Réinitialiser</string>
@@ -209,7 +216,8 @@ border-top-right-radius: 50;</string>
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;</string>
+                <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                </property>
                <property name="text">
                 <string>Statistiques</string>
@@ -227,7 +235,8 @@ border-top-right-radius: 50;</string>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;</string>
+                  <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                  </property>
                  <property name="text">
                   <string>Cout min :</string>
@@ -243,7 +252,8 @@ border-top-right-radius: 50;</string>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;</string>
+                  <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                  </property>
                  <property name="text">
                   <string>Cout max : </string>
@@ -259,7 +269,8 @@ border-top-right-radius: 50;</string>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;</string>
+                  <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                  </property>
                  <property name="text">
                   <string>Cout moyen</string>
@@ -275,7 +286,8 @@ border-top-right-radius: 50;</string>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;</string>
+                  <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
                  </property>
                  <property name="text">
                   <string>Images libres</string>
@@ -314,7 +326,8 @@ border-top-right-radius: 50;</string>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
              </property>
              <property name="text">
               <string>Supprimer</string>
@@ -327,6 +340,7 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
               <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
 font: 700 10pt &quot;Ubuntu&quot;;
+color:white;
 </string>
              </property>
              <property name="text">
@@ -339,7 +353,8 @@ font: 700 10pt &quot;Ubuntu&quot;;
              <property name="styleSheet">
               <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
              </property>
              <property name="text">
               <string>Créer</string>
@@ -351,7 +366,8 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
              </property>
              <property name="text">
               <string>Sauvegarder</string>
@@ -363,7 +379,8 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
              </property>
              <property name="text">
               <string>Charger</string>
@@ -375,7 +392,8 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
              <property name="styleSheet">
               <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
              </property>
              <property name="text">
               <string>Ajouter Image</string>
@@ -385,7 +403,8 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
            <item row="0" column="0">
             <widget class="QLabel" name="label_5">
              <property name="styleSheet">
-              <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;</string>
+              <string notr="true">font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
              </property>
              <property name="text">
               <string>Bibliothèque</string>
@@ -420,7 +439,8 @@ border: 2px solid rgb(0, 46, 52);
           <property name="styleSheet">
            <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white</string>
           </property>
           <property name="text">
            <string>PushButton</string>

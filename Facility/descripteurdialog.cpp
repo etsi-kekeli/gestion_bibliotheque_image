@@ -31,6 +31,12 @@ DescripteurDialog::DescripteurDialog(Descripteur *d, QWidget *parent)
     ui->edCout->setText(QString::number(d->getCout()));
     ui->edTitre->setText(QString::fromStdString(d->getTitre()));
     ui->edSource->setText(QString::fromStdString(d->getSource()));
+
+    QPixmap pix(QString::fromStdString(d->getSource()));
+
+    if (!pix.isNull()) {
+        ui->edSource->setDisabled(true);
+    }
 }
 
 DescripteurDialog::~DescripteurDialog()

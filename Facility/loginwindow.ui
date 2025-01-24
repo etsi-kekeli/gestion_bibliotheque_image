@@ -60,6 +60,9 @@ border-radius: 10px;
        </item>
        <item>
         <widget class="QLabel" name="label">
+         <property name="styleSheet">
+          <string notr="true">color:white;</string>
+         </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Code :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -68,7 +71,8 @@ border-radius: 10px;
        <item>
         <widget class="QLineEdit" name="codeLineEdit">
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(0, 46, 52);</string>
+          <string notr="true">background-color: rgb(0, 46, 52);
+color:white;</string>
          </property>
          <property name="echoMode">
           <enum>QLineEdit::EchoMode::Password</enum>
@@ -83,7 +87,8 @@ border-radius: 10px;
         <widget class="QDialogButtonBox" name="LoginbuttonBox">
          <property name="styleSheet">
           <string notr="true">background-color: rgb(0, 33, 37);
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
          </property>
          <property name="locale">
           <locale language="French" country="France"/>
@@ -102,6 +107,9 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
    </item>
    <item row="2" column="1">
     <widget class="QLabel" name="label_2">
+     <property name="styleSheet">
+      <string notr="true">color:white;</string>
+     </property>
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Veuillez saisir votre code pour se connecter&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>

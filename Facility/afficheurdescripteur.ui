@@ -75,7 +75,8 @@
         <property name="styleSheet">
          <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
         </property>
         <property name="text">
          <string>Traiter Image</string>
@@ -87,7 +88,8 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
         </property>
         <property name="text">
          <string>Supprimer</string>
@@ -101,7 +103,8 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(0, 33, 37);
 border-radius:5px;
-font: 700 10pt &quot;Ubuntu&quot;;</string>
+font: 700 10pt &quot;Ubuntu&quot;;
+color:white;</string>
       </property>
       <property name="text">
        <string>Modifier Descripteur</string>
