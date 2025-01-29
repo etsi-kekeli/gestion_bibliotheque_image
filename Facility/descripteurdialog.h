@@ -15,6 +15,8 @@ class DescripteurDialog : public QDialog
 public:
     explicit DescripteurDialog(Descripteur *d, QWidget *parent = nullptr);
     ~DescripteurDialog();
+    void disableBtnParcourir();
+    void enableBtnParcourir();
 
 private slots:
     void updateDescripteur();

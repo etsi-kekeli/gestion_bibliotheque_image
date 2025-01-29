@@ -63,6 +63,7 @@ void AfficheurDescripteur::on_btnSupprimer_clicked()
 void AfficheurDescripteur::on_btnModifier_clicked()
 {
     DescripteurDialog* dialogue = new DescripteurDialog(d, this);
+    dialogue->disableBtnParcourir(); // Appelle la méthode pour désactiver le bouton
     dialogue->exec();
     mettreAJourUi();
     delete dialogue;

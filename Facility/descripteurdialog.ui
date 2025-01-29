@@ -48,9 +48,7 @@
      <item row="3" column="1">
       <widget class="QLineEdit" name="edAuteur">
        <property name="styleSheet">
-        <string notr="true"> border: none !important;
-    border-radius: 0px !important;
-    background: transparent !important;</string>
+        <string notr="true"/>
        </property>
       </widget>
      </item>
@@ -71,9 +69,7 @@
       <widget class="QLineEdit" name="edTitre">
        <property name="styleSheet">
         <string notr="true">background-color: rgb(77, 122, 128);
- border: none !important;
-    border-radius: 0px !important;
-    background: transparent !important;</string>
+</string>
        </property>
       </widget>
      </item>
@@ -85,9 +81,8 @@
        <item>
         <widget class="QLineEdit" name="edSource">
          <property name="styleSheet">
-          <string notr="true"> border: none !important;
-    border-radius: 0px !important;
-    background: transparent !important;
+          <string notr="true">background-color: rgb(77, 122, 128);
+
 </string>
          </property>
         </widget>
@@ -121,9 +116,8 @@ font: 700 10pt &quot;Ubuntu&quot;;</string>
      <item row="2" column="1">
       <widget class="QLineEdit" name="edCout">
        <property name="styleSheet">
-        <string notr="true"> border: none !important;
-    border-radius: 0px !important;
-    background: transparent !important;</string>
+        <string notr="true">background-color: rgb(77, 122, 128);
+</string>
        </property>
       </widget>
      </item>

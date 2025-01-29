@@ -58,6 +58,8 @@ void DescripteurDialog::on_buttonBox_accepted()
     this->close();
 }
 
+void DescripteurDialog::disableBtnParcourir() { ui->btnParcourir->setEnabled(false);}
+void DescripteurDialog::enableBtnParcourir() { ui->btnParcourir->setEnabled(true);}
 
 void DescripteurDialog::on_btnParcourir_clicked()
 {

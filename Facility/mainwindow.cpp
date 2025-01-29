@@ -146,6 +146,7 @@ void MainWindow::on_btnImage_clicked()
     }
 
     DescripteurDialog * dialogue = new DescripteurDialog(d, this);
+    dialogue->enableBtnParcourir(); // Appelle la méthode pour activer le bouton Parcourir
     if (dialogue->exec() == QDialog::Accepted){
         biblio->ajouterDescripteur(d);
         galerie->raffrachir(biblio->getDescripteurs());
