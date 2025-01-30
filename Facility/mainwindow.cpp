@@ -68,7 +68,9 @@ void MainWindow::on_btnCreer_clicked()
     BiblioInputDialog* dialogue = new BiblioInputDialog(b, this);
     if (dialogue->exec() != QDialog::Accepted ) return;
 
-    if (biblio) delete biblio;
+    if (biblio) {
+        delete biblio;
+    }
 
     biblio = b;
     galerie->setBib(biblio);
@@ -223,6 +225,8 @@ void MainWindow::on_btnFiltrer_clicked()
 void MainWindow::updateStats(){
     double min = 0,  max = 0, moy = 0;
     int libres = 0;
+
+    if (m_utilisateur.getNiveau() != Utilisateur::Niveau::NIVEAU1) return;
 
     if (biblio) {
         min = biblio->calculerCoutMin();

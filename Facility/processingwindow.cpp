@@ -833,8 +833,8 @@ void ProcessingWindow::on_HoughButton_clicked()
         // Paramètres pour la transformée de Hough
         int nRho = 400;         // Nombre de divisions pour rho
         int nTheta = 360;       // Nombre de divisions pour theta
-        int voisinage = 10;     // Taille du voisinage pour la détection de maxima
-        int seuil = 100;        // Seuil pour les votes
+        int voisinage = 15;     // Taille du voisinage pour la détection de maxima
+        int seuil = 0.1 * std::sqrt(std::pow(myImage.getData().rows, 2) + std::pow(myImage.getData().cols, 2));        // Seuil pour les votes
 
         // Calcul et affichage de la table d'accumulation normalisée
         cv::Mat houghTable = myImage.getTableDAccumulationNormalisee(nRho, nTheta);
@@ -845,7 +845,7 @@ void ProcessingWindow::on_HoughButton_clicked()
         displayImage(houghTable, ui->ImageResultatgraphicsView, &sceneResult);
 
         // Dessiner les lignes détectées sur l'image originale
-        cv::Mat imageAvecLignes = myImage.dessineLigneHough(nRho, nTheta, voisinage, seuil, cv::Scalar(0, 0, 255), 2);
+        cv::Mat imageAvecLignes = myImage.dessineLigneHough(myImage.getData().rows, nTheta/2, voisinage, seuil, cv::Scalar(0, 0, 255), 2);
         if (imageAvecLignes.empty()) {
             QMessageBox::critical(this, "Erreur", "Erreur lors du dessin des lignes de Hough.");
             return;

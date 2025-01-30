@@ -494,11 +494,24 @@ vector<pair<float, float>> getHoughMaxima(Mat tableDAccumulation, double rhomax,
     vector<Point> tmp;
     findNonZero(parametresDInterets, tmp);
 
+    vector<pair<unsigned short, Point>> tmp2;
+    for (int i = 0; i < tmp.size(); i++) {
+        Point p = tmp[i];
+        tmp2.push_back( make_pair( tableDAccumulation.at<unsigned short>(p.y, p.x), p) );
+    }
+
+    sort(tmp2.begin(), tmp2.end(),  [](const auto &a, const auto &b) {
+                                            return a.first > b.first;
+                                    });
+
+    size_t nbre_limite = 10;
+    size_t s = (tmp2.size() < nbre_limite) ? tmp2.size() : nbre_limite;
+
     double pasAngulaire = CV_PI / parametresDInterets.cols;
 
-    for (int i = 0; i < tmp.size(); i++)
+    for (int i = 0; i < s; i++)
     {
-        resultat.push_back({ tmp[i].y * (2 * rhomax + 1) / parametresDInterets.rows - rhomax, tmp[i].x * pasAngulaire });
+        resultat.push_back({ tmp2[i].second.y * (2 * rhomax + 1) / parametresDInterets.rows - rhomax, tmp2[i].second.x * pasAngulaire });
     }
 
     return resultat;
@@ -543,7 +556,7 @@ Mat Image::dessineLigneHough(int nRho, int nTheta, int tailleVoisinage, int seui
 {
     Mat votes = transformeeHough(nRho, nTheta);
     int rhomax = cvCeil(sqrt(pow(data.rows, 2) + pow(data.cols, 2)));
-    vector<pair<float, float>> parametres = getHoughMaxima(votes, rhomax, tailleVoisinage, seuil);
+    vector<pair<float, float>> parametres = getHoughMaxima(votes, rhomax, tailleVoisinage, (int) (0.1 * rhomax));
 
     Mat resultat = data.clone();
 
