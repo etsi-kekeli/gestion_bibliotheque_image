@@ -350,41 +350,47 @@ Mat Image::calculateMagnitude(const Mat& gradX, const Mat& gradY)
 Mat Image::rehaussementContour(const cv::Mat& inputImage, bool gradOrLap) {
     if (inputImage.empty()) {
         std::cerr << "Erreur : L'image source est vide !" << std::endl;
-        return cv::Mat(); // Retourne une matrice vide en cas d'erreur
+        return cv::Mat();
     }
-
     cv::Mat originalImage = inputImage.clone();
     cv::Mat contours;
 
     // Détection des contours en utilisant la méthode detectionContours
     Image tempImage(inputImage.clone());
-    tempImage.detectionContours(gradOrLap); // Utilisation de l'option Gradient ou Laplacien
-    contours = tempImage.getData(); // Les contours sont stockés dans `data` de `tempImage`
+    tempImage.detectionContours(gradOrLap);
+    contours = tempImage.getData();
 
     if (contours.empty()) {
         std::cerr << "Erreur : La détection de contours a échoué !" << std::endl;
-        return cv::Mat(); // Retourne une matrice vide en cas d'erreur
+        return cv::Mat();
     }
 
     // Vérification et harmonisation des types
     if (originalImage.channels() == 3 && contours.channels() == 1) {
-        cv::cvtColor(contours, contours, cv::COLOR_GRAY2BGR); // Convertir en BGR si nécessaire
+        cv::cvtColor(contours, contours, cv::COLOR_GRAY2BGR);
     }
 
-    if (originalImage.type() != contours.type()) {
-        contours.convertTo(contours, originalImage.type()); // Harmoniser les types
-    }
+    // Convertir les images en type float pour la multiplication
+    cv::Mat originalreel, contoursreel, resultreel;
+    originalImage.convertTo(originalreel, CV_32F, 1.0/255.0);
+    contours.convertTo(contoursreel, CV_32F, 1.0/255.0);
 
     try {
-        // Ajout des contours à l'image originale
-        cv::add(originalImage, contours, originalImage, cv::Mat(), originalImage.type());
+        // Multiplication du masque de contours avec l'image originale
+        cv::multiply(originalreel, contoursreel, resultreel);
+
+        // Reconversion en type original (généralement CV_8U)
+        cv::Mat resultMasked;
+        resultreel.convertTo(resultMasked, originalImage.type(), 255.0);
+
+        // Ajout du résultat à l'image originale
+        cv::add(originalImage, resultMasked, originalImage, cv::Mat(), originalImage.type());
     }
     catch (const cv::Exception& e) {
-        std::cerr << "Erreur lors de l'ajout des contours : " << e.what() << std::endl;
-        return cv::Mat(); // Retourne une matrice vide en cas d'exception
+        std::cerr << "Erreur lors du traitement : " << e.what() << std::endl;
+        return cv::Mat();
     }
 
-    // Retourner l'image avec contours rehaussés
     return originalImage;
 }
 
